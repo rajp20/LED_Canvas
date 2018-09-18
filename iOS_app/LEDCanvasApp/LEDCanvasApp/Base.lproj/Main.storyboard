@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="b8f-of-W6w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="b8f-of-W6w">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,11 +22,11 @@
                                 <rect key="frame" x="0.0" y="60" width="667" height="283"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PeripheralCell" rowHeight="88" id="4Lb-jf-aiL" customClass="PeripheralCell" customModule="LEDCanvasApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="667" height="88"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PeripheralCell" rowHeight="94" id="4Lb-jf-aiL" customClass="PeripheralCell" customModule="LEDCanvasApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="667" height="94"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Lb-jf-aiL" id="lnD-ae-kDN">
-                                            <rect key="frame" x="0.0" y="0.0" width="667" height="87.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="667" height="93.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peripheral Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJo-5d-m8p">
@@ -97,25 +96,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q39-vY-Z6f">
-                                <rect key="frame" x="276" y="169" width="115" height="36"/>
-                                <state key="normal" title="Send Data"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q39-vY-Z6f">
+                                <rect key="frame" x="318" y="82" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Red"/>
                                 <connections>
                                     <action selector="ledToggleAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dM7-h8-5gU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41P-Gy-KM3">
+                                <rect key="frame" x="318" y="254" width="31" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Blue"/>
+                                <connections>
+                                    <action selector="blueLED:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c2a-ys-Uug"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sA0-ej-Bii">
+                                <rect key="frame" x="208" y="172" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Off"/>
+                                <connections>
+                                    <action selector="ledOff:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OdC-bn-QEX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o6w-Qt-AFZ">
+                                <rect key="frame" x="417" y="172" width="42" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Green"/>
+                                <connections>
+                                    <action selector="greenLED:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ftr-NB-NZB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="Q39-vY-Z6f" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="169" id="Dmz-MM-n5i"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q39-vY-Z6f" secondAttribute="trailing" constant="276" id="Lmn-47-rtN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q39-vY-Z6f" secondAttribute="bottom" constant="170" id="e0v-Ga-zOJ"/>
-                            <constraint firstItem="Q39-vY-Z6f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="276" id="mW5-K2-qB8"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="sendDataButton" destination="Q39-vY-Z6f" id="ap0-up-7JQ"/>
+                        <outlet property="blueButton" destination="41P-Gy-KM3" id="CgQ-hB-mrq"/>
+                        <outlet property="greenButton" destination="o6w-Qt-AFZ" id="UlE-yE-IUv"/>
+                        <outlet property="offButton" destination="sA0-ej-Bii" id="E5y-kH-CWj"/>
+                        <outlet property="redButton" destination="Q39-vY-Z6f" id="Y4P-Jm-uZc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -130,7 +151,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="fwX-lc-yQH">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.0" green="0.11693638392857143" blue="0.2207310267857143" alpha="0.39356844190000001" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" white="0.14374999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </textAttributes>

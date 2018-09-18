@@ -351,6 +351,14 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         }
     }
     
+    /**
+     * This function calls .cancelPeripheralConnection which states the following in documentation:
+     *
+     * This method is nonblocking, and any CBPeripheral class commands that are still pending to peripheral may or may not complete. Because
+     * other apps may still have a connection to the peripheral, canceling a local connection does not guarantee that the underlying physical
+     * link is immediately disconnected. From the app’s perspective, however, the peripheral is considered disconnected, and the central manager
+     * object calls the centralManager:didDisconnectPeripheral:error: method of its delegate object.
+     **/
     func disconnectAllConnection() {
         centralManager.cancelPeripheralConnection(blePeripheral!)
     }
@@ -427,8 +435,11 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         return cell
     }
     
+    /**
+     * Connects to a peripheral after a user clicks on a row (cell) in the table view.
+     **/
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("&&&&in tableview delegate")
+
         blePeripheral = peripherals[indexPath.row]
         connectToDevice()
     }
