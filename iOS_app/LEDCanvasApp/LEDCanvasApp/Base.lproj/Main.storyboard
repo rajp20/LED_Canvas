@@ -96,52 +96,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q39-vY-Z6f">
-                                <rect key="frame" x="318" y="82" width="30" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mNg-DV-nKp">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Red"/>
-                                <connections>
-                                    <action selector="ledToggleAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dM7-h8-5gU"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41P-Gy-KM3">
-                                <rect key="frame" x="318" y="254" width="31" height="30"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulg-FJ-1O3">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Blue"/>
-                                <connections>
-                                    <action selector="blueLED:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c2a-ys-Uug"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sA0-ej-Bii">
-                                <rect key="frame" x="208" y="172" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Off"/>
-                                <connections>
-                                    <action selector="ledOff:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OdC-bn-QEX"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o6w-Qt-AFZ">
-                                <rect key="frame" x="417" y="172" width="42" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Green"/>
-                                <connections>
-                                    <action selector="greenLED:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ftr-NB-NZB"/>
-                                </connections>
-                            </button>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="blueButton" destination="41P-Gy-KM3" id="CgQ-hB-mrq"/>
-                        <outlet property="greenButton" destination="o6w-Qt-AFZ" id="UlE-yE-IUv"/>
-                        <outlet property="offButton" destination="sA0-ej-Bii" id="E5y-kH-CWj"/>
-                        <outlet property="redButton" destination="Q39-vY-Z6f" id="Y4P-Jm-uZc"/>
+                        <outlet property="mainImage" destination="mNg-DV-nKp" id="Lah-q4-ywX"/>
+                        <outlet property="tempImage" destination="ulg-FJ-1O3" id="wFN-dv-GR2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="774" y="14"/>
+            <point key="canvasLocation" x="773.16341829085468" y="13.6"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hdx-F3-tqi">
