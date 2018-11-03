@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */; };
 		67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE63C32150560A0020739F /* PeripheralCell.swift */; };
 		67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFD76A214C07F300C9569B /* BLECentralViewController.swift */; };
 		67CFD76D214C10FD00C9569B /* UUIDKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFD76C214C10FD00C9569B /* UUIDKey.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorToRGB.swift; sourceTree = "<group>"; };
 		67BE63C32150560A0020739F /* PeripheralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralCell.swift; sourceTree = "<group>"; };
 		67CFD76A214C07F300C9569B /* BLECentralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLECentralViewController.swift; sourceTree = "<group>"; };
 		67CFD76C214C10FD00C9569B /* UUIDKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDKey.swift; sourceTree = "<group>"; };
@@ -41,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		679A71F8218E3C07000F78F6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		67BE63C5215056D60020739F /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +87,7 @@
 		67F986E0214AE9E70058497D /* LEDCanvasApp */ = {
 			isa = PBXGroup;
 			children = (
+				679A71F8218E3C07000F78F6 /* Extensions */,
 				67BE63C6215057B30020739F /* Controller */,
 				67BE63C5215056D60020739F /* View */,
 				67F986E1214AE9E70058497D /* AppDelegate.swift */,
@@ -164,6 +175,7 @@
 				67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */,
 				67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */,
 				67F986E2214AE9E70058497D /* AppDelegate.swift in Sources */,
+				679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */,
 				67CFD76F214C3E2700C9569B /* UARTModuleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

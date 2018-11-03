@@ -23,15 +23,20 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var opacity: CGFloat = 1.0
     
     // Two UIImageViews for drawing on
-    @IBOutlet weak var mainImage: UIImageView!
+//    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clearContents))
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
         swiped   = false
+    }
+    
+    @objc func clearContents() {
+        tempImage.image = nil
     }
     
     //Detect touch events to begin drawing
@@ -83,9 +88,21 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         
         // 7
         lastPoint = currentPoint
-        let str = "!L" + "\(Int(lastPoint.x))," + "\(Int(lastPoint.y))"
-//        print(str)
-        writeValue(data: str)
+        
+//        writeValue(data: JSONStringify(value: JSONformat))
+        writeValue(data: JSONString(point: lastPoint, color: color))
+    }
+    
+    func JSONString(point: CGPoint, color: UIColor) -> String {
+        let rgb = color.getRGB()
+//        print(rgb?["red"])
+//        print(rgb?["green"])
+//        print(rgb?["blue"])
+        let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(rgb?["red"] ?? 0),\"g\":\(rgb?["green"] ?? 0),\"b\":\(rgb?["blue"] ?? 0)}"
+//        let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":0}"
+        print(JSONString)
+        return JSONString
+//        return "Hello, World!"
     }
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {

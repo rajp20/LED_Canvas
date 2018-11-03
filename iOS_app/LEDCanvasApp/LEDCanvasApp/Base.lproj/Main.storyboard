@@ -29,32 +29,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="667" height="93.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peripheral Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJo-5d-m8p">
-                                                    <rect key="frame" x="142" y="33" width="123" height="23.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Peripheral Label" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJo-5d-m8p">
+                                                    <rect key="frame" x="15" y="35" width="245" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RSSI:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4k-PL-n72">
-                                                    <rect key="frame" x="486.5" y="33" width="38.5" height="23.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="RSSI:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4k-PL-n72">
+                                                    <rect key="frame" x="546" y="35" width="38.5" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="VJo-5d-m8p" firstAttribute="top" secondItem="lnD-ae-kDN" secondAttribute="topMargin" constant="22" id="0hD-hc-ZdP"/>
-                                                <constraint firstItem="X4k-PL-n72" firstAttribute="leading" secondItem="VJo-5d-m8p" secondAttribute="trailing" constant="221.5" id="AN1-Dt-pV5"/>
-                                                <constraint firstItem="VJo-5d-m8p" firstAttribute="leading" secondItem="lnD-ae-kDN" secondAttribute="leadingMargin" constant="127" id="JZO-1n-4KT"/>
-                                                <constraint firstItem="VJo-5d-m8p" firstAttribute="top" secondItem="lnD-ae-kDN" secondAttribute="topMargin" constant="22" id="Jbd-TD-EK9"/>
-                                                <constraint firstItem="X4k-PL-n72" firstAttribute="leading" secondItem="VJo-5d-m8p" secondAttribute="trailing" constant="221.5" id="LHI-UV-H47"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="X4k-PL-n72" secondAttribute="bottom" constant="26.5" id="ak9-jU-IHY"/>
-                                                <constraint firstItem="VJo-5d-m8p" firstAttribute="leading" secondItem="lnD-ae-kDN" secondAttribute="leadingMargin" constant="127" id="hHj-sE-eWD"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="X4k-PL-n72" secondAttribute="trailing" constant="127" id="lI1-tR-rc0"/>
-                                                <constraint firstItem="X4k-PL-n72" firstAttribute="top" secondItem="lnD-ae-kDN" secondAttribute="topMargin" constant="22" id="oBr-OV-tQd"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="VJo-5d-m8p" secondAttribute="bottom" constant="26.5" id="qha-Cr-9yc"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="X4k-PL-n72" secondAttribute="trailing" constant="127" id="uUD-tp-X5V"/>
-                                                <constraint firstItem="X4k-PL-n72" firstAttribute="top" secondItem="lnD-ae-kDN" secondAttribute="topMargin" constant="22" id="zhq-5u-ATD"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="VJo-5d-m8p" secondAttribute="bottom" constant="24.5" id="1LB-4a-68d"/>
+                                                <constraint firstItem="X4k-PL-n72" firstAttribute="leading" secondItem="VJo-5d-m8p" secondAttribute="trailing" constant="286" id="CJ0-9h-cxf"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="X4k-PL-n72" secondAttribute="trailing" constant="67.5" id="Iqg-MG-4FB"/>
+                                                <constraint firstItem="VJo-5d-m8p" firstAttribute="leading" secondItem="lnD-ae-kDN" secondAttribute="leadingMargin" id="Kbs-ck-h8j"/>
+                                                <constraint firstItem="X4k-PL-n72" firstAttribute="top" secondItem="lnD-ae-kDN" secondAttribute="topMargin" constant="24" id="Pz8-fI-LVf"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="X4k-PL-n72" secondAttribute="bottom" constant="24.5" id="XUK-sH-hJG"/>
+                                                <constraint firstItem="VJo-5d-m8p" firstAttribute="top" secondItem="lnD-ae-kDN" secondAttribute="topMargin" constant="24" id="o0U-fC-L2d"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -116,28 +111,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mNg-DV-nKp">
-                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ulg-FJ-1O3">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="mNg-DV-nKp" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="857-KP-Fjh"/>
-                            <constraint firstItem="mNg-DV-nKp" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="JlP-zK-NdE"/>
-                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="PYq-YC-Tgc"/>
-                            <constraint firstItem="mNg-DV-nKp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="c5W-GW-wiz"/>
-                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fez-uM-nR9"/>
-                            <constraint firstItem="mNg-DV-nKp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gp5-3p-scf"/>
-                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iob-DZ-kr4"/>
-                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="lIG-vD-TxE"/>
+                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SyF-DE-te6"/>
+                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bv7-ao-o3d"/>
+                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="tcP-NV-wEx"/>
+                            <constraint firstItem="ulg-FJ-1O3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="yIC-uY-YeP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="mainImage" destination="mNg-DV-nKp" id="Lah-q4-ywX"/>
                         <outlet property="tempImage" destination="ulg-FJ-1O3" id="wFN-dv-GR2"/>
                     </connections>
                 </viewController>
