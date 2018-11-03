@@ -4,9 +4,11 @@
 
 #include "BluetoothController.h"
 #include "LEDController.h"
+#include "MotorController.h"
 
 BluetoothController bluetooth;
 LEDController led;
+MotorController moter;
 
 void setup() {
   led.setup();
