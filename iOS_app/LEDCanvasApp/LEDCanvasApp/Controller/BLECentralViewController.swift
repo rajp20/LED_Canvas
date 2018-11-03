@@ -26,8 +26,22 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
     var timer = Timer()
     var characteristics = [String : CBCharacteristic]()
     
+    //Consider making a custom class for the peripheral table
     @IBOutlet weak var peripheralsTable : UITableView!
-    //Will probably want an IBOutlet for a refresh button as well
+    
+    // This is a temporary button used to skip BT connection for testing drawing view
+    @IBOutlet weak var skipButton: UIButton!
+    
+    //This is called when the skip button is pressed and it sends the view to the UARTModuleViewController
+    @IBAction func skipButtonPressed(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let uartViewController = storyboard.instantiateViewController(withIdentifier: "UARTModuleViewController") as! UARTModuleViewController
+        
+//        uartViewController.peripheral = peripheral
+        
+        navigationController?.pushViewController(uartViewController, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,19 +160,6 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
             print("**********************************")
             print ("Advertisement Data : \(advertisementData)")
         }
-//        centralManager.stopScan() // 1)
-//        self.peripherals.append(peripheral) // 2)
-//         print("&&&&in tableview delegate: ")
-//        self.RSSIs.append(RSSI) // 3)
-//        peripheral.delegate = self // 4)
-//        peripheral.discoverServices([BLEService_UUID]) // 5)
-//        if blePeripheral == nil { // 6)
-//            print("We found a new pheripheral device with services")
-//            print("Peripheral name: \(String(describing: peripheral.name))")
-//            print("**********************************")
-//            print ("Advertisement Data : \(advertisementData)")
-//            blePeripheral = peripheral
-//        }
     }
     
     /****************************************************************
