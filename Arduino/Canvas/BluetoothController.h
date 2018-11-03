@@ -23,3 +23,10 @@
 // The following sets the optional Mode pin, its recommended but not required
 // ----------------------------------------------------------------------------------------------
 #define BLUEFRUIT_UART_MODE_PIN        12    // Set to -1 if unused
+
+
+class BluetoothController {
+  public:
+    void setup(void);
+    String getData(void);
+};

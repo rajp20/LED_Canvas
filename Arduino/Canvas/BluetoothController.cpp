@@ -1,25 +1,10 @@
-/*********************************************************************
- This is an example for our nRF51822 based Bluefruit LE modules
-
- Pick one up today in the adafruit shop!
-
- Adafruit invests time and resources providing this open source code,
- please support Adafruit and open-source hardware by purchasing
- products from Adafruit!
-
- MIT license, check LICENSE for more information
- All text above, and the splash screen below must be included in
- any redistribution
-*********************************************************************/
-
-#include <string.h>
 #include <Arduino.h>
 #include <SPI.h>
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_SPI.h"
 #include "Adafruit_BluefruitLE_UART.h"
 
-#include "ble_config.h"
+#include "BluetoothController.h"
 
 #if SOFTWARE_SERIAL_AVAILABLE
   #include <SoftwareSerial.h>
@@ -62,24 +47,10 @@
 /*=========================================================================*/
 
 // Create the bluefruit object, either software serial...uncomment these lines
-
 SoftwareSerial bluefruitSS = SoftwareSerial(BLUEFRUIT_SWUART_TXD_PIN, BLUEFRUIT_SWUART_RXD_PIN);
 
 Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
                       BLUEFRUIT_UART_CTS_PIN, BLUEFRUIT_UART_RTS_PIN);
-
-
-/* ...or hardware serial, which does not need the RTS/CTS pins. Uncomment this line */
-// Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN);
-
-/* ...hardware SPI, using SCK/MOSI/MISO hardware SPI pins and then user selected CS/IRQ/RST */
-//Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
-
-/* ...software SPI, using SCK/MOSI/MISO user-defined SPI pins and then user selected CS/IRQ/RST */
-//Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_SCK, BLUEFRUIT_SPI_MISO,
-//                             BLUEFRUIT_SPI_MOSI, BLUEFRUIT_SPI_CS,
-//                             BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
-
 
 // A small helper
 void error(const __FlashStringHelper*err) {
@@ -87,29 +58,20 @@ void error(const __FlashStringHelper*err) {
   while (1);
 }
 
-// function prototypes over in packetparser.cpp
-uint8_t readPacket(Adafruit_BLE *ble, uint16_t timeout);
-float parsefloat(uint8_t *buffer);
-void printHex(const uint8_t * data, const uint32_t numBytes);
-
-// the packet buffer
-extern uint8_t packetbuffer[];
-
-
 /**************************************************************************/
 /*!
     @brief  Sets up the HW an the BLE module (this function is called
             automatically on startup)
 */
 /**************************************************************************/
-void ble_setup(void)
+void BluetoothController::setup(void)
 {
   while (!Serial);  // required for Flora & Micro
   delay(500);
 
   Serial.begin(115200);
-  Serial.println(F("Adafruit Bluefruit App Controller Example"));
-  Serial.println(F("-----------------------------------------"));
+  Serial.println(F("Adafruit Bluefruit Command Mode Example"));
+  Serial.println(F("---------------------------------------"));
 
   /* Initialise the module */
   Serial.print(F("Initialising the Bluefruit LE module: "));
@@ -129,7 +91,6 @@ void ble_setup(void)
     }
   }
 
-
   /* Disable command echo from Bluefruit */
   ble.echo(false);
 
@@ -137,8 +98,8 @@ void ble_setup(void)
   /* Print Bluefruit information */
   ble.info();
 
-  Serial.println(F("Please use Adafruit Bluefruit LE app to connect in Controller mode"));
-  Serial.println(F("Then activate/use the sensors, color picker, game controller, etc!"));
+  Serial.println(F("Please use Adafruit Bluefruit LE app to connect in UART mode"));
+  Serial.println(F("Then Enter characters to send to Bluefruit"));
   Serial.println();
 
   ble.verbose(false);  // debug info is a little annoying after this point!
@@ -148,53 +109,88 @@ void ble_setup(void)
       delay(500);
   }
 
-  Serial.println(F("******************************"));
-
   // LED Activity command is only supported from 0.6.6
   if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION) )
   {
     // Change Mode LED Activity
+    Serial.println(F("******************************"));
     Serial.println(F("Change LED activity to " MODE_LED_BEHAVIOUR));
     ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR);
+    Serial.println(F("******************************"));
   }
-
-  // Set Bluefruit to DATA mode
-  Serial.println( F("Switching to DATA mode!") );
-  ble.setMode(BLUEFRUIT_MODE_DATA);
-
-  Serial.println(F("******************************"));
-
 }
 
-/**************************************************************************/
-/*!
-    @brief  Constantly poll for new command or response data
-*/
-/**************************************************************************/
-String ble_get_data(void)
-{
-  String toReturn = "";
-  
-  /* Wait for new data to arrive */
-  uint8_t len = readPacket(&ble, BLE_READPACKET_TIMEOUT);
-  if (len == 0) return toReturn;
-
-  /* Got a packet! */
-  // printHex(packetbuffer, len);
-
-  // Buttons
-  if (packetbuffer[1] == 'B') {
-    uint8_t buttnum = packetbuffer[2] - '0';
-    boolean pressed = packetbuffer[3] - '0';
-    //Serial.print ("Button "); Serial.print(buttnum);
-    toReturn += "Button " + String(buttnum);
-    if (pressed) {
-      //Serial.println(" pressed");
-      toReturn += " pressed";
-    } else {
-      //Serial.println(" released");
-      toReturn += " released";
-    }
+/*
+ * Get Data from the iOS app
+ */
+String BluetoothController::getData(void) {
+  // Check for incoming characters from Bluefruit
+  ble.println("AT+BLEUARTRX");
+  ble.readline();
+  if (strcmp(ble.buffer, "OK") == 0) {
+    // no data
+    return "";
   }
+  // Some data was found, its in the buffer
+  String toReturn = String(ble.buffer);
+  ble.waitForOK();
   return toReturn;
 }
+ 
+//void loop(void)
+//{
+//  // Check for user input
+//  char inputs[BUFSIZE+1];
+//
+//  if ( getUserInput(inputs, BUFSIZE) )
+//  {
+//    // Send characters to Bluefruit
+//    Serial.print("[Send] ");
+//    Serial.println(inputs);
+//
+//    ble.print("AT+BLEUARTTX=");
+//    ble.println(inputs);
+//
+//    // check response stastus
+//    if (! ble.waitForOK() ) {
+//      Serial.println(F("Failed to send?"));
+//    }
+//  }
+//
+//  // Check for incoming characters from Bluefruit
+//  ble.println("AT+BLEUARTRX");
+//  ble.readline();
+//  if (strcmp(ble.buffer, "OK") == 0) {
+//    // no data
+//    return;
+//  }
+//  // Some data was found, its in the buffer
+//  Serial.print(F("[Recv] ")); Serial.println(ble.buffer);
+//  ble.waitForOK();
+//}
+//
+///**************************************************************************/
+///*!
+//    @brief  Checks for user input (via the Serial Monitor)
+//*/
+///**************************************************************************/
+//bool getUserInput(char buffer[], uint8_t maxSize)
+//{
+//  // timeout in 100 milliseconds
+//  TimeoutTimer timeout(100);
+//
+//  memset(buffer, 0, maxSize);
+//  while( (!Serial.available()) && !timeout.expired() ) { delay(1); }
+//
+//  if ( timeout.expired() ) return false;
+//
+//  delay(2);
+//  uint8_t count=0;
+//  do
+//  {
+//    count += Serial.readBytes(buffer+count, maxSize);
+//    delay(2);
+//  } while( (count < maxSize) && (Serial.available()) );
+//
+//  return true;
+//}

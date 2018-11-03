@@ -1,9 +1,8 @@
 #include <Adafruit_NeoPixel.h>
+#include "LEDController.h"
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
-
-#define PIN 6
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -20,7 +19,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
 
-void LED_setup() {
+void LEDController::setup(void) {
   // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
   #if defined (__AVR_ATtiny85__)
     if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
@@ -32,13 +31,17 @@ void LED_setup() {
   strip.show(); // Initialize all pixels to 'off'
 }
 
-void LED_turn_on(int red, int green, int blue) {
+void LEDController::setLED(int red, int green, int blue) {
   colorWipe(strip.Color(red, green, blue), 0); // Red
 }
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
+  for(uint16_t i=0; i<strip.numPixels()/2; i++) {
+    strip.setPixelColor(i, c);
+  }
+  c = strip.Color(0, 255, 0);
+  for(uint16_t i=strip.numPixels()/2; i<strip.numPixels(); i++) {
     strip.setPixelColor(i, c);
   }
   strip.show();
