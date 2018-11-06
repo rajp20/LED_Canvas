@@ -5,5 +5,5 @@ class LEDController {
   public:
     void setup(void);
     void setLED(int, int, int);
-    void toggleBouncingBall(void);
+    void toggleBouncingBall(bool turnOn);
 };
