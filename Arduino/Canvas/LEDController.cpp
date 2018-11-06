@@ -12,7 +12,8 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
+
+Adafruit_NeoPixel led_strips[18];
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -26,23 +27,36 @@ void LEDController::setup(void) {
   #endif
   // End of trinket special code
 
-
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+  for (int i = 0; i < 18; i++) {
+    led_strips[i] = Adafruit_NeoPixel(60, STARTING_LED_STRIP_PIN + i, NEO_GRB + NEO_KHZ800);
+    led_strips[i].begin();
+    led_strips[i].show(); // Initialize all pixels to 'off'
+  }
 }
 
 void LEDController::setLED(int red, int green, int blue) {
-  colorWipe(strip.Color(red, green, blue), 0); // Red
+  colorWipe(led_strips[0].Color(red, green, blue), 0); // Red
 }
+
+void LEDController::toggleBouncingBall(void) {
+  
+}
+
+
+
+/**
+ * PRIVATE
+ * HELPER FUNCTIONS
+ */
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels()/2; i++) {
-    strip.setPixelColor(i, c);
+  for(uint16_t i=0; i<led_strips[0].numPixels()/2; i++) {
+    led_strips[0].setPixelColor(i, c);
   }
-  c = strip.Color(0, 255, 0);
-  for(uint16_t i=strip.numPixels()/2; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
+  c = led_strips[0].Color(0, 255, 0);
+  for(uint16_t i=led_strips[0].numPixels()/2; i<led_strips[0].numPixels(); i++) {
+    led_strips[0].setPixelColor(i, c);
   }
-  strip.show();
+  led_strips[0].show();
 }

@@ -23,6 +23,6 @@ void loop() {
     int x = root["x"];
     int y = root["y"];
     String toPrint = String(x) + " " + String(y);
-    Serial.print(F("[Recv] ")); Serial.println(toPrint);
+    Serial.print(F("[Recv] ")); Serial.println(data);
   }
 }
