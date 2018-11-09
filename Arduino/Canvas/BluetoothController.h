@@ -28,5 +28,5 @@
 class BluetoothController {
   public:
     void setup(void);
-    String getData(void);
+    String readPacket(void);
 };

@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "Adafruit_BLE.h"
-#include "Adafruit_BluefruitLE_SPI.h"
 #include "Adafruit_BluefruitLE_UART.h"
 
 #include "BluetoothController.h"
@@ -42,7 +41,7 @@
                               "HWUART"  or "SPI"  or "MANUAL"
     -----------------------------------------------------------------------*/
     #define FACTORYRESET_ENABLE         1
-    #define MINIMUM_FIRMWARE_VERSION    "0.6.6"
+    #define MINIMUM_FIRMWARE_VERSION    "0.8.0"
     #define MODE_LED_BEHAVIOUR          "MODE"
 /*=========================================================================*/
 
@@ -123,7 +122,7 @@ void BluetoothController::setup(void)
 /*
  * Get Data from the iOS app
  */
-String BluetoothController::getData(void) {
+String BluetoothController::readPacket(void) {
   // Check for incoming characters from Bluefruit
   ble.println("AT+BLEUARTRX");
   ble.readline();
