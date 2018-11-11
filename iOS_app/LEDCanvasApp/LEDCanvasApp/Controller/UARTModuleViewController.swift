@@ -19,7 +19,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var lastPoint: CGPoint!
     var swiped:    Bool!
     var color = UIColor.black
-    var brushWidth: CGFloat = 10.0
+    var brushWidth: CGFloat = 8.0
     var opacity: CGFloat = 1.0
     
     // Two UIImageViews for drawing on
@@ -33,6 +33,18 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
         swiped   = false
+        
+        setUpMenuBar()
+    }
+    
+    private func setUpMenuBar() {
+        
+        let menuBar : MenuBar = {
+            let mb = MenuBar()
+            return mb
+        }()
+        
+        view.addSubview(menuBar)
     }
     
     @objc func clearContents() {
@@ -65,7 +77,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         context.setLineCap(.round)
         context.setBlendMode(.normal)
         context.setLineWidth(brushWidth)
-        context.setStrokeColor(color.cgColor)
+        context.setStrokeColor(color.cgColor) //need to figure out UIColor constructor doesn't work with rgb
         
         // 4
         context.strokePath()
@@ -88,9 +100,14 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         
         // 7
         lastPoint = currentPoint
+        let string = JSONString(point: lastPoint, color: color)
         
-//        writeValue(data: JSONStringify(value: JSONformat))
-        writeValue(data: JSONString(point: lastPoint, color: color))
+        writeValue(data: "start")
+        let dataToSend = string.group(of: 20)
+        for data in dataToSend {
+            writeValue(data: data)
+        }
+        writeValue(data: "end")
     }
     
     func JSONString(point: CGPoint, color: UIColor) -> String {
@@ -99,10 +116,8 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
 //        print(rgb?["green"])
 //        print(rgb?["blue"])
         let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(rgb?["red"] ?? 0),\"g\":\(rgb?["green"] ?? 0),\"b\":\(rgb?["blue"] ?? 0)}"
-//        let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":0}"
-        print(JSONString)
+//        let JSONString = "{\"x\":\(Int(point.x)/60),\"y\":\(Int(point.y)/18)}"
         return JSONString
-//        return "Hello, World!"
     }
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
@@ -128,8 +143,4 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         let ns = NSData(bytes: &val, length: MemoryLayout<Int8>.size)
         blePeripheral!.writeValue(ns as Data, for: txCharacteristic!, type: CBCharacteristicWriteType.withResponse)
     }
-    
-//    func writeValue(point: CGPoint) {
-//
-//    }
 }

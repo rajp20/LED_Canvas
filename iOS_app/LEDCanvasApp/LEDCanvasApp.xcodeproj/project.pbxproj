@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		675E14CD2196468900CF4193 /* GroupString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14CC2196468900CF4193 /* GroupString.swift */; };
+		675E14CF2198EABD00CF4193 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14CE2198EABD00CF4193 /* MenuBar.swift */; };
 		679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */; };
 		67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE63C32150560A0020739F /* PeripheralCell.swift */; };
 		67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFD76A214C07F300C9569B /* BLECentralViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		675E14CC2196468900CF4193 /* GroupString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupString.swift; sourceTree = "<group>"; };
+		675E14CE2198EABD00CF4193 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorToRGB.swift; sourceTree = "<group>"; };
 		67BE63C32150560A0020739F /* PeripheralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralCell.swift; sourceTree = "<group>"; };
 		67CFD76A214C07F300C9569B /* BLECentralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLECentralViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */,
+				675E14CC2196468900CF4193 /* GroupString.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -55,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				67BE63C32150560A0020739F /* PeripheralCell.swift */,
+				675E14CE2198EABD00CF4193 /* MenuBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -173,7 +179,9 @@
 			files = (
 				67CFD76D214C10FD00C9569B /* UUIDKey.swift in Sources */,
 				67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */,
+				675E14CF2198EABD00CF4193 /* MenuBar.swift in Sources */,
 				67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */,
+				675E14CD2196468900CF4193 /* GroupString.swift in Sources */,
 				67F986E2214AE9E70058497D /* AppDelegate.swift in Sources */,
 				679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */,
 				67CFD76F214C3E2700C9569B /* UARTModuleViewController.swift in Sources */,
