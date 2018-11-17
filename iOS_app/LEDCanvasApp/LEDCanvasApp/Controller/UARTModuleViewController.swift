@@ -10,21 +10,9 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
-class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var data = [MenuCell(), MenuCell(), MenuCell(), MenuCell()]
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! MenuCell
-//        cell.configure(with: data[indexPath.row])
-        return cell
-    }
-    
-    
     var peripheralManager: CBPeripheralManager?
     var peripheral: CBPeripheral!
     
@@ -150,5 +138,26 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         var val = val
         let ns = NSData(bytes: &val, length: MemoryLayout<Int8>.size)
         blePeripheral!.writeValue(ns as Data, for: txCharacteristic!, type: CBCharacteristicWriteType.withResponse)
+    }
+    
+    
+    /********** UICollectionView protocols *********/
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! MenuCell
+        //        cell.configure(with: data[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width / 3.3, height: collectionView.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
