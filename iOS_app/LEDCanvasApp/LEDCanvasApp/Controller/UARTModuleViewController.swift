@@ -10,7 +10,20 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
-class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
+class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    var data = [MenuCell(), MenuCell(), MenuCell(), MenuCell()]
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! MenuCell
+//        cell.configure(with: data[indexPath.row])
+        return cell
+    }
+    
     
     var peripheralManager: CBPeripheralManager?
     var peripheral: CBPeripheral!
@@ -25,6 +38,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     // Two UIImageViews for drawing on
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
+    @IBOutlet weak var menuBar: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,17 +48,11 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         lastPoint = CGPoint.zero
         swiped   = false
         
-        setUpMenuBar()
-    }
-    
-    private func setUpMenuBar() {
-        
-        let menuBar : MenuBar = {
-            let mb = MenuBar()
-            return mb
-        }()
-        
-        view.addSubview(menuBar)
+        menuBar.dataSource = self
+        menuBar.delegate   = self
+        menuBar.register(MenuCell().classForCoder, forCellWithReuseIdentifier: "MenuCell")
+        menuBar.backgroundColor = UIColor.gray
+//        menuBar.collectionViewLayout = UICollectionViewFlowLayout()
     }
     
     @objc func clearContents() {
