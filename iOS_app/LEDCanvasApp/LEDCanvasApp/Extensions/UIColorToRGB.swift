@@ -12,7 +12,7 @@ extension UIColor {
     
     func getRGB() -> [String: CGFloat]? {
         
-        var rgbDict: [String: CGFloat] = ["alpha" : 0.0, "red" : 0.0, "blue" : 0.0, "green" : 0.0]
+        var rgbDict: [String: CGFloat] = ["alpha" : 1.0, "red" : 0.0, "blue" : 0.0, "green" : 0.0]
         
         var red:   CGFloat = 0
         var blue:  CGFloat = 0
@@ -21,10 +21,10 @@ extension UIColor {
         
         if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
             
-            let _red   = red
-            let _blue  = blue
-            let _green = green
-            let _alpha = alpha
+            let _red   = red * 255
+            let _blue  = blue * 255
+            let _green = green * 255
+            let _alpha = alpha 
             
             rgbDict["alpha"] = _alpha
             rgbDict["red"]   = _red

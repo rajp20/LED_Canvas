@@ -19,7 +19,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     // Drawing variables
     var lastPoint: CGPoint!
     var swiped:    Bool!
-    var color = UIColor.black
+    var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
     var brushWidth: CGFloat = 8.0
     var opacity: CGFloat = 1.0
     
@@ -108,11 +108,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     
     func JSONString(point: CGPoint, color: UIColor) -> String {
         let rgb = color.getRGB()
-//        print(rgb?["red"])
-//        print(rgb?["green"])
-//        print(rgb?["blue"])
-        let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(rgb?["red"] ?? 0),\"g\":\(rgb?["green"] ?? 0),\"b\":\(rgb?["blue"] ?? 0)}"
-//        let JSONString = "{\"x\":\(Int(point.x)/60),\"y\":\(Int(point.y)/18)}"
+        let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
         return JSONString
     }
     
