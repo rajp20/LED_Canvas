@@ -17,11 +17,15 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     var peripheral: CBPeripheral!
     
     // Drawing variables
-    var lastPoint: CGPoint!
-    var swiped:    Bool!
+    var lastPoint : CGPoint!
+    var swiped    : Bool!
     var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
-    var brushWidth: CGFloat = 8.0
-    var opacity: CGFloat = 1.0
+    var brushWidth : CGFloat = 8.0
+    var opacity    : CGFloat = 1.0
+    
+    private var queue        : Queue<Pixel>!
+    private var pixelTimer   : Timer!
+    private var timeInterval : TimeInterval = 0.1
     
     // Two UIImageViews for drawing on
 //    @IBOutlet weak var mainImage: UIImageView!
@@ -41,9 +45,59 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         menuBar.register(MenuCell().classForCoder, forCellWithReuseIdentifier: "MenuCell")
         menuBar.backgroundColor = UIColor.gray
 //        menuBar.collectionViewLayout = UICollectionViewFlowLayout()
+        
+        queue = Queue<Pixel>()
+        pixelTimer = Timer()
+        startTimer()
     }
     
-    @objc func clearContents() {
+    private func startTimer() {
+        guard pixelTimer == nil else { return }
+        
+        pixelTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(updatePixels), userInfo: nil, repeats: true)
+    }
+    
+    private func stopTimer() {
+        guard pixelTimer != nil else { return }
+        pixelTimer?.invalidate()
+        pixelTimer = nil
+    }
+    
+    @objc private func updatePixels() {
+        queue.updateQueue(weight: 0.1)
+        let q = queue.list()
+        for pixel in q! {
+            // this is where the tempImage variable will be updated.  The timer calls this function
+            // at a set interval and updates the alpha values of the pixels already drawn to specific
+            // points on the image. The problem is that the drawLine method uses core graphics to draw
+            // a line between two points but the lines themselves are not being stored in the queue.
+            // Will need to check if queue will need to be updated with lines instead of queues.
+            UIGraphicsBeginImageContext(view.frame.size)
+            guard let context = UIGraphicsGetCurrentContext() else {
+                return
+            }
+            
+            tempImage.image?.draw(in: view.bounds)
+            
+            context.move(to: pixel.point)
+            context.addLine(to: pixel.point)
+            
+            context.setLineCap(.round)
+            context.setBlendMode(.normal)
+            context.setLineWidth(brushWidth)
+            var rgb = color.getRGB()
+            let newColor = UIColor(red: rgb!["red"]!/255.0, green: rgb!["green"]!/255.0, blue: rgb!["blue"]!/255.0, alpha: pixel.alpha)
+            context.setStrokeColor(newColor.cgColor)
+            
+            context.strokePath()
+            
+            tempImage.image = UIGraphicsGetImageFromCurrentImageContext()
+            tempImage.alpha = opacity // update alpha value
+            UIGraphicsEndImageContext()
+        }
+    }
+    
+    @objc private func clearContents() {
         tempImage.image = nil
     }
     
@@ -54,7 +108,31 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         }
         swiped = false
         lastPoint = touch.location(in: view)
-//        print(lastPoint)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        
+        // 6
+        swiped = true
+        let currentPoint = touch.location(in: view)
+        drawLine(from: lastPoint, to: currentPoint)
+        
+        // Add lastPoint to queue
+        queue.enqueue(Pixel(pointAt: CGPoint(x: lastPoint.x, y: lastPoint.y), alphaValue: 1.0))
+        
+        // 7
+        lastPoint = currentPoint
+        let string = JSONString(point: lastPoint, color: color)
+        
+        writeValue(data: "start")
+        let dataToSend = string.group(of: 20)
+        for data in dataToSend {
+            writeValue(data: data)
+        }
+        writeValue(data: "end")
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
@@ -73,7 +151,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         context.setLineCap(.round)
         context.setBlendMode(.normal)
         context.setLineWidth(brushWidth)
-        context.setStrokeColor(color.cgColor) //need to figure out UIColor constructor doesn't work with rgb
+        context.setStrokeColor(color.cgColor)
         
         // 4
         context.strokePath()
@@ -82,28 +160,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         tempImage.image = UIGraphicsGetImageFromCurrentImageContext()
         tempImage.alpha = opacity
         UIGraphicsEndImageContext()
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else {
-            return
-        }
-        
-        // 6
-        swiped = true
-        let currentPoint = touch.location(in: view)
-        drawLine(from: lastPoint, to: currentPoint)
-        
-        // 7
-        lastPoint = currentPoint
-        let string = JSONString(point: lastPoint, color: color)
-        
-        writeValue(data: "start")
-        let dataToSend = string.group(of: 20)
-        for data in dataToSend {
-            writeValue(data: data)
-        }
-        writeValue(data: "end")
     }
     
     func JSONString(point: CGPoint, color: UIColor) -> String {
