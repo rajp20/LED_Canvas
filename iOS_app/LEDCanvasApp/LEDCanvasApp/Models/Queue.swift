@@ -8,16 +8,17 @@
 
 import UIKit
 
-public struct Queue<T> : PixelProtocol{
-    var pixel: Pixel
+public struct Queue<T> : LineProtocol{
+    var line: Line
     
     fileprivate var q    : [Any]!
     fileprivate var size : Int!
     
-    public init(queue: [Any]? = nil, count: Int? = nil, _pixel: Pixel? = nil) {
+    public init(queue: [Any]? = nil, count: Int? = nil, _line: Line? = nil) {
         self.q    = [Any]()
         self.size = 0
-        self.pixel = _pixel ?? Pixel(pointAt: CGPoint(x:0.0, y:0.0), alphaValue: 0.0)
+        self.line = _line ?? Line(lineAt: ["from": CGPoint(x: 0.0, y: 0.0), "to" : CGPoint(x: 0.0, y: 0.0)], alphaValue: 0.0)
+//        self.pixel = _pixel ?? Pixel(pointAt: CGPoint(x:0.0, y:0.0), alphaValue: 0.0)
     }
     
     public mutating func enqueue<T>(_ element: T) {
@@ -25,7 +26,7 @@ public struct Queue<T> : PixelProtocol{
         q.append(element)
     }
     
-    public mutating func dequeue<T>() -> T? where T : Pixel{
+    public mutating func dequeue<T>() -> T? where T : Line{
         size -= 1
         guard !q.isEmpty, let element = q.first else { return nil }
         
@@ -43,7 +44,7 @@ public struct Queue<T> : PixelProtocol{
         return q.isEmpty
     }
     
-    public func peek<T>() -> T where T : Pixel{
+    public func peek<T>() -> T where T : Line{
         return q.first as! T
     }
     
@@ -51,25 +52,29 @@ public struct Queue<T> : PixelProtocol{
         return size
     }
     
-    public func list<T>() -> [T]? where T : Pixel{
+    public func list<T>() -> [T]? where T : Line{
         if self.size == 0 {
             return []
         }
         return q as? [T]
     }
     
+    public mutating func clearQueue() {
+        q = [Any]()
+    }
+    
     public mutating func updateQueue(weight: CGFloat) {
         
         if !self.isEmpty() {
-            if self.peek().alpha <= 0.0 {
+            while self.size != 0 && self.peek().alpha <= 0 {
                 self.popTop()
             }
-            
-            if self.size > 0 {
-                for i in 0...self.size - 1 {
-                    guard let pixel = q[i] as? Pixel else { return }
-                    pixel.alpha -= weight
-                    print(pixel.alpha)
+            if !self.isEmpty() {
+                if self.size > 0 {
+                    for i in 0...self.size - 1 {
+                        guard let line = q[i] as? Line else { return }
+                        line.alpha -= weight
+                    }
                 }
             }
         }
@@ -77,8 +82,8 @@ public struct Queue<T> : PixelProtocol{
 }
 
 /********* Protocol for Pixel Class *********/
-protocol PixelProtocol {
-    var pixel: Pixel { get set }
+protocol LineProtocol {
+    var line: Line { get set }
 }
 
 /********* Extension to print contents of the Queue object *********/

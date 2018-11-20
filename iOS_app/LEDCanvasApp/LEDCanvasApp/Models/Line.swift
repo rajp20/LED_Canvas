@@ -8,17 +8,16 @@
 
 import UIKit
 
-public class Pixel {
-    var point : CGPoint!
+public class Line {
     var alpha : CGFloat!
-    
-    public init(pointAt: CGPoint, alphaValue: CGFloat) {
-        point = pointAt
+    var line: [String : CGPoint]
+    public init(lineAt: [String : CGPoint], alphaValue: CGFloat) {
         alpha = alphaValue
+        line = lineAt
     }
     
-    public func getPoint() -> CGPoint {
-        return point
+    public func getLine() -> [String : CGPoint] {
+        return line
     }
     
     public func getAlpha() -> CGFloat {

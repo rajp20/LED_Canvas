@@ -23,7 +23,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     var brushWidth : CGFloat = 8.0
     var opacity    : CGFloat = 1.0
     
-    private var queue        : Queue<Pixel>!
+    private var queue        : Queue<Line>!
     private var pixelTimer   : Timer!
     private var timeInterval : TimeInterval = 0.1
     
@@ -46,7 +46,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         menuBar.backgroundColor = UIColor.gray
 //        menuBar.collectionViewLayout = UICollectionViewFlowLayout()
         
-        queue = Queue<Pixel>()
+        queue = Queue<Line>()
         pixelTimer = Timer()
         startTimer()
     }
@@ -64,9 +64,10 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     }
     
     @objc private func updatePixels() {
+        tempImage.image = nil
         queue.updateQueue(weight: 0.1)
         let q = queue.list()
-        for pixel in q! {
+        for line in q! {
             // this is where the tempImage variable will be updated.  The timer calls this function
             // at a set interval and updates the alpha values of the pixels already drawn to specific
             // points on the image. The problem is that the drawLine method uses core graphics to draw
@@ -79,14 +80,16 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
             
             tempImage.image?.draw(in: view.bounds)
             
-            context.move(to: pixel.point)
-            context.addLine(to: pixel.point)
+//            context.move(to: pixel.point)
+//            context.addLine(to: pixel.point)
+            context.move(to: line.line["from"]!)
+            context.addLine(to: line.line["to"]!)
             
             context.setLineCap(.round)
             context.setBlendMode(.normal)
             context.setLineWidth(brushWidth)
             var rgb = color.getRGB()
-            let newColor = UIColor(red: rgb!["red"]!/255.0, green: rgb!["green"]!/255.0, blue: rgb!["blue"]!/255.0, alpha: pixel.alpha)
+            let newColor = UIColor(red: rgb!["red"]!/255.0, green: rgb!["green"]!/255.0, blue: rgb!["blue"]!/255.0, alpha: line.alpha)
             context.setStrokeColor(newColor.cgColor)
             
             context.strokePath()
@@ -99,6 +102,8 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     
     @objc private func clearContents() {
         tempImage.image = nil
+//        queue.clearQueue()
+        //clearing queue crashes application. will need to look into this
     }
     
     //Detect touch events to begin drawing
@@ -121,7 +126,8 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         drawLine(from: lastPoint, to: currentPoint)
         
         // Add lastPoint to queue
-        queue.enqueue(Pixel(pointAt: CGPoint(x: lastPoint.x, y: lastPoint.y), alphaValue: 1.0))
+        queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+//        queue.enqueue(Pixel(pointAt: CGPoint(x: lastPoint.x, y: lastPoint.y), alphaValue: 1.0))
         
         // 7
         lastPoint = currentPoint

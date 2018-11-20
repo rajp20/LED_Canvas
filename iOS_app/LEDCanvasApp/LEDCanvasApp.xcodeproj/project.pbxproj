@@ -9,9 +9,8 @@
 /* Begin PBXBuildFile section */
 		675E14CD2196468900CF4193 /* GroupString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14CC2196468900CF4193 /* GroupString.swift */; };
 		675E14DB219F4FF300CF4193 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DA219F4FF300CF4193 /* MenuCell.swift */; };
-		675E14DE21A0A67400CF4193 /* CellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DD21A0A67400CF4193 /* CellModel.swift */; };
 		675E14E021A0B65500CF4193 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DF21A0B65500CF4193 /* Queue.swift */; };
-		675E14E221A20BDB00CF4193 /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14E121A20BDB00CF4193 /* Pixel.swift */; };
+		675E14E221A20BDB00CF4193 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14E121A20BDB00CF4193 /* Line.swift */; };
 		679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */; };
 		67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE63C32150560A0020739F /* PeripheralCell.swift */; };
 		67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFD76A214C07F300C9569B /* BLECentralViewController.swift */; };
@@ -26,9 +25,8 @@
 /* Begin PBXFileReference section */
 		675E14CC2196468900CF4193 /* GroupString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupString.swift; sourceTree = "<group>"; };
 		675E14DA219F4FF300CF4193 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
-		675E14DD21A0A67400CF4193 /* CellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModel.swift; sourceTree = "<group>"; };
 		675E14DF21A0B65500CF4193 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
-		675E14E121A20BDB00CF4193 /* Pixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixel.swift; sourceTree = "<group>"; };
+		675E14E121A20BDB00CF4193 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorToRGB.swift; sourceTree = "<group>"; };
 		67BE63C32150560A0020739F /* PeripheralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralCell.swift; sourceTree = "<group>"; };
 		67CFD76A214C07F300C9569B /* BLECentralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLECentralViewController.swift; sourceTree = "<group>"; };
@@ -56,9 +54,8 @@
 		675E14DC21A0A64400CF4193 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				675E14DD21A0A67400CF4193 /* CellModel.swift */,
 				675E14DF21A0B65500CF4193 /* Queue.swift */,
-				675E14E121A20BDB00CF4193 /* Pixel.swift */,
+				675E14E121A20BDB00CF4193 /* Line.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -199,9 +196,8 @@
 				67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */,
 				675E14CD2196468900CF4193 /* GroupString.swift in Sources */,
 				67F986E2214AE9E70058497D /* AppDelegate.swift in Sources */,
-				675E14E221A20BDB00CF4193 /* Pixel.swift in Sources */,
+				675E14E221A20BDB00CF4193 /* Line.swift in Sources */,
 				675E14E021A0B65500CF4193 /* Queue.swift in Sources */,
-				675E14DE21A0A67400CF4193 /* CellModel.swift in Sources */,
 				679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */,
 				675E14DB219F4FF300CF4193 /* MenuCell.swift in Sources */,
 				67CFD76F214C3E2700C9569B /* UARTModuleViewController.swift in Sources */,
