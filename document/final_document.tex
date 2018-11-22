@@ -13,6 +13,7 @@
 \usepackage{url}
 \usepackage{caption}
 \usepackage[toc,page]{appendix}
+\usepackage{tocloft}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{
@@ -22,6 +23,7 @@
 }
 
 \graphicspath{ {./images/} }
+\renewcommand\cftaftertoctitle{\par\noindent\hrulefill\par\vskip-0.5em}
 
 \begin{document}
 
@@ -47,8 +49,10 @@
   
 \end{titlepage}
 
+\newpage
 \tableofcontents
 \noindent\hrulefill
+\newpage
 
 \begin{abstract}
   \addcontentsline{toc}{section}{Abstract}
@@ -171,7 +175,18 @@ Ultimately, the project was a success. We accomplished the task we set out to do
   With having little to no background in mechanical engineering, we needed extensive research to get the linear track system moving. We learned a lot from doing the research. One suggestion we have for other groups is to make sure there is enough time to do the research and tinker with the mechanical components. We had a few problems that could have easily been avoided had we known how the mechanical parts worked.
 
   \section{Parts}
-
+  \begin{tabular}{ p{5cm} l }
+    LED Pixel Strips             & 18 x Adafruit NeoPixel Digital RGB LED Strip - 30 LED \\[0.2cm]
+    Bluetooth                    & cell5 \\  
+    Arduino                      & cell8 \\
+    Motor Drivers                & asdf  \\
+    Linear Tracks (Gantry carts,
+    timing belts, wheels, etc.)  & asdf  \\
+    Linear Actuator              & asdf  \\
+    Power Supplies               & asdf  \\
+    Miscellaneous                & asdf  \\
+  \end{tabular}
+  
   \section{Schematics and Code}
   We used Github for all of our development. Our Github repository is \href{https://github.com/rajp20/LED_Canvas}{LED\_Canvas}. This repository contains all of our code for iOS app and the microcontroller firmware. 
 \end{appendices}
