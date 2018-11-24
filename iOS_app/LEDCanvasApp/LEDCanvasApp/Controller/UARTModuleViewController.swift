@@ -12,7 +12,6 @@ import CoreBluetooth
 
 class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var data = [MenuCell(), MenuCell(), MenuCell(), MenuCell()]
     var peripheralManager: CBPeripheralManager?
     var peripheral: CBPeripheral!
     
@@ -30,25 +29,38 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     // Two UIImageViews for drawing on
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
-    @IBOutlet weak var menuBar: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clearContents))
+//        view.translatesAutoresizingMaskIntoConstraints = false
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
         swiped   = false
         
-        menuBar.dataSource = self
-        menuBar.delegate   = self
-        menuBar.register(MenuCell().classForCoder, forCellWithReuseIdentifier: "MenuCell")
-        menuBar.backgroundColor = UIColor.gray
-//        menuBar.collectionViewLayout = UICollectionViewFlowLayout()
-        
         queue = Queue<Line>()
         pixelTimer = Timer()
         startTimer()
+        setupMenuBar()
+    }
+    
+    let menuBar: MenuBar = {
+        let mb = MenuBar()
+        return mb
+    }()
+    
+    private func setupMenuBar() {
+        view.addSubview(menuBar)
+//        let horizontalConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":menuBar])
+//        let verticalConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0(100)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":menuBar])
+//        view.addConstraints(horizontalConstraint)
+//        view.addConstraints(verticalConstraint)
+        menuBar.translatesAutoresizingMaskIntoConstraints = false // this will make your constraint working
+        menuBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true // every constraint must be enabled.
+        menuBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        menuBar.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     private func startTimer() {
@@ -68,11 +80,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
         queue.updateQueue(weight: 0.1)
         let q = queue.list()
         for line in q! {
-            // this is where the tempImage variable will be updated.  The timer calls this function
-            // at a set interval and updates the alpha values of the pixels already drawn to specific
-            // points on the image. The problem is that the drawLine method uses core graphics to draw
-            // a line between two points but the lines themselves are not being stored in the queue.
-            // Will need to check if queue will need to be updated with lines instead of queues.
+            
             UIGraphicsBeginImageContext(view.frame.size)
             guard let context = UIGraphicsGetCurrentContext() else {
                 return
@@ -80,8 +88,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
             
             tempImage.image?.draw(in: view.bounds)
             
-//            context.move(to: pixel.point)
-//            context.addLine(to: pixel.point)
             context.move(to: line.line["from"]!)
             context.addLine(to: line.line["to"]!)
             
@@ -95,7 +101,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
             context.strokePath()
             
             tempImage.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempImage.alpha = opacity // update alpha value
+            tempImage.alpha = opacity
             UIGraphicsEndImageContext()
         }
     }

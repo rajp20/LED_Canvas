@@ -114,60 +114,10 @@
                                 <rect key="frame" x="83" y="31" width="500" height="250"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Gum-nR-8tF">
-                                <rect key="frame" x="0.0" y="284" width="667" height="91"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZQz-dX-kGQ">
-                                    <size key="itemSize" width="94" height="91"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="di8-VJ-sVb" customClass="MenuCell" customModule="LEDCanvasApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="94" height="91"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="94" height="91"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-oT-Lzw">
-                                                    <rect key="frame" x="0.0" y="0.0" width="94" height="57"/>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXo-rH-XAl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="94" height="91"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <connections>
-                                                        <action selector="cellClicked:" destination="di8-VJ-sVb" eventType="touchUpInside" id="5PP-T2-5Uo"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="IXo-rH-XAl" secondAttribute="trailing" id="Hdx-LN-m73"/>
-                                            <constraint firstAttribute="trailing" secondItem="xN4-oT-Lzw" secondAttribute="trailing" id="KoE-Nm-6Vs"/>
-                                            <constraint firstItem="xN4-oT-Lzw" firstAttribute="top" secondItem="di8-VJ-sVb" secondAttribute="top" id="VN0-AY-4tY"/>
-                                            <constraint firstItem="xN4-oT-Lzw" firstAttribute="leading" secondItem="di8-VJ-sVb" secondAttribute="leading" id="Yjr-3m-npl"/>
-                                            <constraint firstItem="IXo-rH-XAl" firstAttribute="leading" secondItem="di8-VJ-sVb" secondAttribute="leading" id="ZI2-HU-tZd"/>
-                                            <constraint firstAttribute="bottom" secondItem="xN4-oT-Lzw" secondAttribute="bottom" constant="34" id="ifl-WT-dou"/>
-                                            <constraint firstItem="IXo-rH-XAl" firstAttribute="top" secondItem="di8-VJ-sVb" secondAttribute="top" id="k1h-v5-5by"/>
-                                            <constraint firstAttribute="bottom" secondItem="IXo-rH-XAl" secondAttribute="bottom" id="u80-Uu-yPH"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="cellButton" destination="IXo-rH-XAl" id="PDB-By-r4l"/>
-                                            <outlet property="cellImage" destination="xN4-oT-Lzw" id="8Pw-2c-evr"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Gum-nR-8tF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1JL-EJ-dhh"/>
-                            <constraint firstItem="Gum-nR-8tF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ChW-oD-D0R"/>
                             <constraint firstItem="ulg-FJ-1O3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="31" id="WsT-av-XSF"/>
-                            <constraint firstItem="Gum-nR-8tF" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="XsZ-z5-Taf"/>
-                            <constraint firstItem="Gum-nR-8tF" firstAttribute="top" secondItem="ulg-FJ-1O3" secondAttribute="bottom" constant="3" id="dyF-aN-K9H"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ulg-FJ-1O3" secondAttribute="bottom" constant="94" id="kw2-dD-YPh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ulg-FJ-1O3" secondAttribute="trailing" constant="84" id="rOE-aP-lhG"/>
                             <constraint firstItem="ulg-FJ-1O3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="83" id="sA6-uT-PGo"/>
@@ -175,7 +125,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="menuBar" destination="Gum-nR-8tF" id="58Y-7V-1my"/>
                         <outlet property="tempImage" destination="ulg-FJ-1O3" id="wFN-dv-GR2"/>
                     </connections>
                 </viewController>
