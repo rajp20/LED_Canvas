@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
-class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     var peripheralManager: CBPeripheralManager?
     var peripheral: CBPeripheral!
@@ -52,15 +52,12 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     
     private func setupMenuBar() {
         view.addSubview(menuBar)
-//        let horizontalConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":menuBar])
-//        let verticalConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0(100)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":menuBar])
-//        view.addConstraints(horizontalConstraint)
-//        view.addConstraints(verticalConstraint)
+        
         menuBar.translatesAutoresizingMaskIntoConstraints = false // this will make your constraint working
         menuBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true // every constraint must be enabled.
         menuBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        menuBar.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        menuBar.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
     
     private func startTimer() {
@@ -207,21 +204,22 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate, U
     
     /********** UICollectionView protocols *********/
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! MenuCell
-        //        cell.configure(with: data[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 3.3, height: collectionView.frame.height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return 1
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! MenuCell
+//        //        cell.configure(with: data[indexPath.row])
+////        cell.backgroundColor = UIColor.green
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: collectionView.frame.width / 4, height: collectionView.frame.height)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0
+//    }
 }
