@@ -105,7 +105,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     @objc private func clearContents() {
         tempImage.image = nil
-//        queue.clearQueue()
+        queue.clearQueue()
         //clearing queue crashes application. will need to look into this
     }
     

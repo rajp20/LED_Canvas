@@ -61,6 +61,7 @@ public struct Queue<T> : LineProtocol{
     
     public mutating func clearQueue() {
         q = [Any]()
+        size = 0
     }
     
     public mutating func updateQueue(weight: CGFloat) {
