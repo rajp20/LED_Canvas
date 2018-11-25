@@ -18,7 +18,6 @@ public struct Queue<T> : LineProtocol{
         self.q    = [Any]()
         self.size = 0
         self.line = _line ?? Line(lineAt: ["from": CGPoint(x: 0.0, y: 0.0), "to" : CGPoint(x: 0.0, y: 0.0)], alphaValue: 0.0)
-//        self.pixel = _pixel ?? Pixel(pointAt: CGPoint(x:0.0, y:0.0), alphaValue: 0.0)
     }
     
     public mutating func enqueue<T>(_ element: T) {

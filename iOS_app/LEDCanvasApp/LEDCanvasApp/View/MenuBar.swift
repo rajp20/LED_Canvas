@@ -19,11 +19,16 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         return cv
     }()
     
+    weak var delegate: UARTModuleViewController?
+    
     let titles = ["Color", "Filters", "Pattern", "Reset"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupCollectionView()
+    }
+    
+    private func setupCollectionView() {
         self.addSubview(collectionView)
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "MenuCell")
         
@@ -62,7 +67,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: Implement pop-up windows and hide/display them depending on which MenuCell has been clicked
+        delegate?.performSegue(withIdentifier: "colorSelection", sender: nil)
     }
 }
 

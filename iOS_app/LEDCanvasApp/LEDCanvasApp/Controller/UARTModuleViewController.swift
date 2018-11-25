@@ -33,7 +33,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clearContents))
-//        view.translatesAutoresizingMaskIntoConstraints = false
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
@@ -45,8 +44,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         setupMenuBar()
     }
     
-    let menuBar: MenuBar = {
+    lazy var menuBar: MenuBar = {
         let mb = MenuBar()
+        mb.delegate = self
         return mb
     }()
     
@@ -200,26 +200,4 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         let ns = NSData(bytes: &val, length: MemoryLayout<Int8>.size)
         blePeripheral!.writeValue(ns as Data, for: txCharacteristic!, type: CBCharacteristicWriteType.withResponse)
     }
-    
-    
-    /********** UICollectionView protocols *********/
-    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 1
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! MenuCell
-//        //        cell.configure(with: data[indexPath.row])
-////        cell.backgroundColor = UIColor.green
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: collectionView.frame.width / 4, height: collectionView.frame.height)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
 }
