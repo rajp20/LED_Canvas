@@ -1,4 +1,4 @@
-#include <ArduinoJson.h>
+#include <QueueArray.h>
 #include <string.h>
 #include <Arduino.h>
 
@@ -19,7 +19,16 @@ void setup() {
 }
 
 void loop() {
-  String data = bluetooth.readPacket();
+  char* data = bluetooth.readPacket();
+
+  char* ipmsg[5];
+
+  char *str;
+  int i = 0;
+  while ((str = strtok_r(data, ",", &data)) != NULL){ // delimiter is the semicolon
+    ipmsg[i++] = *str;
+  }
+  
   String xy = "";
   if (data != "") {
     if (data == "end") {
