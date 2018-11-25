@@ -19,15 +19,37 @@ class ColorController : UIViewController {
     @IBOutlet weak var blueLabel:     UILabel!
     @IBOutlet weak var colorSelected: UILabel!
     
+    @IBOutlet weak var applyButton: UIButton!
+    
     private var red:   Float!
     private var green: Float!
     private var blue:  Float!
     
+    weak var uartVC: UARTModuleViewController?
+    
     override func viewDidLoad() {
-        //any code on initialization
-        red   = 0.0
-        green = 0.0
-        blue  = 0.0
+        let color = uartVC?.color.getRGB()
+        red   = Float(color!["red"]!)
+        green = Float(color!["green"]!)
+        blue  = Float(color!["blue"]!)
+        
+        colorSelected.backgroundColor = uartVC?.color
+        
+        redLabel.text   = "Red:\(Int(red))"
+        greenLabel.text = "Green:\(Int(green))"
+        blueLabel.text  = "Blue:\(Int(blue))"
+        
+        redSlider.minimumValue   = 0.0
+        greenSlider.minimumValue = 0.0
+        blueSlider.minimumValue  = 0.0
+        
+        redSlider.maximumValue   = 255.0
+        greenSlider.maximumValue = 255.0
+        blueSlider.maximumValue  = 255.0
+        
+        redSlider.value   = red
+        greenSlider.value = green
+        blueSlider.value  = blue
     }
     
     
@@ -43,8 +65,12 @@ class ColorController : UIViewController {
         ChangeColor()
     }
     
+    @IBAction func ApplyColorToBrush(_ sender: UIButton) {
+        uartVC!.color = colorSelected.backgroundColor!
+    }
+    
     private func ChangeColorSelected() {
-        colorSelected.backgroundColor = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1.0)
+        colorSelected.backgroundColor = UIColor(red: CGFloat(red / 255), green: CGFloat(green / 255), blue: CGFloat(blue / 255), alpha: 1.0)
         UpdateLabels()
     }
     
@@ -57,8 +83,8 @@ class ColorController : UIViewController {
     }
     
     private func UpdateLabels() {
-        redLabel.text   = "Red:\(Int(redSlider.value * 255))"
-        greenLabel.text = "Green:\(Int(greenSlider.value * 255))"
-        blueLabel.text  = "Blue:\(Int(blueSlider.value * 255))"
+        redLabel.text   = "Red:\(Int(redSlider.value))"
+        greenLabel.text = "Green:\(Int(greenSlider.value))"
+        blueLabel.text  = "Blue:\(Int(blueSlider.value))"
     }
 }

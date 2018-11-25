@@ -136,7 +136,7 @@
         <!--Color Controller-->
         <scene sceneID="cjv-Hh-7GU">
             <objects>
-                <viewController id="CMj-30-Rih" customClass="ColorController" customModule="LEDCanvasApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ColorController" id="CMj-30-Rih" customClass="ColorController" customModule="LEDCanvasApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="guN-JG-gPl">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -197,11 +197,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ymg-Pj-5FJ">
+                                <rect key="frame" x="303" y="297" width="61" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Apply"/>
+                                <connections>
+                                    <action selector="ApplyColorToBrush:" destination="CMj-30-Rih" eventType="touchUpInside" id="mWo-Qb-gRM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="sc5-vm-pKc"/>
                     </view>
                     <connections>
+                        <outlet property="applyButton" destination="ymg-Pj-5FJ" id="lvK-Wv-30p"/>
                         <outlet property="blueLabel" destination="ARX-Ox-i96" id="g05-C1-hSD"/>
                         <outlet property="blueSlider" destination="si2-sl-NrH" id="tyx-uP-YN4"/>
                         <outlet property="colorSelected" destination="CZ7-XS-DSJ" id="h8d-h7-37j"/>

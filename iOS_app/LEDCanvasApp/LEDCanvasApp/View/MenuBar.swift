@@ -67,7 +67,17 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.performSegue(withIdentifier: "colorSelection", sender: nil)
+        
+        let cellID = indexPath.item
+        
+        switch cellID {
+        case 0:
+            let colorVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ColorController") as! ColorController
+            colorVC.uartVC = delegate
+            delegate?.navigationController?.pushViewController(colorVC, animated: true)
+        default:
+            return
+        }
     }
 }
 
