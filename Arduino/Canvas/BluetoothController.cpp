@@ -122,7 +122,7 @@ void BluetoothController::setup(void)
 /*
  * Get Data from the iOS app
  */
-String BluetoothController::readPacket(void) {
+char* BluetoothController::readPacket(void) {
   // Check for incoming characters from Bluefruit
   ble.println("AT+BLEUARTRX");
   ble.readline();
@@ -131,7 +131,7 @@ String BluetoothController::readPacket(void) {
     return "";
   }
   // Some data was found, its in the buffer
-  String toReturn = String(ble.buffer);
+  char* toReturn = ble.buffer;
   ble.waitForOK();
   return toReturn;
 }
