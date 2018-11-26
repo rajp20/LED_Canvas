@@ -19,7 +19,7 @@ class ColorController : UIViewController {
     @IBOutlet weak var blueLabel:     UILabel!
     @IBOutlet weak var colorSelected: UILabel!
     
-    @IBOutlet weak var applyButton: UIButton!
+    @IBOutlet weak var applyButton: CustomButton!
     
     private var red:   Float!
     private var green: Float!
@@ -29,6 +29,7 @@ class ColorController : UIViewController {
     
     override func viewDidLoad() {
        initializeLabelsAndSliders()
+        self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
     }
     
     private func initializeLabelsAndSliders() {
@@ -38,10 +39,16 @@ class ColorController : UIViewController {
         blue  = Float(color!["blue"]!)
         
         colorSelected.backgroundColor = uartVC?.color
+        colorSelected.layer.cornerRadius = 10
+        colorSelected.clipsToBounds = true
         
         redLabel.text   = "Red:\(Int(red))"
         greenLabel.text = "Green:\(Int(green))"
         blueLabel.text  = "Blue:\(Int(blue))"
+        
+        redLabel.textColor   = UIColor.white
+        greenLabel.textColor = UIColor.white
+        blueLabel.textColor  = UIColor.white
         
         redSlider.minimumValue   = 0.0
         greenSlider.minimumValue = 0.0
