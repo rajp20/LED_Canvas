@@ -75,6 +75,14 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
             let colorVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ColorController") as! ColorController
             colorVC.uartVC = delegate
             delegate?.navigationController?.pushViewController(colorVC, animated: true)
+        case 1:
+            let filterVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FilterController") as! FilterController
+            filterVC.uartVC = delegate
+            delegate?.navigationController?.pushViewController(filterVC, animated: true)
+        case 2:
+            let patternVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PatternController") as! PatternController
+            patternVC.uartVC = delegate
+            delegate?.navigationController?.pushViewController(patternVC, animated: true)
         default:
             return
         }
