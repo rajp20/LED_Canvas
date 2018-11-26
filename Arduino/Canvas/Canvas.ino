@@ -8,7 +8,7 @@
 
 BluetoothController bluetooth;
 LEDController led;
-MotorController moter;
+MotorController motors;
 
 String buff = "";
 bool data_in = false;
@@ -16,6 +16,7 @@ bool data_in = false;
 void setup() {
   led.setup();
   bluetooth.setup();
+  motors.setup();
 }
 
 void loop() {
