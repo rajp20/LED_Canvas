@@ -28,6 +28,10 @@ class ColorController : UIViewController {
     weak var uartVC: UARTModuleViewController?
     
     override func viewDidLoad() {
+       initializeLabelsAndSliders()
+    }
+    
+    private func initializeLabelsAndSliders() {
         let color = uartVC?.color.getRGB()
         red   = Float(color!["red"]!)
         green = Float(color!["green"]!)
