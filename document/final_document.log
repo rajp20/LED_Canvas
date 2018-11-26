@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.13)  22 NOV 2018 14:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.13)  25 NOV 2018 23:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -93,25 +93,14 @@ File: uni-global.def 2013/05/13 UCS: Unicode global data
 \uc@combtoksb=\toks19
 \uc@temptokena=\toks20
 )
-(/usr/share/texlive/texmf-dist/tex/latex/roboto/roboto.sty
-Package: roboto 2015/09/15 (Bob Tennent) Supports Roboto fonts for all LaTeX en
-gines.
+(/usr/share/texlive/texmf-dist/tex/latex/quattrocento/quattrocento.sty
+Package: quattrocento 2012/11/24 (Bob Tennent) Supports Quattrocento(Sans) font
+s for all LaTeX engines. 
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
-
-(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks21
-\XKV@tempa@toks=\toks22
-)
-\XKV@depth=\count93
-File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-))
 (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
@@ -194,6 +183,17 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
 )
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks21
+\XKV@tempa@toks=\toks22
+)
+\XKV@depth=\count93
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
 (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
 )
@@ -203,18 +203,7 @@ LaTeX Info: Redefining \upshape on input line 29.
 LaTeX Info: Redefining \itshape on input line 31.
 LaTeX Info: Redefining \slshape on input line 33.
 LaTeX Info: Redefining \scshape on input line 37.
-)
-(/usr/share/texlive/texmf-dist/tex/latex/mweights/mweights.sty
-Package: mweights 2017/03/30 (Bob Tennent) Support package for multiple-weight 
-font packages. 
-LaTeX Info: Redefining \bfseries on input line 22.
-LaTeX Info: Redefining \mdseries on input line 30.
-LaTeX Info: Redefining \rmfamily on input line 38.
-LaTeX Info: Redefining \sffamily on input line 66.
-LaTeX Info: Redefining \ttfamily on input line 94.
-)
-LaTeX Info: Redefining \oldstylenums on input line 188.
-)
+))
 (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
 
@@ -495,37 +484,58 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip77
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 23.
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip78
+\LTright=\skip79
+\LTpre=\skip80
+\LTpost=\skip81
+\LTchunksize=\count123
+\LTcapwidth=\dimen134
+\LT@head=\box30
+\LT@firsthead=\box31
+\LT@foot=\box32
+\LT@lastfoot=\box33
+\LT@cols=\count124
+\LT@rows=\count125
+\c@LT@tables=\count126
+\c@LT@chunks=\count127
+\LT@p@ftn=\toks30
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 24.
 
 (./final_document.aux)
 \openout1 = `final_document.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 29.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Try loading font information for T1+RobotoSlab-LF on input 
-line 28.
-(/usr/share/texlive/texmf-dist/tex/latex/roboto/T1RobotoSlab-LF.fd
-File: T1RobotoSlab-LF.fd 2015/09/15 (autoinst) Font definitions for T1/RobotoSl
-ab-LF.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Try loading font information for T1+Quattrocento-TLF on inp
+ut line 29.
+(/usr/share/texlive/texmf-dist/tex/latex/quattrocento/T1Quattrocento-TLF.fd
+File: T1Quattrocento-TLF.fd 2012/11/07 (autoinst) Font definitions for T1/Quatt
+rocento-TLF.
 )
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/m/n' will be
+(Font)              scaled to size 12.0pt on input line 29.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -563,22 +573,22 @@ ab-LF.
 (/usr/share/texlive/texmf-dist/tex/latex/ucs/ucsencs.def
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
-\c@mv@tabular=\count123
-\c@mv@boldtabular=\count124
+\c@mv@tabular=\count128
+\c@mv@boldtabular=\count129
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count125
-\scratchdimen=\dimen134
-\scratchbox=\box30
-\nofMPsegments=\count126
-\nofMParguments=\count127
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count128
-\MPscratchDim=\dimen135
-\MPnumerator=\count129
-\makeMPintoPDFobject=\count130
-\everyMPtoPDFconversion=\toks31
+\scratchcounter=\count130
+\scratchdimen=\dimen135
+\scratchbox=\box34
+\nofMPsegments=\count131
+\nofMParguments=\count132
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count133
+\MPscratchDim=\dimen136
+\MPnumerator=\count134
+\makeMPintoPDFobject=\count135
+\everyMPtoPDFconversion=\toks32
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -598,9 +608,14 @@ e
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2013/06/09 v1.4-94 longtable captions (AR)
+)
 Package caption Info: End \AtBeginDocument code.
-\AtBeginShipoutBox=\box31
-Package hyperref Info: Link coloring ON on input line 28.
+\AtBeginShipoutBox=\box35
+Package hyperref Info: Link coloring ON on input line 29.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -608,37 +623,49 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count131
+\c@section@level=\count136
 )
-LaTeX Info: Redefining \ref on input line 28.
-LaTeX Info: Redefining \pageref on input line 28.
-LaTeX Info: Redefining \nameref on input line 28.
+LaTeX Info: Redefining \ref on input line 29.
+LaTeX Info: Redefining \pageref on input line 29.
+LaTeX Info: Redefining \nameref on input line 29.
 
 (./final_document.out) (./final_document.out)
 \@outlinefile=\write3
 \openout3 = `final_document.out'.
 
-LaTeX Font Info:    Font shape `T1/RobotoSlab-LF/bx/n' in size <24.88> not avai
-lable
-(Font)              Font shape `T1/RobotoSlab-LF/b/n' tried instead on input li
-ne 38.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/m/n' will be
+(Font)              scaled to size 24.88pt on input line 39.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/bx/n' in size <24.88> not a
+vailable
+(Font)              Font shape `T1/Quattrocento-TLF/b/n' tried instead on input
+ line 39.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/b/n' will be
+(Font)              scaled to size 24.88pt on input line 39.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/m/n' will be
+(Font)              scaled to size 14.4pt on input line 42.
 <./images/logo.png, id=68, 154.5775pt x 110.4125pt>
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 47.
+Package pdftex.def Info: ./images/logo.png  used on input line 48.
 (pdftex.def)             Requested size: 140.92793pt x 100.67094pt.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/logo.png>]
-LaTeX Font Info:    Font shape `T1/RobotoSlab-LF/bx/n' in size <17.28> not avai
-lable
-(Font)              Font shape `T1/RobotoSlab-LF/b/n' tried instead on input li
-ne 53.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/m/n' will be
+(Font)              scaled to size 17.28pt on input line 54.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/bx/n' in size <17.28> not a
+vailable
+(Font)              Font shape `T1/Quattrocento-TLF/b/n' tried instead on input
+ line 54.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/b/n' will be
+(Font)              scaled to size 17.28pt on input line 54.
  (./final_document.toc
-LaTeX Font Info:    Font shape `T1/RobotoSlab-LF/bx/n' in size <12> not availab
-le
-(Font)              Font shape `T1/RobotoSlab-LF/b/n' tried instead on input li
-ne 2.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/bx/n' in size <12> not avai
+lable
+(Font)              Font shape `T1/Quattrocento-TLF/b/n' tried instead on input
+ line 2.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/b/n' will be
+(Font)              scaled to size 12.0pt on input line 2.
 )
 \tf@toc=\write4
 \openout4 = `final_document.toc'.
@@ -647,81 +674,107 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.55 \newpage
+l.56 \newpage
               [1]
-LaTeX Font Info:    Font shape `T1/RobotoSlab-LF/bx/n' in size <10.95> not avai
-lable
-(Font)              Font shape `T1/RobotoSlab-LF/b/n' tried instead on input li
-ne 57.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/m/n' will be
+(Font)              scaled to size 10.95pt on input line 58.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/bx/n' in size <10.95> not a
+vailable
+(Font)              Font shape `T1/Quattrocento-TLF/b/n' tried instead on input
+ line 58.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/b/n' will be
+(Font)              scaled to size 10.95pt on input line 58.
  (/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
 ) [2]
-<./images/image1.png, id=102, 920.43875pt x 512.91624pt>
+<./images/image1.png, id=101, 920.43875pt x 512.91624pt>
 File: ./images/image1.png Graphic file (type png)
 <use ./images/image1.png>
-Package pdftex.def Info: ./images/image1.png  used on input line 77.
+Package pdftex.def Info: ./images/image1.png  used on input line 78.
 (pdftex.def)             Requested size: 469.75502pt x 261.77948pt.
- (/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-0.def
+<./images/image4.png, id=103, 1284.8pt x 610.28pt>
+File: ./images/image4.png Graphic file (type png)
+<use ./images/image4.png>
+Package pdftex.def Info: ./images/image4.png  used on input line 90.
+(pdftex.def)             Requested size: 422.77664pt x 200.81566pt.
+ [3 <./images/image1.png>]
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/bx/n' in size <14.4> not av
+ailable
+(Font)              Font shape `T1/Quattrocento-TLF/b/n' tried instead on input
+ line 97.
+LaTeX Font Info:    Font shape `T1/Quattrocento-TLF/b/n' will be
+(Font)              scaled to size 14.4pt on input line 97.
+
+(/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
-) [3 <./images/image1.png>]
-LaTeX Font Info:    Font shape `T1/RobotoSlab-LF/bx/n' in size <14.4> not avail
-able
-(Font)              Font shape `T1/RobotoSlab-LF/b/n' tried instead on input li
-ne 91.
-LaTeX Font Info:    Try loading font information for TS1+RobotoSlab-LF on input
- line 92.
+)
+LaTeX Font Info:    Try loading font information for TS1+Quattrocento-TLF on in
+put line 98.
 
-(/usr/share/texlive/texmf-dist/tex/latex/roboto/TS1RobotoSlab-LF.fd
-File: TS1RobotoSlab-LF.fd 2015/09/15 (autoinst) Font definitions for TS1/Roboto
-Slab-LF.
-) [4]
-[5] [6] [7] [8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
-[]\T1/RobotoSlab-LF/l/n/12 Linear Tracks (Gantry
+(/usr/share/texlive/texmf-dist/tex/latex/quattrocento/TS1Quattrocento-TLF.fd
+File: TS1Quattrocento-TLF.fd 2012/11/07 (autoinst) Font definitions for TS1/Qua
+ttrocento-TLF.
+)
+LaTeX Font Info:    Font shape `TS1/Quattrocento-TLF/m/n' will be
+(Font)              scaled to size 12.0pt on input line 98.
+<./images/image6.png, id=112, 1104.125pt x 422.57875pt>
+File: ./images/image6.png Graphic file (type png)
+<use ./images/image6.png>
+Package pdftex.def Info: ./images/image6.png  used on input line 102.
+(pdftex.def)             Requested size: 328.82707pt x 125.85252pt.
+
+[4 <./images/image4.png (PNG copy)> <./images/image6.png (PNG copy)>]
+<./images/image2.png, id=120, 1278.7775pt x 477.785pt>
+File: ./images/image2.png Graphic file (type png)
+<use ./images/image2.png>
+Package pdftex.def Info: ./images/image2.png  used on input line 120.
+(pdftex.def)             Requested size: 399.29463pt x 149.1835pt.
+ [5 <./images/image2.png (PNG copy)>]
+<./images/image3.png, id=128, 1284.8pt x 721.69624pt>
+File: ./images/image3.png Graphic file (type png)
+<use ./images/image3.png>
+Package pdftex.def Info: ./images/image3.png  used on input line 136.
+(pdftex.def)             Requested size: 352.31625pt x 197.89995pt.
+ [6 <./images/image3.png (PNG copy)>] [7]
+<./images/image5.png, id=140, 963.6pt x 1011.78pt>
+File: ./images/image5.png Graphic file (type png)
+<use ./images/image5.png>
+Package pdftex.def Info: ./images/image5.png  used on input line 172.
+(pdftex.def)             Requested size: 234.8775pt x 246.6146pt.
+ [8]
+[9 <./images/image5.png (PNG copy)>] [10] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 217--218
+[]|\T1/Quattrocento-TLF/m/n/12 Linear Tracks (Gantry
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
-\T1/RobotoSlab-LF/l/n/12 carts, tim-ing belts,
- []
-
-
-Overfull \hbox (10.62213pt too wide) in paragraph at lines 178--189
-[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--193
-
- []
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 194.
-[10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 194.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 242.
+[12] [13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 242.
  (./final_document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 194.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 194.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 242.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 242.
 Package rerunfilecheck Info: File `final_document.out' has not changed.
-(rerunfilecheck)             Checksum: 247F72071571B27ACE528E4CE478C0A6;854.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 194.
+(rerunfilecheck)             Checksum: 59171F7DE7D418CAE0EB6F0589E7C424;854.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 242.
  ) 
 Here is how much of TeX's memory you used:
- 10626 strings out of 492982
- 157075 string characters out of 6134895
- 261307 words of memory out of 5000000
- 13994 multiletter control sequences out of 15000+600000
- 74433 words of font info for 51 fonts, out of 8000000 for 9000
+ 10705 strings out of 492982
+ 158280 string characters out of 6134895
+ 264725 words of memory out of 5000000
+ 14059 multiletter control sequences out of 15000+600000
+ 104115 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,8n,92p,1023b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/roboto/rbto_rehtu3.enc}{/usr/s
-hare/texlive/texmf-dist/fonts/enc/dvips/roboto/rbto_usdwn6.enc}</usr/share/texl
-ive/texmf-dist/fonts/type1/google/roboto/RobotoSlab-Bold.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/google/roboto/RobotoSlab-Light.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/google/roboto/RobotoSlab-Regular.pfb>
-Output written on final_document.pdf (11 pages, 2590921 bytes).
+ 53i,6n,92p,1017b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/quattrocento/qtrcnt_dw2g3h.enc
+}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/quattrocento/qtrcnt_e45lg2.enc}
+</usr/share/texlive/texmf-dist/fonts/type1/impallari/quattrocento/Quattrocento-
+Bold.pfb></usr/share/texlive/texmf-dist/fonts/type1/impallari/quattrocento/Quat
+trocentoRegular.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb>
+Output written on final_document.pdf (14 pages, 5071446 bytes).
 PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
- 139 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 215 PDF objects out of 1000 (max. 8388607)
+ 185 compressed objects within 2 object streams
+ 36 named destinations out of 1000 (max. 500000)
+ 164 words of extra memory for PDF output out of 10000 (max. 10000000)
 
