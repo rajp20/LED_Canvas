@@ -19,7 +19,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var lastPoint : CGPoint!
     var swiped    : Bool!
     var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
-    var brushWidth : CGFloat = 8.0
+    var brushWidth : CGFloat = 10.0
     var opacity    : CGFloat = 1.0
     
     private var queue        : Queue<Line>!

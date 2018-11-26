@@ -11,6 +11,8 @@
 		675E14DB219F4FF300CF4193 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DA219F4FF300CF4193 /* MenuCell.swift */; };
 		675E14E021A0B65500CF4193 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DF21A0B65500CF4193 /* Queue.swift */; };
 		675E14E221A20BDB00CF4193 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14E121A20BDB00CF4193 /* Line.swift */; };
+		67780B3421ABBA980023768C /* PatternController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3321ABBA980023768C /* PatternController.swift */; };
+		67780B3621ABBC0C0023768C /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3521ABBC0C0023768C /* FilterController.swift */; };
 		679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */; };
 		67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE63C32150560A0020739F /* PeripheralCell.swift */; };
 		67C07D1621A5EED5004E00E6 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C07D1521A5EED5004E00E6 /* MenuBar.swift */; };
@@ -29,6 +31,8 @@
 		675E14DA219F4FF300CF4193 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		675E14DF21A0B65500CF4193 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		675E14E121A20BDB00CF4193 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		67780B3321ABBA980023768C /* PatternController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternController.swift; sourceTree = "<group>"; };
+		67780B3521ABBC0C0023768C /* FilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
 		679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorToRGB.swift; sourceTree = "<group>"; };
 		67BE63C32150560A0020739F /* PeripheralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralCell.swift; sourceTree = "<group>"; };
 		67C07D1521A5EED5004E00E6 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
@@ -89,6 +93,8 @@
 				67CFD76E214C3E2700C9569B /* UARTModuleViewController.swift */,
 				67CFD76A214C07F300C9569B /* BLECentralViewController.swift */,
 				67C07D1921AB202D004E00E6 /* ColorController.swift */,
+				67780B3321ABBA980023768C /* PatternController.swift */,
+				67780B3521ABBC0C0023768C /* FilterController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -202,6 +208,7 @@
 				67CFD76B214C07F300C9569B /* BLECentralViewController.swift in Sources */,
 				675E14CD2196468900CF4193 /* GroupString.swift in Sources */,
 				67F986E2214AE9E70058497D /* AppDelegate.swift in Sources */,
+				67780B3421ABBA980023768C /* PatternController.swift in Sources */,
 				675E14E221A20BDB00CF4193 /* Line.swift in Sources */,
 				675E14E021A0B65500CF4193 /* Queue.swift in Sources */,
 				67C07D1A21AB202D004E00E6 /* ColorController.swift in Sources */,
@@ -209,6 +216,7 @@
 				675E14DB219F4FF300CF4193 /* MenuCell.swift in Sources */,
 				67C07D1621A5EED5004E00E6 /* MenuBar.swift in Sources */,
 				67CFD76F214C3E2700C9569B /* UARTModuleViewController.swift in Sources */,
+				67780B3621ABBC0C0023768C /* FilterController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
