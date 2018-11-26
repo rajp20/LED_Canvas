@@ -27,13 +27,15 @@ void LEDController::setup(void) {
     led_strips[i].begin();
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
+
+  welcomeScreen();
 }
 
 /**
- * Welcome screen for when the system boots up.
- * Says "Magic Drawing"
- */
-void LEDController::welcome(void) {
+   Welcome screen for when the system boots up.
+   Says "Magic Drawing"
+*/
+void LEDController::welcomeScreen(void) {
   int magic_drawing[5][52] =
   { {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
     {1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
@@ -48,16 +50,32 @@ void LEDController::welcome(void) {
         led_strips[y + 6].setPixelColor(x + 4, 0, 255, 0);
       }
     }
+    led_strips[y].show();
   }
 
 }
 
 /**
- * Clear screen for when resetting the motors.
- * Says "Clearing"
- */
-void LEDController::clear(void) {
+   Clear screen for when resetting the motors.
+   Says "Clearing"
+*/
+void LEDController::resetScreen(void) {
+  int resetting[5][35] =
+  { {1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
+    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
+    {1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
+    {1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1},
+    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
+  };
 
+  for (int y = 0; y < 5; y++) {
+    for (int x = 0; x < 32; x++) {
+      if (resetting[y][x]) {
+        led_strips[y + 6].setPixelColor(x + 12, 0, 255, 0);
+      }
+    }
+    led_strips[y].show();
+  }
 }
 
 void LEDController::setLED(int red, int green, int blue) {

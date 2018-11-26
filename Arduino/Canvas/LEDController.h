@@ -4,8 +4,8 @@
 class LEDController {
   private:
     Adafruit_NeoPixel led_strips[18];
-    void welcome(void);
-    void clear(void);
+    void welcomeScreen(void);
+    void resetScreen(void);
 
     void colorWipe(uint32_t, uint8_t);
     void undrawBall(int x, int y);

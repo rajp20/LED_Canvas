@@ -29,4 +29,5 @@ class BluetoothController {
   public:
     void setup(void);
     char* readPacket(void);
+    void writePacket(char* packet);
 };
