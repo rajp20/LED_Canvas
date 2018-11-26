@@ -8,7 +8,7 @@
 
 BluetoothController bluetooth;
 LEDController led;
-MotorController moter;
+MotorController motors;
 
 String buff = "";
 bool data_in = false;
@@ -16,19 +16,20 @@ bool data_in = false;
 void setup() {
   led.setup();
   bluetooth.setup();
+  motors.setup();
 }
 
 void loop() {
   char* data = bluetooth.readPacket();
 
-  char* ipmsg[5];
+  char* parsedMessage[5];
 
   char *str;
   int i = 0;
-  while ((str = strtok_r(data, ",", &data)) != NULL){ // delimiter is the semicolon
-    ipmsg[i++] = *str;
+  while ((str = strtok_r(data, ",", &data)) != NULL) {
+    parsedMessage[i++] = *str;
   }
-  
+
   String xy = "";
   if (data != "") {
     if (data == "end") {

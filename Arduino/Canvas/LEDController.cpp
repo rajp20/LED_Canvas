@@ -1,4 +1,3 @@
-#include <Adafruit_NeoPixel.h>
 #include "LEDController.h"
 #ifdef __AVR__
 #include <avr/power.h>
@@ -8,12 +7,7 @@
 // Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
 //   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-//   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-//   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-//   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-
-Adafruit_NeoPixel led_strips[18];
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -27,10 +21,60 @@ void LEDController::setup(void) {
 #endif
   // End of trinket special code
 
+  // Initialize all of the LED strips
   for (int i = 0; i < 18; i++) {
     led_strips[i] = Adafruit_NeoPixel(60, STARTING_LED_STRIP_PIN + i, NEO_GRB + NEO_KHZ800);
     led_strips[i].begin();
     led_strips[i].show(); // Initialize all pixels to 'off'
+  }
+
+  welcomeScreen();
+}
+
+/**
+   Welcome screen for when the system boots up.
+   Says "Magic Drawing"
+*/
+void LEDController::welcomeScreen(void) {
+  int magic_drawing[5][52] =
+  { {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
+    {1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
+    {1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
+    {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1},
+    {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1}
+  };
+
+  for (int y = 0; y < 5; y++) {
+    for (int x = 0; x < 52; x++) {
+      if (magic_drawing[y][x]) {
+        led_strips[y + 6].setPixelColor(x + 4, 0, 255, 0);
+      }
+    }
+    led_strips[y].show();
+  }
+
+}
+
+/**
+   Clear screen for when resetting the motors.
+   Says "Clearing"
+*/
+void LEDController::resetScreen(void) {
+  int resetting[5][35] =
+  { {1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
+    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
+    {1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
+    {1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1},
+    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
+  };
+
+  for (int y = 0; y < 5; y++) {
+    for (int x = 0; x < 32; x++) {
+      if (resetting[y][x]) {
+        led_strips[y + 6].setPixelColor(x + 12, 0, 255, 0);
+      }
+    }
+    led_strips[y].show();
   }
 }
 
@@ -82,7 +126,7 @@ void LEDController::toggleBouncingBall(bool turnOn) {
 */
 
 // Fill the dots one after the other with a color
-void colorWipe(uint32_t c, uint8_t wait) {
+void LEDController::colorWipe(uint32_t c, uint8_t wait) {
   for (uint16_t i = 0; i < led_strips[0].numPixels() / 2; i++) {
     led_strips[0].setPixelColor(i, c);
   }
@@ -95,7 +139,7 @@ void colorWipe(uint32_t c, uint8_t wait) {
 
 
 
-void undrawBall(int x, int y) {
+void LEDController::undrawBall(int x, int y) {
 
   // Turn off the upper row of the ball
   led_strips[x].setPixelColor(y, led_strips[0].Color(0, 0, 0));
@@ -106,7 +150,7 @@ void undrawBall(int x, int y) {
   led_strips[x + 1].setPixelColor(y + 1, led_strips[0].Color(0, 0, 0));
 }
 
-void drawBall(int x, int y, int directionX, int directionY) {
+void LEDController::drawBall(int x, int y, int directionX, int directionY) {
 
   // Turn on the upper row of the ball
   led_strips[x].setPixelColor(y, led_strips[0].Color(0, 255, 0));
