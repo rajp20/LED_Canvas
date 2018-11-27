@@ -122,16 +122,13 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             return
         }
         
-        // 6
         swiped = true
         let currentPoint = touch.location(in: view)
         drawLine(from: lastPoint, to: currentPoint)
         
         // Add lastPoint to queue
         queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
-//        queue.enqueue(Pixel(pointAt: CGPoint(x: lastPoint.x, y: lastPoint.y), alphaValue: 1.0))
-        
-        // 7
+
         lastPoint = currentPoint
         let string = JSONString(point: lastPoint, color: color)
         
@@ -144,27 +141,23 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
-        // 1
+        
         UIGraphicsBeginImageContext(view.frame.size)
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
         tempImage.image?.draw(in: view.bounds)
         
-        // 2
         context.move(to: fromPoint)
         context.addLine(to: toPoint)
         
-        // 3
         context.setLineCap(.round)
         context.setBlendMode(.normal)
         context.setLineWidth(brushWidth)
         context.setStrokeColor(color.cgColor)
         
-        // 4
         context.strokePath()
         
-        // 5
         tempImage.image = UIGraphicsGetImageFromCurrentImageContext()
         tempImage.alpha = opacity
         UIGraphicsEndImageContext()
