@@ -16,23 +16,21 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var peripheral: CBPeripheral!
     
     // Drawing variables
-    var lastPoint : CGPoint!
-    var swiped    : Bool!
-    var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
+    var lastPoint  : CGPoint!
+    var swiped     : Bool!
     var brushWidth : CGFloat = 10.0
     var opacity    : CGFloat = 1.0
+    var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
     
     private var queue        : Queue<Line>!
     private var pixelTimer   : Timer!
     private var timeInterval : TimeInterval = 0.1
     
-    // Two UIImageViews for drawing on
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clearContents))
         self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0.29, green: 1.0, blue: 0.71, alpha: 1.0)
         
@@ -105,10 +103,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         }
     }
     
-    @objc private func clearContents() {
+    public func clearContents() {
         tempImage.image = nil
         queue.clearQueue()
-        //clearing queue crashes application. will need to look into this
     }
     
     //Detect touch events to begin drawing

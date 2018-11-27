@@ -42,13 +42,17 @@ class ColorController : UIViewController {
         colorSelected.layer.cornerRadius = 10
         colorSelected.clipsToBounds = true
         
-        redLabel.text   = "Red:\(Int(red))"
-        greenLabel.text = "Green:\(Int(green))"
-        blueLabel.text  = "Blue:\(Int(blue))"
+        redLabel.text   = "Red: \(Int(red))"
+        greenLabel.text = "Green: \(Int(green))"
+        blueLabel.text  = "Blue: \(Int(blue))"
         
         redLabel.textColor   = UIColor.white
         greenLabel.textColor = UIColor.white
         blueLabel.textColor  = UIColor.white
+        
+        redLabel.font   = UIFont(name: "Avenir", size: 24)
+        greenLabel.font = UIFont(name: "Avenir", size: 24)
+        blueLabel.font  = UIFont(name: "Avenir", size: 24)
         
         redSlider.minimumValue   = 0.0
         greenSlider.minimumValue = 0.0

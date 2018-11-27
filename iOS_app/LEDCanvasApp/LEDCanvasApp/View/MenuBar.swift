@@ -33,10 +33,10 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "MenuCell")
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,10 +51,12 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath)
         //Add title to the given cell
-        let label = UILabel(frame: CGRect(x: 0, y: (cell.center.y + cell.center.y / 4), width: cell.frame.width, height: cell.frame.height / 3))
+        let label = UILabel(frame: CGRect(x: 0, y: (cell.center.y + cell.center.y / 10), width: cell.frame.width, height: cell.frame.height / 3))
         label.text = titles[indexPath.item]
         label.textAlignment = NSTextAlignment.center
         label.textColor = UIColor(red: 0.29, green: 1.0, blue: 0.71, alpha: 1.0)
+        label.font = UIFont(name: "Avenir", size: 24)
+        
         cell.addSubview(label)
         return cell
     }
@@ -84,6 +86,8 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
             let patternVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PatternController") as! PatternController
             patternVC.uartVC = delegate
             delegate?.navigationController?.pushViewController(patternVC, animated: true)
+        case 3:
+            delegate?.clearContents()
         default:
             return
         }
