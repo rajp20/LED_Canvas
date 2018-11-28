@@ -27,9 +27,25 @@ void LEDController::setup(void) {
     led_strips[i].begin();
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
-
-  welcomeScreen();
 }
+
+/**
+   Tests each pixel with different colors.
+*/
+void LEDController::pixelTest(void) {
+  uint16_t i, j;
+
+  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
+    for (i = 0; i < 60; i++) {
+      for (int strip = 0; strip < 18; strip++) {
+        led_strips[strip].setPixelColor(i, Wheel(((i * 256 / 60) + j) & 255));
+        led_strips[strip].show();
+      }
+      delay(50);
+    }
+  }
+}
+
 
 /**
    Welcome screen for when the system boots up.
@@ -47,10 +63,10 @@ void LEDController::welcomeScreen(void) {
   for (int y = 0; y < 5; y++) {
     for (int x = 0; x < 52; x++) {
       if (magic_drawing[y][x]) {
-        led_strips[y + 6].setPixelColor(x + 4, 0, 255, 0);
+        led_strips[y + 6].setPixelColor(x + 4, 255, 5, 5);
       }
     }
-    led_strips[y].show();
+    led_strips[y + 6].show();
   }
 
 }
@@ -69,12 +85,12 @@ void LEDController::resetScreen(void) {
   };
 
   for (int y = 0; y < 5; y++) {
-    for (int x = 0; x < 32; x++) {
+    for (int x = 0; x < 35; x++) {
       if (resetting[y][x]) {
-        led_strips[y + 6].setPixelColor(x + 12, 0, 255, 0);
+        led_strips[y + 6].setPixelColor(x + 12, 255, 5, 5);
       }
     }
-    led_strips[y].show();
+    led_strips[y + 6].show();
   }
 }
 
