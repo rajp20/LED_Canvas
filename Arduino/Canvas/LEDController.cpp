@@ -24,9 +24,13 @@ void LEDController::setup(void) {
   // Initialize all of the LED strips
   for (int i = 0; i < 18; i++) {
     led_strips[i] = Adafruit_NeoPixel(60, STARTING_LED_STRIP_PIN + i, NEO_GRB + NEO_KHZ800);
+    led_strips[i].setBrightness(75);
     led_strips[i].begin();
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
+
+  pixelTest();
+  delay(1000);
 }
 
 /**
@@ -35,15 +39,30 @@ void LEDController::setup(void) {
 void LEDController::pixelTest(void) {
   uint16_t i, j;
 
-  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
-    for (i = 0; i < 60; i++) {
-      for (int strip = 0; strip < 18; strip++) {
-        led_strips[strip].setPixelColor(i, Wheel(((i * 256 / 60) + j) & 255));
-        led_strips[strip].show();
-      }
-      delay(50);
+  //  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
+  for (i = 0; i < 60; i++) {
+    for (int strip = 0; strip < 18; strip++) {
+      led_strips[strip].setPixelColor(i, Wheel(((i * 256 / 60) + j) & 255, strip));
+      led_strips[strip].show();
     }
+    delay(50);
   }
+  //  }
+}
+
+// Input a value 0 to 255 to get a color value.
+// The colours are a transition r - g - b - back to r.
+uint32_t LEDController::Wheel(byte WheelPos, int strip) {
+  WheelPos = 255 - WheelPos;
+  if (WheelPos < 85) {
+    return led_strips[strip].Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if (WheelPos < 170) {
+    WheelPos -= 85;
+    return led_strips[strip].Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return led_strips[strip].Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 
@@ -60,10 +79,18 @@ void LEDController::welcomeScreen(void) {
     {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1}
   };
 
+  for (int y = 0; y < 18; y++) {
+    led_strips[y].clear();
+    led_strips[y].show();
+  }
+
   for (int y = 0; y < 5; y++) {
     for (int x = 0; x < 52; x++) {
       if (magic_drawing[y][x]) {
-        led_strips[y + 6].setPixelColor(x + 4, 255, 5, 5);
+        led_strips[y + 6].setPixelColor(x + 4, 74, 255, 181);
+      }
+      else {
+        led_strips[y + 6].setPixelColor(x + 4, 0, 0, 0);
       }
     }
     led_strips[y + 6].show();
@@ -84,10 +111,18 @@ void LEDController::resetScreen(void) {
     {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
   };
 
+  for (int y = 0; y < 18; y++) {
+    led_strips[y].clear();
+    led_strips[y].show();
+  }
+
   for (int y = 0; y < 5; y++) {
     for (int x = 0; x < 35; x++) {
       if (resetting[y][x]) {
-        led_strips[y + 6].setPixelColor(x + 12, 255, 5, 5);
+        led_strips[y + 6].setPixelColor(x + 12, 74, 255, 181);
+      }
+      else {
+        led_strips[y + 6].setPixelColor(x + 12, 0, 0, 0);
       }
     }
     led_strips[y + 6].show();

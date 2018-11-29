@@ -16,8 +16,8 @@ bool data_in = false;
 void setup() {
   leds.setup();
   leds.welcomeScreen();
-  bluetooth.setup();
-  motors.setup();
+//  bluetooth.setup();
+//  motors.setup();
 }
 
 void loop() {

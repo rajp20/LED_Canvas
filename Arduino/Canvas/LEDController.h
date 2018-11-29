@@ -1,5 +1,5 @@
 #include <Adafruit_NeoPixel.h>
-#define STARTING_LED_STRIP_PIN 21     // Starting LED Strip PIN number
+#define STARTING_LED_STRIP_PIN 30     // Starting LED Strip PIN number
 
 class LEDController {
   private:
@@ -7,6 +7,8 @@ class LEDController {
     void colorWipe(uint32_t, uint8_t);
     void undrawBall(int x, int y);
     void drawBall(int x, int y, int directionX, int directionY);
+
+    uint32_t Wheel(byte WheelPos, int strip);
   public:
     void setup(void);
     void pixelTest(void);
