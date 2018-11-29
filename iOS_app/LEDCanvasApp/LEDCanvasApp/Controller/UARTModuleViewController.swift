@@ -78,18 +78,19 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         let q = queue.list()
         for line in q! {
             
-            UIGraphicsBeginImageContext(view.frame.size)
+            UIGraphicsBeginImageContext(tempImage.frame.size)
             guard let context = UIGraphicsGetCurrentContext() else {
                 return
             }
             
-            tempImage.image?.draw(in: view.bounds)
+            // change back to view.bounds
+            tempImage.image?.draw(in: tempImage.bounds)
             
             context.move(to: line.line["from"]!)
             context.addLine(to: line.line["to"]!)
             
             context.setLineCap(.round)
-            context.setBlendMode(.normal)
+            context.setBlendMode(.copy)
             context.setLineWidth(brushWidth)
             var rgb = color.getRGB()
             let newColor = UIColor(red: rgb!["red"]!/255.0, green: rgb!["green"]!/255.0, blue: rgb!["blue"]!/255.0, alpha: line.alpha)
@@ -114,7 +115,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             return
         }
         swiped = false
-        lastPoint = touch.location(in: view)
+        lastPoint = touch.location(in: tempImage)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -123,30 +124,37 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         }
         
         swiped = true
-        let currentPoint = touch.location(in: view)
-        drawLine(from: lastPoint, to: currentPoint)
+        let currentPoint = touch.location(in: tempImage)
         
-        // Add lastPoint to queue
-        queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+//        if abs(currentPoint.x - lastPoint.x) > 10 || abs(currentPoint.y - lastPoint.y) > 10 {
+        
+        if currentPoint != lastPoint {
 
-        lastPoint = currentPoint
-        let string = JSONString(point: lastPoint, color: color)
-        
-        writeValue(data: "start")
-        let dataToSend = string.group(of: 20)
-        for data in dataToSend {
-            writeValue(data: data)
+            
+            drawLine(from: lastPoint, to: currentPoint)
+            
+            // Add lastPoint to queue
+            queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+            
+            lastPoint = currentPoint
+            let string = JSONString(point: lastPoint, color: color)
+            
+            writeValue(data: "start")
+            let dataToSend = string.group(of: 20)
+            for data in dataToSend {
+                writeValue(data: data)
+            }
+            writeValue(data: "end")
         }
-        writeValue(data: "end")
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
         
-        UIGraphicsBeginImageContext(view.frame.size)
+        UIGraphicsBeginImageContext(tempImage.frame.size)
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
-        tempImage.image?.draw(in: view.bounds)
+        tempImage.image?.draw(in: tempImage.bounds)
         
         context.move(to: fromPoint)
         context.addLine(to: toPoint)
