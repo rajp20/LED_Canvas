@@ -21,16 +21,29 @@
 #define UP                        0
 #define DOWN                      1
 
+// Actuator
+#define ACTUATOR_UP               22
+#define ACTUATOR_DOWN             23
+
 
 class MotorController {
   private:
     AMIS30543 x_motor;
     AMIS30543 y_motor;
+
+    // Setup and calibration
     void setupLimitSwitches(void);
     void setupMotors(void);
+    void setupActuator(void);
+    void calibrate(void);
+
+    // Motor helpers
     void step(bool motor);
     void setDirection(bool motor, bool direction);
-    void calibrateMotors(void);
+
+    // Actuator helpers
+    void actuatorUp(void);
+    void actuatorDown(void);
   public:
     void setup(void);
 };

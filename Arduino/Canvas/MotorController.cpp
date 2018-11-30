@@ -2,9 +2,10 @@
 #include <SPI.h>
 
 void MotorController::setup(void) {
-  setupLimitSwitches();
-  setupMotors();
-  calibrateMotors();
+//  setupLimitSwitches();
+//  setupMotors();
+  setupActuator();
+  calibrate();
 
   //  // Step in the default direction 1000 times.
   //  setDirection(0, 0);
@@ -40,6 +41,14 @@ void MotorController::setupLimitSwitches(void) {
 }
 
 /**
+   Sets up the pins for the actuator.
+*/
+void MotorController::setupActuator(void) {
+  pinMode(ACTUATOR_UP, OUTPUT);
+  pinMode(ACTUATOR_DOWN, OUTPUT);
+}
+
+/**
    Configures the SPI connection and the motor settings for the X and Y motors.
 */
 void MotorController::setupMotors(void) {
@@ -70,20 +79,28 @@ void MotorController::setupMotors(void) {
   y_motor.enableDriver();
 }
 
-void MotorController::calibrateMotors(void) {
-  setDirection(X_MOTOR, LEFT);
-  setDirection(Y_MOTOR, UP);
-  while (true) {
-    if (digitalRead(X_LIMIT_SWITCH) == LOW && digitalRead(Y_LIMIT_SWITCH) == LOW) {
-      break;
-    }
-    if (digitalRead(X_LIMIT_SWITCH) != LOW) {
-      step(X_MOTOR);
-    }
-    if (digitalRead(Y_LIMIT_SWITCH) != LOW) {
-      step(Y_MOTOR);
-    }
-  }
+/**
+   Bring the motors to home position. Also makes the actuator
+   go up and down to check if it is working properly.
+*/
+void MotorController::calibrate(void) {
+//  setDirection(X_MOTOR, LEFT);
+//  setDirection(Y_MOTOR, UP);
+
+  actuatorUp();
+//  while (true) {
+//    if (digitalRead(X_LIMIT_SWITCH) == LOW && digitalRead(Y_LIMIT_SWITCH) == LOW) {
+//      break;
+//    }
+//    if (digitalRead(X_LIMIT_SWITCH) != LOW) {
+//      step(X_MOTOR);
+//    }
+//    if (digitalRead(Y_LIMIT_SWITCH) != LOW) {
+//      step(Y_MOTOR);
+//    }
+//  }
+  delay(3000);
+  actuatorDown();
 }
 
 /**
@@ -138,4 +155,20 @@ void MotorController::setDirection(bool motor, bool dir)
     digitalWrite(Y_MOTOR_DIR, dir);
     delayMicroseconds(1);
   }
+}
+
+/**
+   Brings the actuator all the way out.
+*/
+void MotorController::actuatorUp(void) {
+  digitalWrite(ACTUATOR_UP, HIGH);
+  digitalWrite(ACTUATOR_DOWN, LOW);
+}
+
+/**
+   Brings the actuator all the way in.
+*/
+void MotorController::actuatorDown(void) {
+  digitalWrite(ACTUATOR_DOWN, HIGH);
+  digitalWrite(ACTUATOR_UP, LOW);
 }

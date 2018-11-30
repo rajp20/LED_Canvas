@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[12pt]{IEEEtran}
 \usepackage[margin=1in]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
@@ -12,7 +12,6 @@
 \usepackage{float}
 \usepackage{url}
 \usepackage{caption}
-\usepackage[toc,page]{appendix}
 \usepackage{tocloft}
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -50,10 +49,10 @@
   
 \end{titlepage}
 
-\newpage
-\tableofcontents
-\noindent\hrulefill
-\newpage
+%% \newpage
+%% \tableofcontents
+%% \noindent\hrulefill
+%% \newpage
 
 \begin{abstract}
   \addcontentsline{toc}{section}{Abstract}
@@ -198,45 +197,45 @@ Ultimately, the project was a success. We accomplished the task we set out to do
 
 \newpage
 
-\begin{appendices}
-  \section{Discoveries and Pitfalls}
-  With having little to no background in mechanical engineering, we needed extensive research to get the linear track system moving. We learned a lot from doing the research. One suggestion we have for other groups is to make sure there is enough time to do the research and tinker with the mechanical components. We had a few problems that could have easily been avoided had we known how the mechanical parts worked.
+\appendices
 
-  \section{Parts}
-  \begin{longtable}{ p{5cm} p{10cm} }
-    LED Pixel Strips             & \href{https://www.adafruit.com/product/1376?length=2}{18 x Adafruit NeoPixel Digital RGB LED Strip - 30 LED} \\[0.4cm]
-    
-    Bluetooth                    & \href{https://www.adafruit.com/product/2479}{1 x Adafruit Bluefruit LE UART Friend - Bluetooth Low Energy (BLE)} \\[0.4cm]
-    
-    Arduino                      & \href{https://store.arduino.cc/usa/arduino-mega-2560-rev3}{1 x Arduino Mega 2560 Rev 3} \\[0.4cm]
-    
-    Stepper Motors                & \href{https://openbuildspartstore.com/nema-23-stepper-motor-high-torque-series/}{2 × NEMA 23 Stepper Motor - High Torque Series} \\[0.4cm]
+\section{Discoveries and Pitfalls}
+With having little to no background in mechanical engineering, we needed extensive research to get the linear track system moving. We learned a lot from doing the research. One suggestion we have for other groups is to make sure there is enough time to do the research and tinker with the mechanical components. We had a few problems that could have easily been avoided had we known how the mechanical parts worked.
 
-    Motor Drivers                & \href{https://www.pololu.com/product/2970}{2 x AMIS-30543 Stepper Motor Driver} \\[0.4cm]
-    
-    Linear Tracks (Gantry carts,
-    timing belts, wheels, etc.)  & \href{https://openbuildspartstore.com/v-slot-20x80-linear-rail/}{1 x V-Slot 20x80 Linear Rail} \newline
-    \href{https://openbuildspartstore.com/v-slot-20x60-linear-rail/}{4 x V-Slot 20x60 Linear Rail} \newline
-    \href{https://openbuildspartstore.com/v-slot-20x40-linear-rail/}{3 x V-Slot 20x40 Linear Rail} \newline
-    \href{https://openbuildspartstore.com/v-slot-gantry-set-universal/}{3 x V-Slot Gantry Set} \newline
-    \href{https://openbuildspartstore.com/3gt-gt2-3m-timing-belt-by-the-foot/}{22ft 3GT (GT2-3M) Timing Belt} \newline
-    \href{https://openbuildspartstore.com/3gt-timing-pulley-20-tooth/}{2 x 3GT (GT2-3M) Timing Pulley - 20 Tooth} \newline
-    \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{2 x Micro Limit Switch Kit} \newline6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar     \\[0.4cm]
-    
-    Linear Actuator              & \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{
-Mini Linear Actuator} \\[0.4cm]
-    
-    Power Supplies               & \href{https://openbuildspartstore.com/24v-14-6a-meanwell-power-supply/}{1 x 24V/14.6A Meanwell Power Supply} \newline
-    \href{https://www.amazon.com/Tanbaby-Universal-Regulated-Switching-Computer/dp/B017YEOAPA}{1 x Tanbaby 5V 60A DC Universal Regulated Switching Power Supply 300w} \newline
-    \href{https://www.amazon.com/gp/product/B06XKFCTSM/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1}{6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar } \\
-    
-    Miscellaneous                & Lumber (6 x 10ft 2x4) \newline
-    Various screws, L-brackets, washers, etc. \newline
-    Normal bed sheets for the canvas\\
-  \end{longtable}
+\section{Parts}
+\begin{longtable}{ p{5cm} p{10cm} }
+  LED Pixel Strips             & \href{https://www.adafruit.com/product/1376?length=2}{18 x Adafruit NeoPixel Digital RGB LED Strip - 30 LED} \\[0.4cm]
   
-  \section{Schematics and Code}
-  We used Github for all of our development. Our Github repository is \href{https://github.com/rajp20/LED_Canvas}{LED\_Canvas}. This repository contains all of our code for iOS app and the microcontroller firmware. 
-\end{appendices}
+  Bluetooth                    & \href{https://www.adafruit.com/product/2479}{1 x Adafruit Bluefruit LE UART Friend - Bluetooth Low Energy (BLE)} \\[0.4cm]
+  
+  Arduino                      & \href{https://store.arduino.cc/usa/arduino-mega-2560-rev3}{1 x Arduino Mega 2560 Rev 3} \\[0.4cm]
+  
+  Stepper Motors                & \href{https://openbuildspartstore.com/nema-23-stepper-motor-high-torque-series/}{2 × NEMA 23 Stepper Motor - High Torque Series} \\[0.4cm]
+  
+  Motor Drivers                & \href{https://www.pololu.com/product/2970}{2 x AMIS-30543 Stepper Motor Driver} \\[0.4cm]
+  
+  Linear Tracks (Gantry carts,
+  timing belts, wheels, etc.)  & \href{https://openbuildspartstore.com/v-slot-20x80-linear-rail/}{1 x V-Slot 20x80 Linear Rail} \newline
+  \href{https://openbuildspartstore.com/v-slot-20x60-linear-rail/}{4 x V-Slot 20x60 Linear Rail} \newline
+  \href{https://openbuildspartstore.com/v-slot-20x40-linear-rail/}{3 x V-Slot 20x40 Linear Rail} \newline
+  \href{https://openbuildspartstore.com/v-slot-gantry-set-universal/}{3 x V-Slot Gantry Set} \newline
+  \href{https://openbuildspartstore.com/3gt-gt2-3m-timing-belt-by-the-foot/}{22ft 3GT (GT2-3M) Timing Belt} \newline
+  \href{https://openbuildspartstore.com/3gt-timing-pulley-20-tooth/}{2 x 3GT (GT2-3M) Timing Pulley - 20 Tooth} \newline
+  \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{2 x Micro Limit Switch Kit} \newline6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar     \\[0.4cm]
+  
+  Linear Actuator              & \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{
+    Mini Linear Actuator} \\[0.4cm]
+  
+  Power Supplies               & \href{https://openbuildspartstore.com/24v-14-6a-meanwell-power-supply/}{1 x 24V/14.6A Meanwell Power Supply} \newline
+  \href{https://www.amazon.com/Tanbaby-Universal-Regulated-Switching-Computer/dp/B017YEOAPA}{1 x Tanbaby 5V 60A DC Universal Regulated Switching Power Supply 300w} \newline
+  \href{https://www.amazon.com/gp/product/B06XKFCTSM/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1}{6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar } \\
+  
+  Miscellaneous                & Lumber (6 x 10ft 2x4) \newline
+  Various screws, L-brackets, washers, etc. \newline
+  Normal bed sheets for the canvas\\
+\end{longtable}
+
+\section{Schematics and Code}
+We used Github for all of our development. Our Github repository is \href{https://github.com/rajp20/LED_Canvas}{LED\_Canvas}. This repository contains all of our code for iOS app and the microcontroller firmware. 
 
 \end{document}

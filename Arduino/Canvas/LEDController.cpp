@@ -39,11 +39,16 @@ void LEDController::setup(void) {
 void LEDController::pixelTest(void) {
   uint16_t i, j;
 
+  for (int y = 0; y < 18; y++) {
+    led_strips[y].clear();
+    led_strips[y].show();
+  }
+
   //  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
   for (i = 0; i < 60; i++) {
     for (int strip = 0; strip < 18; strip++) {
-      led_strips[strip].setPixelColor(i, Wheel(((i * 256 / 60) + j) & 255, strip));
-      led_strips[strip].show();
+      led_strips[9].setPixelColor(i, Wheel(((i * 256 / 60) + j) & 255, strip));
+      led_strips[9].show();
     }
     delay(50);
   }

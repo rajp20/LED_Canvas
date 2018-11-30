@@ -1,17 +1,16 @@
 \babel@toc {english}{}
 \contentsline {section}{Abstract}{2}{Doc-Start}
-\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
-\contentsline {section}{\numberline {2}Background}{2}{section.2}
-\contentsline {section}{\numberline {3}Implementation}{3}{section.3}
-\contentsline {subsection}{\numberline {3.1}LEDs}{4}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Linear Track System}{5}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Mobile iOS App}{6}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Microcontroller Firmware}{7}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Power}{7}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Frame}{8}{subsection.3.6}
-\contentsline {section}{\numberline {4}Evaluation}{9}{section.4}
-\contentsline {section}{\numberline {5}Conclusion}{11}{section.5}
-\contentsline {section}{Appendices}{12}{section*.7}
-\contentsline {section}{\numberline {A}Discoveries and Pitfalls}{12}{Appendix.a.A}
-\contentsline {section}{\numberline {B}Parts}{12}{Appendix.a.B}
-\contentsline {section}{\numberline {C}Schematics and Code}{13}{Appendix.a.C}
+\contentsline {section}{\numberline {I}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {II}Background}{2}{section.2}
+\contentsline {section}{\numberline {III}Implementation}{3}{section.3}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}LEDs}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Linear Track System}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-C}}Mobile iOS App}{5}{subsection.3.3}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-D}}Microcontroller Firmware}{5}{subsection.3.4}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-E}}Power}{6}{subsection.3.5}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-F}}Frame}{7}{subsection.3.6}
+\contentsline {section}{\numberline {IV}Evaluation}{8}{section.4}
+\contentsline {section}{\numberline {V}Conclusion}{9}{section.5}
+\contentsline {section}{Appendix\nobreakspace A: Discoveries and Pitfalls}{9}{section*.7}
+\contentsline {section}{Appendix\nobreakspace B: Parts}{9}{section*.8}
+\contentsline {section}{Appendix\nobreakspace C: Schematics and Code}{10}{section*.9}
