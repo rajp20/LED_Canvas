@@ -1,8 +1,5 @@
 #include <AMIS30543.h>
 
-#define X_LIMIT_SWITCH            1
-#define Y_LIMIT_SWITCH            2
-
 #define X_MOTOR_DIR               2
 #define X_MOTOR_STEP              3
 #define X_MOTOR_SLAVESELECT       4
@@ -12,18 +9,22 @@
 #define Y_MOTOR_SLAVESELECT       7
 
 // Motors
-#define X_MOTOR                   1
-#define Y_MOTOR                   0
+#define X_MOTOR                   true
+#define Y_MOTOR                   false
 
 // Directions
-#define LEFT                      0
-#define RIGHT                     1
+#define LEFT                      1
+#define RIGHT                     0
 #define UP                        0
 #define DOWN                      1
 
 // Actuator
-#define ACTUATOR_UP               22
-#define ACTUATOR_DOWN             23
+#define ACTUATOR_UP               28
+#define ACTUATOR_DOWN             29
+
+// Limit Switches
+#define X_LIMIT_SWITCH            27
+#define Y_LIMIT_SWITCH            26
 
 
 class MotorController {

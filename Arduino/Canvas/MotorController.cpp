@@ -2,9 +2,9 @@
 #include <SPI.h>
 
 void MotorController::setup(void) {
-//  setupLimitSwitches();
-//  setupMotors();
-  setupActuator();
+  setupLimitSwitches();
+  setupMotors();
+  //  setupActuator();
   calibrate();
 
   //  // Step in the default direction 1000 times.
@@ -60,12 +60,12 @@ void MotorController::setupMotors(void) {
   // Drive the NXT/STEP and DIR pins low initially.
   digitalWrite(X_MOTOR_STEP, LOW);
   pinMode(X_MOTOR_STEP, OUTPUT);
-  digitalWrite(X_MOTOR_DIR, LOW);
+  digitalWrite(X_MOTOR_DIR, LEFT);
   pinMode(X_MOTOR_DIR, OUTPUT);
 
   digitalWrite(Y_MOTOR_STEP, LOW);
   pinMode(Y_MOTOR_STEP, OUTPUT);
-  digitalWrite(Y_MOTOR_DIR, LOW);
+  digitalWrite(Y_MOTOR_DIR, UP);
   pinMode(Y_MOTOR_DIR, OUTPUT);
 
   x_motor.resetSettings();
@@ -84,23 +84,28 @@ void MotorController::setupMotors(void) {
    go up and down to check if it is working properly.
 */
 void MotorController::calibrate(void) {
-//  setDirection(X_MOTOR, LEFT);
-//  setDirection(Y_MOTOR, UP);
+  bool x_done = false;
+  bool y_done = false;
 
-  actuatorUp();
-//  while (true) {
-//    if (digitalRead(X_LIMIT_SWITCH) == LOW && digitalRead(Y_LIMIT_SWITCH) == LOW) {
-//      break;
-//    }
-//    if (digitalRead(X_LIMIT_SWITCH) != LOW) {
-//      step(X_MOTOR);
-//    }
-//    if (digitalRead(Y_LIMIT_SWITCH) != LOW) {
-//      step(Y_MOTOR);
-//    }
-//  }
-  delay(3000);
-  actuatorDown();
+  //  actuatorUp();
+  while (true) {
+    if (!x_done) {
+      step(X_MOTOR);
+    }
+    if (!y_done) {
+      step(Y_MOTOR);
+    }
+    if (digitalRead(X_LIMIT_SWITCH) == LOW) {
+      x_done = true;
+    }
+    if (digitalRead(Y_LIMIT_SWITCH) == LOW) {
+      y_done = true;
+    }
+    if (x_done && y_done) {
+      break;
+    }
+  }
+  //  actuatorDown();
 }
 
 /**
@@ -130,7 +135,7 @@ void MotorController::step(bool motor)
   // you decrease the delay, the stepper motor will go fast, but
   // there is a limit to how fast it can go before it starts
   // missing steps.
-  delayMicroseconds(1000);
+  delayMicroseconds(2000);
 }
 
 /**
