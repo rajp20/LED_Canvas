@@ -1,4 +1,4 @@
-\documentclass[12pt]{IEEEtran}
+\documentclass[11pt]{IEEEtran}
 \usepackage[margin=1in]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
@@ -8,7 +8,6 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{indentfirst}
 \usepackage{float}
 \usepackage{url}
 \usepackage{caption}
@@ -38,9 +37,10 @@
   { \huge \bfseries Magic Drawing}\\
   \HRule \\[1cm]
 
-  \large Blaze Kotsenburg\\
+  \large Raj Patel\\
   \large Jake Maschoff\\
-  \large Raj Patel\\[1cm]
+  \large Blaze Kotsenburg\\[2cm]
+
   
   \normalsize \today\\[4cm]
   
@@ -48,11 +48,6 @@
   \vspace*{\fill}
   
 \end{titlepage}
-
-%% \newpage
-%% \tableofcontents
-%% \noindent\hrulefill
-%% \newpage
 
 \begin{abstract}
   \addcontentsline{toc}{section}{Abstract}
@@ -72,12 +67,12 @@ Although the art piece does not necessarily solve a problem, it does use skills 
 \section{Background}
 Once we had decided to do an art project, we began doing research into existing art pieces that involve engineering. We discovered the  Coca Cola display in Time Square while searching for projects. It is a visual display that combines mechanical and computer engineering. The display itself is used for marketing purposes but shows that the combination engineering and art can be used to make very expressive designs. As seen in Fig. \ref{fig:cocacola}, the Coca Cola display creates a 3D effect using LED blocks (similar to a 64x64 LED block) with actuators attached behind them. The actuators move the blocks in and out of the display at different sequences to showcase a visual art show.
 
-\begin{figure}[H]
+\begin{figure*}[tb]
   \centering
-  \includegraphics[width=1\textwidth]{image1.png}
+  \includegraphics[width=\textwidth]{image1.png}
   \caption{Coca Cola Time Square Display creating a 3D effect via actuators and LEDs.}
   \label{fig:cocacola}
-\end{figure}
+\end{figure*}
 
 Originally, we wanted to create a 3D display similar to Fig. \ref{fig:cocacola}. However, in order to make our project significant, this would have required a large amount of 64x64 LED blocks and actuators, which are both rather expensive and out of our budget. As a result, we started to think about a cheaper alternative for a 3D display. Instead of LED blocks with actuators behind each block, we decided to use LED strips, linear tracks, and motors to move a single actuator through a 2D space. The actuator then applies pressure to the back of the canvas, giving the Canvas a 3D effect. Our linear tracks are inspired by CNC and 3D printers because they move very smoothly with high precision which is what we wanted.
 
@@ -86,7 +81,7 @@ Once we had our idea for the project in place, we started designing the art piec
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{image4.png}
+  \includegraphics[width=\columnwidth]{image4.png}
   \caption{Design of 3D canvas with its components in place.}
   \label{fig:design}
 \end{figure}
@@ -98,7 +93,7 @@ For our canvas we wanted LED strips that were capable of RGB and could be indivi
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\textwidth]{image6.png}
+  \includegraphics[width=\columnwidth]{image6.png}
   \caption{Canvas made out of 18 LED strips.}
   \label{fig:ledstripsonsheet}
 \end{figure}
@@ -116,7 +111,7 @@ The last part we needed for the linear track system was an actuator. The actuato
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.85\textwidth]{image2.png}
+  \includegraphics[width=\columnwidth]{image2.png}
   \caption{Assembled extrusions, stepper motors, timing belts, pulleys, and gantry cart to create a 2D plane.}
   \label{fig:lineartracks}
 \end{figure}
@@ -132,7 +127,7 @@ The application uses a Bluetooth framework provided by Swift called CoreBluetoot
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{image3.png}
+  \includegraphics[width=\columnwidth]{image3.png}
   \caption{A screenshot of our app in development. The blue rectangles represent buttons that will give users more control.}
   \label{fig:iosapp}
 \end{figure}
@@ -166,9 +161,9 @@ Since aesthetics for the ground mount wasn’t a big concern, we thought it woul
 
 We started to build the frame by adding back support to the aluminum extrusions. We cut three 2 ½ m long 2x4in wood pieces and mounted them onto the extrusions via L brackets and T bolts. When mounting these pieces, we noticed a shear stress where the whole frame would shift to an angle. To counter this, we added wood pieces in the middle of the frame. Doing this made the overall structure of the upper frame strong.
 
-\begin{figure}[H]
+\begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{image5.png}
+  \includegraphics[width=\columnwidth]{image5.png}
   \caption{Triangle stand for holding the 3D LED Canvas.}
   \label{fig:framelegs}
 \end{figure}
@@ -203,37 +198,63 @@ Ultimately, the project was a success. We accomplished the task we set out to do
 With having little to no background in mechanical engineering, we needed extensive research to get the linear track system moving. We learned a lot from doing the research. One suggestion we have for other groups is to make sure there is enough time to do the research and tinker with the mechanical components. We had a few problems that could have easily been avoided had we known how the mechanical parts worked.
 
 \section{Parts}
-\begin{longtable}{ p{5cm} p{10cm} }
-  LED Pixel Strips             & \href{https://www.adafruit.com/product/1376?length=2}{18 x Adafruit NeoPixel Digital RGB LED Strip - 30 LED} \\[0.4cm]
-  
-  Bluetooth                    & \href{https://www.adafruit.com/product/2479}{1 x Adafruit Bluefruit LE UART Friend - Bluetooth Low Energy (BLE)} \\[0.4cm]
-  
-  Arduino                      & \href{https://store.arduino.cc/usa/arduino-mega-2560-rev3}{1 x Arduino Mega 2560 Rev 3} \\[0.4cm]
-  
-  Stepper Motors                & \href{https://openbuildspartstore.com/nema-23-stepper-motor-high-torque-series/}{2 × NEMA 23 Stepper Motor - High Torque Series} \\[0.4cm]
-  
-  Motor Drivers                & \href{https://www.pololu.com/product/2970}{2 x AMIS-30543 Stepper Motor Driver} \\[0.4cm]
-  
-  Linear Tracks (Gantry carts,
-  timing belts, wheels, etc.)  & \href{https://openbuildspartstore.com/v-slot-20x80-linear-rail/}{1 x V-Slot 20x80 Linear Rail} \newline
-  \href{https://openbuildspartstore.com/v-slot-20x60-linear-rail/}{4 x V-Slot 20x60 Linear Rail} \newline
-  \href{https://openbuildspartstore.com/v-slot-20x40-linear-rail/}{3 x V-Slot 20x40 Linear Rail} \newline
-  \href{https://openbuildspartstore.com/v-slot-gantry-set-universal/}{3 x V-Slot Gantry Set} \newline
-  \href{https://openbuildspartstore.com/3gt-gt2-3m-timing-belt-by-the-foot/}{22ft 3GT (GT2-3M) Timing Belt} \newline
-  \href{https://openbuildspartstore.com/3gt-timing-pulley-20-tooth/}{2 x 3GT (GT2-3M) Timing Pulley - 20 Tooth} \newline
-  \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{2 x Micro Limit Switch Kit} \newline6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar     \\[0.4cm]
-  
-  Linear Actuator              & \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{
-    Mini Linear Actuator} \\[0.4cm]
-  
-  Power Supplies               & \href{https://openbuildspartstore.com/24v-14-6a-meanwell-power-supply/}{1 x 24V/14.6A Meanwell Power Supply} \newline
-  \href{https://www.amazon.com/Tanbaby-Universal-Regulated-Switching-Computer/dp/B017YEOAPA}{1 x Tanbaby 5V 60A DC Universal Regulated Switching Power Supply 300w} \newline
-  \href{https://www.amazon.com/gp/product/B06XKFCTSM/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1}{6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar } \\
-  
-  Miscellaneous                & Lumber (6 x 10ft 2x4) \newline
-  Various screws, L-brackets, washers, etc. \newline
-  Normal bed sheets for the canvas\\
-\end{longtable}
+The following list consists of all the parts we have used for our project. We have excluded few small parts, such as screws, from the list. 
+\begin{itemize}
+\item LED Pixel Strips
+  \begin{itemize}
+  \item \href{https://www.adafruit.com/product/1376?length=2}{18 x Adafruit NeoPixel Digital RGB LED Strip - 30 LED}
+  \end{itemize}
+
+\item Bluetooth 
+  \begin{itemize}
+  \item \href{https://www.adafruit.com/product/2479}{1 x Adafruit Bluefruit LE UART Friend - Bluetooth Low Energy (BLE)}
+  \end{itemize}
+
+\item Arduino 
+  \begin{itemize}
+  \item \href{https://store.arduino.cc/usa/arduino-mega-2560-rev3}{1 x Arduino Mega 2560 Rev 3}
+  \end{itemize}
+
+\item Stepper Motors
+  \begin{itemize}
+  \item \href{https://openbuildspartstore.com/nema-23-stepper-motor-high-torque-series/}{2 × NEMA 23 Stepper Motor - High Torque Series}
+  \end{itemize}
+
+\item Motor Drivers
+  \begin{itemize}
+  \item \href{https://www.pololu.com/product/2970}{2 x AMIS-30543 Stepper Motor Driver}
+  \end{itemize}
+
+\item Linear Tracks (Gantry carts, timing belts, wheels, etc.)
+  \begin{itemize}
+  \item \href{https://openbuildspartstore.com/v-slot-20x80-linear-rail/}{1 x V-Slot 20x80 Linear Rail}
+  \item \href{https://openbuildspartstore.com/v-slot-20x60-linear-rail/}{4 x V-Slot 20x60 Linear Rail}
+  \item \href{https://openbuildspartstore.com/v-slot-20x40-linear-rail/}{3 x V-Slot 20x40 Linear Rail}
+  \item \href{https://openbuildspartstore.com/v-slot-gantry-set-universal/}{3 x V-Slot Gantry Set}
+  \item \href{https://openbuildspartstore.com/3gt-gt2-3m-timing-belt-by-the-foot/}{22ft 3GT (GT2-3M) Timing Belt}
+  \item \href{https://openbuildspartstore.com/3gt-timing-pulley-20-tooth/}{2 x 3GT (GT2-3M) Timing Pulley - 20 Tooth}
+  \item \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{2 x Micro Limit Switch Kit}
+  \end{itemize}
+
+\item Linear Actuator
+  \begin{itemize}
+  \item \href{https://openbuildspartstore.com/micro-limit-switch-kit/}{Mini Linear Actuator}
+  \end{itemize}
+
+\item Power Supplies
+  \begin{itemize}
+  \item \href{https://openbuildspartstore.com/24v-14-6a-meanwell-power-supply/}{1 x 24V/14.6A Meanwell Power Supply}
+  \item \href{https://www.amazon.com/Tanbaby-Universal-Regulated-Switching-Computer/dp/B017YEOAPA}{1 x Tanbaby 5V 60A DC Universal Regulated Switching Power Supply 300w}
+  \item \href{https://www.amazon.com/gp/product/B06XKFCTSM/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1}{6 x Eowpower 600V 25A Dual Row 8 Position Bus Bar } 
+  \end{itemize}
+
+\item Miscellaneous
+  \begin{itemize}
+  \item Lumber (6 x 10ft 2x4)
+  \item Various screws, L-brackets, washers, etc.
+  \item Normal bed sheets for the canvas
+  \end{itemize}
+\end{itemize}
 
 \section{Schematics and Code}
 We used Github for all of our development. Our Github repository is \href{https://github.com/rajp20/LED_Canvas}{LED\_Canvas}. This repository contains all of our code for iOS app and the microcontroller firmware. 
