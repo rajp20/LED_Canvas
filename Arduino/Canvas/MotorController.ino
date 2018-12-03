@@ -10,14 +10,14 @@ void MotorController::setup(void) {
 
   delay(1000);
 
-  setDirection(X_MOTOR, RIGHT);
-  setDirection(Y_MOTOR, DOWN);
-  for (int i = 0; i < X_MAX; i++) {
-    step(X_MOTOR);
-    if (i < Y_MAX) {
-      step(Y_MOTOR);
-    }
-  }
+//  setDirection(X_MOTOR, RIGHT);
+//  setDirection(Y_MOTOR, DOWN);
+//  for (int i = 0; i < X_MAX; i++) {
+//    step(X_MOTOR);
+//    if (i < Y_MAX) {
+//      step(Y_MOTOR);
+//    }
+//  }
 
 }
 
@@ -164,4 +164,87 @@ void MotorController::actuatorUp(void) {
 void MotorController::actuatorDown(void) {
   digitalWrite(ACTUATOR_DOWN, HIGH);
   digitalWrite(ACTUATOR_UP, LOW);
+}
+
+/*
+* Move the motor to the new position
+*/
+void MotorController::move(int x, int y){
+
+  // Bound the x-axis
+  if (x < 0){
+    x = 0;
+  }
+  if (x > 57){
+    x = 57;
+  }
+
+  // Bound the y-axis
+  if (y < 0){
+    y = 0;
+  }
+  if (y > 17){
+    y = 17;
+  }
+
+  // Calculate the number of positions we need to move
+  int numberOfXSteps = x - curX;
+  int numberOfYSteps = y - curY;
+
+  bool xDirection;
+  bool yDirection;
+
+  // Determine what direction the motors need to go
+  if (numberOfXSteps < 0){
+    xDirection = LEFT;
+
+    // Make it positive for next calculations
+    numberOfXSteps *= -1;
+  }
+  else {
+    xDirection = RIGHT;
+  }
+
+  if (numberOfYSteps < 0){
+    yDirection = UP;
+
+    // Make it positive for next calculations
+    numberOfYSteps *= -1;
+  }
+  else {
+    yDirection = DOWN;
+  }
+
+  // Set the new directions
+  setDirection(X_MOTOR, xDirection);
+  setDirection(Y_MOTOR, yDirection);
+
+  // Have counters for amount of y steps and x steps
+  int yStepCounter;
+  int xStepCounter;
+
+  while (numberOfYSteps > 0 || numberOfXSteps > 0){
+
+
+    xStepCounter = 0;
+    yStepCounter = 0;
+
+    while ((xStepCounter <= STEP_X && numberOfXSteps > 0) || (yStepCounter <= STEP_Y && numberOfYSteps > 0)){
+      if (numberOfXSteps > 0 && xStepCounter <= STEP_X){
+        step(X_MOTOR);
+        xStepCounter++;
+      }
+      if (numberOfYSteps > 0 && yStepCounter <= STEP_Y){
+        step(Y_MOTOR);
+        yStepCounter++;
+      }
+
+    }
+    numberOfYSteps--;
+    numberOfXSteps--;
+  }
+
+  curY = y;
+  curX = x;
+
 }
