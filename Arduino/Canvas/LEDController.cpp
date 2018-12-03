@@ -30,7 +30,6 @@ void LEDController::setup(void) {
   }
 
   pixelTest();
-  delay(1000);
 }
 
 /**

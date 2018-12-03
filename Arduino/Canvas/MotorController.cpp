@@ -1,5 +1,6 @@
 #include "MotorController.h"
 #include <SPI.h>
+#include <Arduino.h>
 
 void MotorController::setup(void) {
   setupLimitSwitches();
@@ -7,29 +8,17 @@ void MotorController::setup(void) {
   //  setupActuator();
   calibrate();
 
-  //  // Step in the default direction 1000 times.
-  //  setDirection(0, 0);
-  //  setDirection(0, 1);
-  //  for (unsigned int x = 0; x < 2000; x++)
-  //  {
-  //    step(0);
-  //    step(1);
-  //  }
-  //
-  //  // Wait for 300 ms.
-  //  delay(300);
-  //
-  //  // Step in the other direction 1000 times.
-  //  setDirection(1, 0);
-  //  setDirection(1, 1);
-  //  for (unsigned int x = 0; x < 2000; x++)
-  //  {
-  //    step(0);
-  //    step(1);
-  //  }
-  //
-  //  // Wait for 300 ms.
-  //  delay(300);
+  delay(1000);
+
+  setDirection(X_MOTOR, RIGHT);
+  setDirection(Y_MOTOR, DOWN);
+  for (int i = 0; i < X_MAX; i++) {
+    step(X_MOTOR);
+    if (i < Y_MAX) {
+      step(Y_MOTOR);
+    }
+  }
+
 }
 
 /**
@@ -60,12 +49,12 @@ void MotorController::setupMotors(void) {
   // Drive the NXT/STEP and DIR pins low initially.
   digitalWrite(X_MOTOR_STEP, LOW);
   pinMode(X_MOTOR_STEP, OUTPUT);
-  digitalWrite(X_MOTOR_DIR, LEFT);
+  digitalWrite(X_MOTOR_DIR, LOW);
   pinMode(X_MOTOR_DIR, OUTPUT);
 
   digitalWrite(Y_MOTOR_STEP, LOW);
   pinMode(Y_MOTOR_STEP, OUTPUT);
-  digitalWrite(Y_MOTOR_DIR, UP);
+  digitalWrite(Y_MOTOR_DIR, LOW);
   pinMode(Y_MOTOR_DIR, OUTPUT);
 
   x_motor.resetSettings();
@@ -84,10 +73,13 @@ void MotorController::setupMotors(void) {
    go up and down to check if it is working properly.
 */
 void MotorController::calibrate(void) {
-  bool x_done = false;
-  bool y_done = false;
+  setDirection(X_MOTOR, LEFT);
+  setDirection(Y_MOTOR, UP);
 
-  //  actuatorUp();
+  bool x_done = digitalRead(X_LIMIT_SWITCH) == LOW;
+  bool y_done = digitalRead(Y_LIMIT_SWITCH) == LOW;
+
+//  actuatorUp();
   while (true) {
     if (!x_done) {
       step(X_MOTOR);
@@ -95,17 +87,13 @@ void MotorController::calibrate(void) {
     if (!y_done) {
       step(Y_MOTOR);
     }
-    if (digitalRead(X_LIMIT_SWITCH) == LOW) {
-      x_done = true;
-    }
-    if (digitalRead(Y_LIMIT_SWITCH) == LOW) {
-      y_done = true;
-    }
+    x_done = digitalRead(X_LIMIT_SWITCH) == LOW;
+    y_done = digitalRead(Y_LIMIT_SWITCH) == LOW;
     if (x_done && y_done) {
       break;
     }
   }
-  //  actuatorDown();
+//  actuatorDown();
 }
 
 /**
@@ -114,7 +102,7 @@ void MotorController::calibrate(void) {
 */
 void MotorController::step(bool motor)
 {
-  if (motor == X_MOTOR) {
+  if (motor) {
     // The NXT/STEP minimum high pulse width is 2 microseconds.
     digitalWrite(X_MOTOR_STEP, HIGH);
     delayMicroseconds(3);
@@ -146,7 +134,7 @@ void MotorController::step(bool motor)
 // what direction to turn the motor.
 void MotorController::setDirection(bool motor, bool dir)
 {
-  if (motor == X_MOTOR) {
+  if (motor) {
     // The NXT/STEP pin must not change for at least 0.5
     // microseconds before and after changing the DIR pin.
     delayMicroseconds(1);
