@@ -63,6 +63,7 @@ public struct Queue<T> : LineProtocol{
         size = 0
     }
     
+    // should move this in to UARRTModuleViewController evnetually
     public mutating func updateQueue(weight: CGFloat) {
         
         if !self.isEmpty() {
