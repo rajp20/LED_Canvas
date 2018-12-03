@@ -29,7 +29,9 @@ void LEDController::setup(void) {
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
 
-  pixelTest();
+  waitingDotsState = 0;
+
+//  pixelTest();
 }
 
 /**
@@ -154,16 +156,43 @@ void LEDController::resetScreen(void) {
   }
 }
 
+void LEDController::clearCanvas(void) {
+  for (int y = 0; y < 18; y++) {
+    led_strips[y].clear();
+    led_strips[y].show();
+  }
+}
+
 /**
    Toggles the waiting dots for bluetooth connection.
 */
-static void LEDController::waitingDots(void) {
-  led_strips[16].clear();
-  if (led_strips[16].getPixelColor(26) == 0) {
-    led_strips[16].setPixelColor(26, 4, 255, 181);
+void LEDController::waitingDots(void) {
+  if (waitingDotsState == 0) {
+    led_strips[15].clear();
+    led_strips[16].clear();
+    led_strips[15].setPixelColor(24, 4, 255, 181);
+    led_strips[15].setPixelColor(25, 4, 255, 181);
+    led_strips[16].setPixelColor(24, 4, 255, 181);
+    led_strips[16].setPixelColor(25, 4, 255, 181);
+    waitingDotsState = 1;
+  } else if (waitingDotsState == 1) {
+    led_strips[15].setPixelColor(29, 4, 255, 181);
+    led_strips[15].setPixelColor(30, 4, 255, 181);
+    led_strips[16].setPixelColor(29, 4, 255, 181);
+    led_strips[16].setPixelColor(30, 4, 255, 181);
+    waitingDotsState = 2;
+  } else if (waitingDotsState == 2) {
+    led_strips[15].setPixelColor(34, 4, 255, 181);
+    led_strips[15].setPixelColor(35, 4, 255, 181);
+    led_strips[16].setPixelColor(34, 4, 255, 181);
+    led_strips[16].setPixelColor(35, 4, 255, 181);
+    waitingDotsState = 3;
   } else {
-    led_strips[16].setPixelColor(26, 0, 0, 0);
+    led_strips[15].clear();
+    led_strips[16].clear();
+    waitingDotsState = 0;
   }
+  led_strips[15].show();
   led_strips[16].show();
 }
 

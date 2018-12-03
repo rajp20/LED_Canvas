@@ -107,7 +107,7 @@ void BluetoothController::setup(void)
   while (! ble.isConnected()) {
     delay(500);
   }
-
+  
   // LED Activity command is only supported from 0.6.6
   if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION) )
   {

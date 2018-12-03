@@ -3,7 +3,10 @@
 
 class LEDController {
   private:
+    // Variables
     Adafruit_NeoPixel led_strips[18];
+    int waitingDotsState;
+    
     void colorWipe(uint32_t, uint8_t);
     void undrawBall(int x, int y);
     void drawBall(int x, int y, int directionX, int directionY);
@@ -15,8 +18,10 @@ class LEDController {
     void welcomeScreen(void);
     void resetScreen(void);
 
+    void clearCanvas(void);
+
     void setLED(int, int, int);
     void toggleBouncingBall(bool turnOn);
 
-    static void waitingDots(void);
+    void waitingDots(void);
 };
