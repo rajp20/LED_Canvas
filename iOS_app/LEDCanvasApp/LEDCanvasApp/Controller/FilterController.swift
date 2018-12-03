@@ -12,6 +12,6 @@ class FilterController : UIViewController {
     
     weak var uartVC : UARTModuleViewController?
     override func viewDidLoad() {
-        
+        self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
     }
 }
