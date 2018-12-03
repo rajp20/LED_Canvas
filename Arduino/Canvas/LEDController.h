@@ -14,7 +14,7 @@ class LEDController {
     void pixelTest(void);
     void welcomeScreen(void);
     void resetScreen(void);
-    
+
     void setLED(int, int, int);
     void toggleBouncingBall(bool turnOn);
 };

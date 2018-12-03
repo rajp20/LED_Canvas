@@ -11,6 +11,8 @@
 // Motors
 #define X_MOTOR                   true
 #define Y_MOTOR                   false
+#define X_MAX                     6090
+#define Y_MAX                     2820
 
 // Directions
 #define LEFT                      1

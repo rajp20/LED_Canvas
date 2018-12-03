@@ -6,18 +6,19 @@
 #include "LEDController.h"
 #include "MotorController.h"
 
-//BluetoothController bluetooth;
-//LEDController leds;
+BluetoothController bluetooth;
+LEDController leds;
 MotorController motors;
 
 String buff = "";
 bool data_in = false;
 
 void setup() {
-//  leds.setup();
-  motors.setup();
-//  leds.welcomeScreen();
-  //  bluetooth.setup();
+  Serial.begin(115200);
+  leds.setup();
+//  motors.setup();
+  leds.welcomeScreen();
+//  bluetooth.setup();
 }
 
 void loop() {
