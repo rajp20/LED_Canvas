@@ -35,11 +35,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
     //This is called when the skip button is pressed and it sends the view to the UARTModuleViewController
     @IBAction func skipButtonPressed(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
         let uartViewController = storyboard.instantiateViewController(withIdentifier: "UARTModuleViewController") as! UARTModuleViewController
-        
-//        uartViewController.peripheral = peripheral
-        
         navigationController?.pushViewController(uartViewController, animated: true)
     }
     
@@ -137,7 +133,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
      *    - advertisementData: [String: Any] = a dictionary containing the peripherals advertisement data
      *    - rssi : NSNumber                  = the current received signal strength indicator (RSSI) of the peripheral, in decibels.
      **/
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,advertisementData: [String : Any], rssi RSSI: NSNumber) {
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
         /* In our implementation of this function we perform the following actions:
         
@@ -294,7 +290,6 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
     }
     
     // Getting Values From Characteristic
-    
     func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: Error?) {
         print("*******************************************************")
         
@@ -408,7 +403,6 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
             print("Error discovering services: error")
             return
         }
-//        print("Message sent")
     }
     
     /****************************************************************
@@ -425,7 +419,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         let peripheral = self.peripherals[indexPath.row]
         let RSSI = self.RSSIs[indexPath.row]
         
-        print("&&&&in tableview delegate: \(String(describing: peripheral.name))")
+//        print("&&&&in tableview delegate: \(String(describing: peripheral.name))")
         if peripheral.name == nil {
             cell.peripheralLabel.text = "nil"
         } else {

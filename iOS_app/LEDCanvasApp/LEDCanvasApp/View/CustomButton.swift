@@ -10,7 +10,6 @@ import UIKit
 
 class CustomButton : UIButton {
     
-//    private var title : String!
     override func awakeFromNib() {
         super.awakeFromNib()
         

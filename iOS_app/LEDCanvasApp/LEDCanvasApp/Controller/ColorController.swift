@@ -65,6 +65,8 @@ class ColorController : UIViewController {
         redSlider.value   = red
         greenSlider.value = green
         blueSlider.value  = blue
+        
+        UpdateSliderTints()
     }
     
     
@@ -95,6 +97,7 @@ class ColorController : UIViewController {
         green = greenSlider.value
         blue  = blueSlider.value
         
+        UpdateSliderTints()
         ChangeColorSelected()
     }
     
@@ -102,5 +105,11 @@ class ColorController : UIViewController {
         redLabel.text   = "Red:\(Int(redSlider.value))"
         greenLabel.text = "Green:\(Int(greenSlider.value))"
         blueLabel.text  = "Blue:\(Int(blueSlider.value))"
+    }
+    
+    private func UpdateSliderTints() {
+        redSlider.tintColor   = UIColor(red: CGFloat(red) / 255, green: 0.0, blue: 0.0, alpha: 1.0)
+        greenSlider.tintColor = UIColor(red: 0.0, green: CGFloat(green) / 255, blue: 0.0, alpha: 1.0)
+        blueSlider.tintColor  = UIColor(red: 0.0, green: 0.0, blue: CGFloat(blue) / 255, alpha: 1.0)
     }
 }

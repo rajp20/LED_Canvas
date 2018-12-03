@@ -24,7 +24,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     private var queue        : Queue<Line>!
     private var pixelTimer   : Timer!
-    private var timeInterval : TimeInterval = 5.0
+    private var timeInterval : TimeInterval = 0.08
     private var firstLoad    : Bool!
     
 //    @IBOutlet weak var mainImage: UIImageView!
@@ -50,6 +50,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         if(!firstLoad) {
             firstLoad = true
+            print("***CONNECTED***")
             writeValue(data: "connected")
         }
     }
@@ -136,9 +137,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
-//        if abs(currentPoint.x - lastPoint.x) > 10 || abs(currentPoint.y - lastPoint.y) > 10 {
-
-        
         drawLine(from: lastPoint, to: currentPoint)
         
         // Add lastPoint to queue
@@ -179,7 +177,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     
     func coordinateString(point: CGPoint, color: UIColor) -> String {
-        let rgb = color.getRGB()
+//        let rgb = color.getRGB()
 //        let coordinateString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
         let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1"
         return coordinateString
