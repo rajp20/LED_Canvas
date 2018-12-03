@@ -31,7 +31,7 @@ void LEDController::setup(void) {
 
   waitingDotsState = 0;
 
-//  pixelTest();
+  pixelTest();
 }
 
 /**

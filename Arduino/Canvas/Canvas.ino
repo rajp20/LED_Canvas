@@ -28,6 +28,7 @@ void loop() {
   char* data = bluetooth.readPacket();
 
   if (strcmp(data, "connecting")) {
+    Serial.println("Connected to iOS app. Clearing canvas.");
     Timer1.detachInterrupt();
     leds.clearCanvas();
   }
