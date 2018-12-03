@@ -24,24 +24,34 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     private var queue        : Queue<Line>!
     private var pixelTimer   : Timer!
-    private var timeInterval : TimeInterval = 0.1
+    private var timeInterval : TimeInterval = 5.0
+    private var firstLoad    : Bool!
     
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0.29, green: 1.0, blue: 0.71, alpha: 1.0)
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
-        swiped   = false
+        swiped    = false
+        firstLoad = false
         
         queue = Queue<Line>()
         pixelTimer = Timer()
         startTimer()
         setupMenuBar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if(!firstLoad) {
+            firstLoad = true
+            writeValue(data: "connected")
+        }
     }
     
     lazy var menuBar: MenuBar = {
@@ -127,25 +137,22 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         let currentPoint = touch.location(in: tempImage)
         
 //        if abs(currentPoint.x - lastPoint.x) > 10 || abs(currentPoint.y - lastPoint.y) > 10 {
-        
-        if currentPoint != lastPoint {
 
-            
-            drawLine(from: lastPoint, to: currentPoint)
-            
-            // Add lastPoint to queue
-            queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
-            
-            lastPoint = currentPoint
-            let string = JSONString(point: lastPoint, color: color)
-            
-            writeValue(data: "start")
-            let dataToSend = string.group(of: 20)
-            for data in dataToSend {
-                writeValue(data: data)
-            }
-            writeValue(data: "end")
+        
+        drawLine(from: lastPoint, to: currentPoint)
+        
+        // Add lastPoint to queue
+        queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+        
+        lastPoint = currentPoint
+        let string = coordinateString(point: lastPoint, color: color)
+        
+        writeValue(data: "start")
+        let dataToSend = string.group(of: 20)
+        for data in dataToSend {
+            writeValue(data: data)
         }
+        writeValue(data: "end")
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
@@ -171,10 +178,17 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         UIGraphicsEndImageContext()
     }
     
-    func JSONString(point: CGPoint, color: UIColor) -> String {
+    func coordinateString(point: CGPoint, color: UIColor) -> String {
         let rgb = color.getRGB()
-        let JSONString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
-        return JSONString
+//        let coordinateString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
+        let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1"
+        return coordinateString
+    }
+    
+    func colorString() -> String{
+        let rgb = color.getRGB()
+        let colorString = "rgb,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0))"
+        return colorString
     }
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
