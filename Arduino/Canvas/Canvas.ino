@@ -13,56 +13,20 @@ MotorController motors;
 
 String buff = "";
 bool data_in = false;
-bool bluetooth_connected = false;
 
 void setup() {
   Serial.begin(115200);
   Timer1.initialize();
   leds.setup();
-  leds.toggleBouncingBall(true);
-//  BLEDisconnected();
+  //  leds.toggleBouncingBall(true);
+  BLEDisconnected();
   //   motors.setup();
-//  bluetooth.setup();
+  bluetooth.setup();
 }
 
 void loop() {
   bluetooth.updateBLE(200);
-  if (bluetooth_connected) {
-    char* data = bluetooth.readPacket();
-  }
-
-  //  if (strcmp(data, "connecting")) {
-  //    Serial.println("Connected to iOS app. Clearing canvas.");
-  //    Timer1.detachInterrupt();
-  //    leds.clearCanvas();
-  //  }
-
-  //  char* parsedMessage[5];
-  //
-  //  char *str;
-  //  int i = 0;
-  //  while ((str = strtok_r(data, ",", &data)) != NULL) {
-  //    parsedMessage[i++] = *str;
-  //  }
-  //
-  //  String xy = "";
-  //  if (data != "") {
-  //    if (data == "end") {
-  //      data_in = false;
-  //      //StaticJsonBuffer<200> jsonBuffer;
-  //      //JsonObject& root = jsonBuffer.parseObject(buff);
-  //      Serial.println(buff);
-  //      buff = "";
-  //    }
-  //    if (data_in) {
-  //      buff += data;
-  //    }
-  //    if (data == "start") {
-  //      data_in = true;
-  //    }
-  //  }
-
-  motors.move(8, 8);
+  //  motors.move(8, 8);
 }
 
 void WaitingForBLEConnection() {
@@ -70,14 +34,30 @@ void WaitingForBLEConnection() {
 }
 
 void BLEConnected() {
-  bluetooth_connected = true;
   Serial.println("Connected");
   Timer1.detachInterrupt();
   leds.clearCanvas();
 }
 
 void BLEDisconnected() {
-  bluetooth_connected = false;
+  Serial.println("Disconnected");
   leds.welcomeScreen();
   Timer1.attachInterrupt(WaitingForBLEConnection);
+  // NEED TO CLEAR QUEUE
+}
+
+void BLEHandleData() {
+  char* data = bluetooth.readPacket();
+  Serial.println(data);
+  char* parsedMessage[5];
+
+  char *str;
+  int i = 0;
+  while ((str = strtok_r(data, ",", &data)) != NULL) {
+    parsedMessage[i++] = *str;
+  }
+
+  Serial.println(parsedMessage[0]);
+  Serial.println(parsedMessage[1]);
+  Serial.println(parsedMessage[2]);
 }

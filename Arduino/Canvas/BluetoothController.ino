@@ -123,6 +123,7 @@ void BluetoothController::setup(void)
 
   ble.setConnectCallback(BLEConnected);
   ble.setDisconnectCallback(BLEDisconnected);
+  ble.setBleUartRxCallback(BLEHandleData);
 }
 
 /*
