@@ -83,6 +83,14 @@ void LEDController::welcomeScreen(void) {
     {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1}
   };
 
+  int connecting[5][41] =
+  { {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
+    {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
+    {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
+    {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1},
+    {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1}
+  };
+
   for (int y = 0; y < 18; y++) {
     led_strips[y].clear();
     led_strips[y].show();
@@ -91,13 +99,26 @@ void LEDController::welcomeScreen(void) {
   for (int y = 0; y < 5; y++) {
     for (int x = 0; x < 52; x++) {
       if (magic_drawing[y][x]) {
-        led_strips[y + 6].setPixelColor(x + 4, 74, 255, 181);
+        led_strips[y + 2].setPixelColor(x + 4, 74, 255, 181);
       }
       else {
-        led_strips[y + 6].setPixelColor(x + 4, 0, 0, 0);
+        led_strips[y + 2].setPixelColor(x + 4, 0, 0, 0);
       }
     }
-    led_strips[y + 6].show();
+    led_strips[y + 2].show();
+  }
+
+  for (int y = 0; y < 5; y++) {
+    led_strips[y + 9].clear();
+    for (int x = 0; x < 41; x++) {
+      if (connecting[y][x]) {
+        led_strips[y + 9].setPixelColor(x + 8, 74, 255, 181);
+      }
+      else {
+        led_strips[y + 9].setPixelColor(x + 8, 0, 0, 0);
+      }
+    }
+    led_strips[y + 9].show();
   }
 
 }
@@ -131,6 +152,19 @@ void LEDController::resetScreen(void) {
     }
     led_strips[y + 6].show();
   }
+}
+
+/**
+   Toggles the waiting dots for bluetooth connection.
+*/
+static void LEDController::waitingDots(void) {
+  led_strips[16].clear();
+  if (led_strips[16].getPixelColor(26) == 0) {
+    led_strips[16].setPixelColor(26, 4, 255, 181);
+  } else {
+    led_strips[16].setPixelColor(26, 0, 0, 0);
+  }
+  led_strips[16].show();
 }
 
 void LEDController::setLED(int red, int green, int blue) {

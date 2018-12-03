@@ -17,4 +17,6 @@ class LEDController {
 
     void setLED(int, int, int);
     void toggleBouncingBall(bool turnOn);
+
+    static void waitingDots(void);
 };
