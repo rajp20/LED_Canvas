@@ -20,6 +20,10 @@
 #define UP                        0
 #define DOWN                      1
 
+// The amount of steps needed to move one LED position in the X and Y direction
+#define STEP_X                    X_MAX/60
+#define STEP_Y                    Y_MAX/18
+
 // Actuator
 #define ACTUATOR_UP               28
 #define ACTUATOR_DOWN             29
@@ -33,6 +37,10 @@ class MotorController {
   private:
     AMIS30543 x_motor;
     AMIS30543 y_motor;
+
+    // Current position of the Motors
+    int curX;
+    int curY;
 
     // Setup and calibration
     void setupLimitSwitches(void);
@@ -49,4 +57,5 @@ class MotorController {
     void actuatorDown(void);
   public:
     void setup(void);
+    void move(int x, int y);
 };

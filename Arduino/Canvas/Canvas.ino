@@ -1,4 +1,4 @@
-#include <QueueArray.h>
+// #include <QueueArray.h>
 #include <string.h>
 #include <Arduino.h>
 
@@ -18,10 +18,10 @@ bool bluetooth_connected = false;
 void setup() {
   Serial.begin(115200);
   Timer1.initialize();
-  leds.setup();
-  BLEDisconnected();
-  //  motors.setup();
-  bluetooth.setup();
+  // leds.setup();
+  // BLEDisconnected();
+   motors.setup();
+  // bluetooth.setup();
 }
 
 void loop() {
@@ -60,6 +60,9 @@ void loop() {
   //      data_in = true;
   //    }
   //  }
+
+  motors.move(8,0);
+  motors.move(8, 8);
 }
 
 void WaitingForBLEConnection() {
