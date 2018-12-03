@@ -16,23 +16,23 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var peripheral: CBPeripheral!
     
     // Drawing variables
-    var lastPoint : CGPoint!
-    var swiped    : Bool!
-    var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
+    var lastPoint  : CGPoint!
+    var swiped     : Bool!
     var brushWidth : CGFloat = 10.0
     var opacity    : CGFloat = 1.0
+    var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
     
     private var queue        : Queue<Line>!
     private var pixelTimer   : Timer!
     private var timeInterval : TimeInterval = 0.1
     
-    // Two UIImageViews for drawing on
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(clearContents))
+        self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0.29, green: 1.0, blue: 0.71, alpha: 1.0)
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
@@ -78,18 +78,19 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         let q = queue.list()
         for line in q! {
             
-            UIGraphicsBeginImageContext(view.frame.size)
+            UIGraphicsBeginImageContext(tempImage.frame.size)
             guard let context = UIGraphicsGetCurrentContext() else {
                 return
             }
             
-            tempImage.image?.draw(in: view.bounds)
+            // change back to view.bounds
+            tempImage.image?.draw(in: tempImage.bounds)
             
             context.move(to: line.line["from"]!)
             context.addLine(to: line.line["to"]!)
             
             context.setLineCap(.round)
-            context.setBlendMode(.normal)
+            context.setBlendMode(.copy)
             context.setLineWidth(brushWidth)
             var rgb = color.getRGB()
             let newColor = UIColor(red: rgb!["red"]!/255.0, green: rgb!["green"]!/255.0, blue: rgb!["blue"]!/255.0, alpha: line.alpha)
@@ -103,10 +104,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         }
     }
     
-    @objc private func clearContents() {
+    public func clearContents() {
         tempImage.image = nil
         queue.clearQueue()
-        //clearing queue crashes application. will need to look into this
     }
     
     //Detect touch events to begin drawing
@@ -115,7 +115,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             return
         }
         swiped = false
-        lastPoint = touch.location(in: view)
+        lastPoint = touch.location(in: tempImage)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -123,49 +123,49 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             return
         }
         
-        // 6
         swiped = true
-        let currentPoint = touch.location(in: view)
-        drawLine(from: lastPoint, to: currentPoint)
+        let currentPoint = touch.location(in: tempImage)
         
-        // Add lastPoint to queue
-        queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
-//        queue.enqueue(Pixel(pointAt: CGPoint(x: lastPoint.x, y: lastPoint.y), alphaValue: 1.0))
+//        if abs(currentPoint.x - lastPoint.x) > 10 || abs(currentPoint.y - lastPoint.y) > 10 {
         
-        // 7
-        lastPoint = currentPoint
-        let string = JSONString(point: lastPoint, color: color)
-        
-        writeValue(data: "start")
-        let dataToSend = string.group(of: 20)
-        for data in dataToSend {
-            writeValue(data: data)
+        if currentPoint != lastPoint {
+
+            
+            drawLine(from: lastPoint, to: currentPoint)
+            
+            // Add lastPoint to queue
+            queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+            
+            lastPoint = currentPoint
+            let string = JSONString(point: lastPoint, color: color)
+            
+            writeValue(data: "start")
+            let dataToSend = string.group(of: 20)
+            for data in dataToSend {
+                writeValue(data: data)
+            }
+            writeValue(data: "end")
         }
-        writeValue(data: "end")
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
-        // 1
-        UIGraphicsBeginImageContext(view.frame.size)
+        
+        UIGraphicsBeginImageContext(tempImage.frame.size)
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
-        tempImage.image?.draw(in: view.bounds)
+        tempImage.image?.draw(in: tempImage.bounds)
         
-        // 2
         context.move(to: fromPoint)
         context.addLine(to: toPoint)
         
-        // 3
         context.setLineCap(.round)
         context.setBlendMode(.normal)
         context.setLineWidth(brushWidth)
         context.setStrokeColor(color.cgColor)
         
-        // 4
         context.strokePath()
         
-        // 5
         tempImage.image = UIGraphicsGetImageFromCurrentImageContext()
         tempImage.alpha = opacity
         UIGraphicsEndImageContext()
