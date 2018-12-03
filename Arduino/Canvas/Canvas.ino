@@ -18,10 +18,10 @@ void setup() {
   Serial.begin(115200);
   Timer1.initialize();
   leds.setup();
-  //  leds.toggleBouncingBall(true);
-  BLEDisconnected();
+  leds.toggleBouncingBall(true);
+  //  BLEDisconnected();
   //   motors.setup();
-  bluetooth.setup();
+  //  bluetooth.setup();
 }
 
 void loop() {

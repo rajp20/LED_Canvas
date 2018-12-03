@@ -204,6 +204,8 @@ void LEDController::setLED(int red, int green, int blue) {
 // Make sure to reset the LEDs if you exit out of this method
 void LEDController::toggleBouncingBall(bool turnOn) {
 
+  clearCanvas();
+
   int current_position_x = 0;
   int current_position_y = 0;
 
@@ -233,6 +235,8 @@ void LEDController::toggleBouncingBall(bool turnOn) {
     current_position_x += directionX;
     current_position_y += directionY;
     drawBall(current_position_x, current_position_y, directionX, directionY);
+
+    delay(50);
   }
 
 }
@@ -266,6 +270,9 @@ void LEDController::undrawBall(int x, int y) {
   // Turn off the lower row of the ball
   led_strips[y + 1].setPixelColor(x, led_strips[0].Color(0, 0, 0));
   led_strips[y + 1].setPixelColor(x + 1, led_strips[0].Color(0, 0, 0));
+
+  led_strips[y].show();
+  led_strips[y + 1].show();
 }
 
 void LEDController::drawBall(int x, int y, int directionX, int directionY) {
@@ -278,5 +285,6 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
   led_strips[y + 1].setPixelColor(x, led_strips[0].Color(0, 255, 0));
   led_strips[y + 1].setPixelColor(x + 1, led_strips[0].Color(0, 255, 0));
 
-
+  led_strips[y].show();
+  led_strips[y + 1].show();
 }
