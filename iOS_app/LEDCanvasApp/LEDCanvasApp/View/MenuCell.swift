@@ -12,7 +12,7 @@ class MenuCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
+        self.backgroundColor = UIColor(red: 0.37, green: 0.37, blue: 0.37, alpha: 1.0)
         self.layer.cornerRadius = 10.0
     }
     

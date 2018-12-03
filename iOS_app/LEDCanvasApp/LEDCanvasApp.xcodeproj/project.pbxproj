@@ -13,6 +13,7 @@
 		675E14E221A20BDB00CF4193 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14E121A20BDB00CF4193 /* Line.swift */; };
 		67780B3421ABBA980023768C /* PatternController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3321ABBA980023768C /* PatternController.swift */; };
 		67780B3621ABBC0C0023768C /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3521ABBC0C0023768C /* FilterController.swift */; };
+		67780B3821ACA5E20023768C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3721ACA5E20023768C /* CustomButton.swift */; };
 		679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */; };
 		67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE63C32150560A0020739F /* PeripheralCell.swift */; };
 		67C07D1621A5EED5004E00E6 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C07D1521A5EED5004E00E6 /* MenuBar.swift */; };
@@ -33,6 +34,7 @@
 		675E14E121A20BDB00CF4193 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		67780B3321ABBA980023768C /* PatternController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternController.swift; sourceTree = "<group>"; };
 		67780B3521ABBC0C0023768C /* FilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
+		67780B3721ACA5E20023768C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorToRGB.swift; sourceTree = "<group>"; };
 		67BE63C32150560A0020739F /* PeripheralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralCell.swift; sourceTree = "<group>"; };
 		67C07D1521A5EED5004E00E6 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		67BE63C5215056D60020739F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				67780B3721ACA5E20023768C /* CustomButton.swift */,
 				67BE63C32150560A0020739F /* PeripheralCell.swift */,
 				675E14DA219F4FF300CF4193 /* MenuCell.swift */,
 				67C07D1521A5EED5004E00E6 /* MenuBar.swift */,
@@ -217,6 +220,7 @@
 				67C07D1621A5EED5004E00E6 /* MenuBar.swift in Sources */,
 				67CFD76F214C3E2700C9569B /* UARTModuleViewController.swift in Sources */,
 				67780B3621ABBC0C0023768C /* FilterController.swift in Sources */,
+				67780B3821ACA5E20023768C /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +374,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.blazekotsenburg.LEDCanvasApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -388,7 +392,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.blazekotsenburg.LEDCanvasApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
