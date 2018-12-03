@@ -4,7 +4,7 @@
 #endif
 
 // Parameter 1 = number of pixels in strip
-// Parameter 2 = Arduino pin number (most are valid)
+// Parameter 2 = Arduino pin number 
 // Parameter 3 = pixel type flags, add together as needed:
 //   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
@@ -15,11 +15,6 @@
 // on a live circuit...if you must, connect GND first.
 
 void LEDController::setup(void) {
-  // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
-#if defined (__AVR_ATtiny85__)
-  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
-#endif
-  // End of trinket special code
 
   // Initialize all of the LED strips
   for (int i = 0; i < 18; i++) {
@@ -206,11 +201,18 @@ void LEDController::toggleBouncingBall(bool turnOn) {
 
   clearCanvas();
 
+  int lowerBound = 1;
+  int upperBound = 255;
+
   int current_position_x = 0;
   int current_position_y = 0;
 
   int directionX = 1;
   int directionY = 1;
+
+  int red = 0;
+  int green = 0;
+  int blue = 255;
 
   while (true) {
     undrawBall(current_position_x, current_position_y);
@@ -219,22 +221,34 @@ void LEDController::toggleBouncingBall(bool turnOn) {
     // X boundary
     if (current_position_x == led_strips[0].numPixels() - 2 && directionX == 1) {
       directionX = -1;
+      red = random(lowerBound, upperBound);
+      green = random(lowerBound, upperBound);
+      blue = random(lowerBound, upperBound);
     }
     if (current_position_x == 0 && directionX == -1) {
       directionX = 1;
+      red = random(lowerBound, upperBound);
+      green = random(lowerBound, upperBound);
+      blue = random(lowerBound, upperBound);
     }
 
     // Y boundary
     if (current_position_y == 16 && directionY == 1) {
       directionY = -1;
+      red = random(lowerBound, upperBound);
+      green = random(lowerBound, upperBound);
+      blue = random(lowerBound, upperBound);
     }
     if (current_position_y == 0 && directionY == -1) {
       directionY = 1;
+      red = random(50, 255);
+      green = random(50, 255);
+      blue = random(50, 255);
     }
 
     current_position_x += directionX;
     current_position_y += directionY;
-    drawBall(current_position_x, current_position_y, directionX, directionY);
+    drawBall(current_position_x, current_position_y, directionX, directionY, red, green, blue);
 
     delay(50);
   }
@@ -275,15 +289,15 @@ void LEDController::undrawBall(int x, int y) {
   led_strips[y + 1].show();
 }
 
-void LEDController::drawBall(int x, int y, int directionX, int directionY) {
+void LEDController::drawBall(int x, int y, int directionX, int directionY, int red, int blue, int green) {
 
   // Turn on the upper row of the ball
-  led_strips[y].setPixelColor(x, led_strips[0].Color(0, 255, 0));
-  led_strips[y].setPixelColor(x + 1, led_strips[0].Color(0, 255, 0));
+  led_strips[y].setPixelColor(x, led_strips[0].Color(red, blue, green));
+  led_strips[y].setPixelColor(x + 1, led_strips[0].Color(red, blue, green));
 
   // Turn on the lower row of the ball
-  led_strips[y + 1].setPixelColor(x, led_strips[0].Color(0, 255, 0));
-  led_strips[y + 1].setPixelColor(x + 1, led_strips[0].Color(0, 255, 0));
+  led_strips[y + 1].setPixelColor(x, led_strips[0].Color(red, blue, green));
+  led_strips[y + 1].setPixelColor(x + 1, led_strips[0].Color(red, blue, green));
 
   led_strips[y].show();
   led_strips[y + 1].show();
