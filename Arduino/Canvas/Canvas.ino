@@ -18,10 +18,11 @@ bool bluetooth_connected = false;
 void setup() {
   Serial.begin(115200);
   Timer1.initialize();
-  // leds.setup();
-  // BLEDisconnected();
-   motors.setup();
-  // bluetooth.setup();
+  leds.setup();
+  leds.toggleBouncingBall(true);
+//  BLEDisconnected();
+  //   motors.setup();
+//  bluetooth.setup();
 }
 
 void loop() {

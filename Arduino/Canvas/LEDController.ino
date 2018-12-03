@@ -93,10 +93,7 @@ void LEDController::welcomeScreen(void) {
     {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1}
   };
 
-  for (int y = 0; y < 18; y++) {
-    led_strips[y].clear();
-    led_strips[y].show();
-  }
+  clearCanvas();
 
   for (int y = 0; y < 5; y++) {
     for (int x = 0; x < 52; x++) {
@@ -138,10 +135,7 @@ void LEDController::resetScreen(void) {
     {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
   };
 
-  for (int y = 0; y < 18; y++) {
-    led_strips[y].clear();
-    led_strips[y].show();
-  }
+  clearCanvas();
 
   for (int y = 0; y < 5; y++) {
     for (int x = 0; x < 35; x++) {
@@ -204,6 +198,8 @@ void LEDController::setLED(int red, int green, int blue) {
 // Make sure to reset the LEDs if you exit out of this method
 void LEDController::toggleBouncingBall(bool turnOn) {
 
+  clearCanvas();
+
   int current_position_x = 0;
   int current_position_y = 0;
 
@@ -218,7 +214,7 @@ void LEDController::toggleBouncingBall(bool turnOn) {
     if (current_position_x == led_strips[0].numPixels() - 2 && directionX == 1) {
       directionX = -1;
     }
-    if (current_position_x == 0 && directionX == -1) {
+    else if (current_position_x == 0 && directionX == -1) {
       directionX = 1;
     }
 
@@ -226,13 +222,14 @@ void LEDController::toggleBouncingBall(bool turnOn) {
     if (current_position_y == 16 && directionY == 1) {
       directionY = -1;
     }
-    if (current_position_y == 0 && directionY == -1) {
+    else if (current_position_y == 0 && directionY == -1) {
       directionY = 1;
     }
 
     current_position_x += directionX;
     current_position_y += directionY;
     drawBall(current_position_x, current_position_y, directionX, directionY);
+    delay(250);
   }
 
 }
@@ -266,6 +263,9 @@ void LEDController::undrawBall(int x, int y) {
   // Turn off the lower row of the ball
   led_strips[x + 1].setPixelColor(y, led_strips[0].Color(0, 0, 0));
   led_strips[x + 1].setPixelColor(y + 1, led_strips[0].Color(0, 0, 0));
+  
+  led_strips[x].show();
+  led_strips[x + 1].show();
 }
 
 void LEDController::drawBall(int x, int y, int directionX, int directionY) {
@@ -278,5 +278,6 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
   led_strips[x + 1].setPixelColor(y, led_strips[0].Color(0, 255, 0));
   led_strips[x + 1].setPixelColor(y + 1, led_strips[0].Color(0, 255, 0));
 
-
+  led_strips[x].show();
+  led_strips[x + 1].show();
 }
