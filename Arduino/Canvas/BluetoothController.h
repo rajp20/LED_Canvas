@@ -30,4 +30,6 @@ class BluetoothController {
     void setup(void);
     char* readPacket(void);
     void writePacket(char* packet);
+
+    void updateBLE(int interval);
 };

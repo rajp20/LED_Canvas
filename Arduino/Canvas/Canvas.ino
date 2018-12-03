@@ -13,25 +13,28 @@ MotorController motors;
 
 String buff = "";
 bool data_in = false;
+bool bluetooth_connected = false;
 
 void setup() {
   Serial.begin(115200);
-  leds.setup();
-  //  motors.setup();
-  leds.welcomeScreen();
   Timer1.initialize();
-  Timer1.attachInterrupt(Waiting);
+  leds.setup();
+  BLEDisconnected();
+  //  motors.setup();
   bluetooth.setup();
 }
 
 void loop() {
-  char* data = bluetooth.readPacket();
-
-  if (strcmp(data, "connecting")) {
-    Serial.println("Connected to iOS app. Clearing canvas.");
-    Timer1.detachInterrupt();
-    leds.clearCanvas();
+  bluetooth.updateBLE(200);
+  if (bluetooth_connected) {
+    char* data = bluetooth.readPacket();
   }
+
+  //  if (strcmp(data, "connecting")) {
+  //    Serial.println("Connected to iOS app. Clearing canvas.");
+  //    Timer1.detachInterrupt();
+  //    leds.clearCanvas();
+  //  }
 
   //  char* parsedMessage[5];
   //
@@ -59,6 +62,19 @@ void loop() {
   //  }
 }
 
-void Waiting() {
+void WaitingForBLEConnection() {
   leds.waitingDots();
+}
+
+void BLEConnected() {
+  bluetooth_connected = true;
+  Serial.println("Connected");
+  Timer1.detachInterrupt();
+  leds.clearCanvas();
+}
+
+void BLEDisconnected() {
+  bluetooth_connected = false;
+  leds.welcomeScreen();
+  Timer1.attachInterrupt(WaitingForBLEConnection);
 }

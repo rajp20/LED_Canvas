@@ -3,7 +3,7 @@
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
 
-#include "BluetoothController.h"
+//#include "BluetoothController.h"
 
 #if SOFTWARE_SERIAL_AVAILABLE
 #include <SoftwareSerial.h>
@@ -40,7 +40,7 @@
                               "DISABLE" or "MODE" or "BLEUART" or
                               "HWUART"  or "SPI"  or "MANUAL"
     -----------------------------------------------------------------------*/
-#define FACTORYRESET_ENABLE         1
+#define FACTORYRESET_ENABLE         0
 #define MINIMUM_FIRMWARE_VERSION    "0.8.0"
 #define MODE_LED_BEHAVIOUR          "MODE"
 /*=========================================================================*/
@@ -65,10 +65,10 @@ void error(const __FlashStringHelper*err) {
 /**************************************************************************/
 void BluetoothController::setup(void)
 {
-  while (!Serial);  // required for Flora & Micro
-  delay(500);
+  //  while (!Serial);  // required for Flora & Micro
+  //  delay(500);
 
-//  Serial.begin(115200);
+  //  Serial.begin(115200);
   Serial.println(F("Adafruit Bluefruit Command Mode Example"));
   Serial.println(F("---------------------------------------"));
 
@@ -80,6 +80,9 @@ void BluetoothController::setup(void)
     error(F("Couldn't find Bluefruit, make sure it's in CoMmanD mode & check wiring?"));
   }
   Serial.println( F("OK!") );
+
+  ble.println("AT+GAPDEVNAME=Magic Drawing Canvas");
+  ble.println("ATZ");
 
   if ( FACTORYRESET_ENABLE )
   {
@@ -103,11 +106,11 @@ void BluetoothController::setup(void)
 
   ble.verbose(false);  // debug info is a little annoying after this point!
 
-  /* Wait for connection */
-  while (! ble.isConnected()) {
-    delay(500);
-  }
-  
+  //  /* Wait for connection */
+  //  while (! ble.isConnected()) {
+  //    delay(500);
+  //  }
+
   // LED Activity command is only supported from 0.6.6
   if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION) )
   {
@@ -117,6 +120,9 @@ void BluetoothController::setup(void)
     ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR);
     Serial.println(F("******************************"));
   }
+
+  ble.setConnectCallback(BLEConnected);
+  ble.setDisconnectCallback(BLEDisconnected);
 }
 
 /*
@@ -147,6 +153,10 @@ void BluetoothController::writePacket(char* packet) {
   if (! ble.waitForOK() ) {
     Serial.println(F("Failed to send?"));
   }
+}
+
+void BluetoothController::updateBLE(int interval) {
+  ble.update(interval);
 }
 
 //void loop(void)
