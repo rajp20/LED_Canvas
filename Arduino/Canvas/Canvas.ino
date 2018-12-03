@@ -61,7 +61,6 @@ void loop() {
   //    }
   //  }
 
-  motors.move(8,0);
   motors.move(8, 8);
 }
 

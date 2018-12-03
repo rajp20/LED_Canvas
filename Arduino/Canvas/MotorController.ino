@@ -171,6 +171,9 @@ void MotorController::actuatorDown(void) {
 */
 void MotorController::move(int x, int y){
 
+  x -= 3;
+  y -= 1;
+
   // Bound the x-axis
   if (x < 0){
     x = 0;
@@ -219,29 +222,19 @@ void MotorController::move(int x, int y){
   setDirection(X_MOTOR, xDirection);
   setDirection(Y_MOTOR, yDirection);
 
-  // Have counters for amount of y steps and x steps
-  int yStepCounter;
-  int xStepCounter;
-
-  while (numberOfYSteps > 0 || numberOfXSteps > 0){
+  numberOfXSteps *= STEP_X;
+  numberOfYSteps *= STEP_Y;
 
 
-    xStepCounter = 0;
-    yStepCounter = 0;
-
-    while ((xStepCounter <= STEP_X && numberOfXSteps > 0) || (yStepCounter <= STEP_Y && numberOfYSteps > 0)){
-      if (numberOfXSteps > 0 && xStepCounter <= STEP_X){
+  while (numberOfXSteps > 0 ||  numberOfYSteps > 0){
+      if (numberOfXSteps > 0){
         step(X_MOTOR);
-        xStepCounter++;
+        numberOfXSteps--;
       }
-      if (numberOfYSteps > 0 && yStepCounter <= STEP_Y){
+      if (numberOfYSteps > 0){
         step(Y_MOTOR);
-        yStepCounter++;
+        numberOfYSteps--;
       }
-
-    }
-    numberOfYSteps--;
-    numberOfXSteps--;
   }
 
   curY = y;
