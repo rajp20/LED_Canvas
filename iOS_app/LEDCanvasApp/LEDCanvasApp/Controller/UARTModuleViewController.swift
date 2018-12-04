@@ -131,8 +131,8 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = false
         lastPoint = touch.location(in: tempImage)
         prevPixel = lastPoint
-        prevPixel.x /= 60
-        prevPixel.y /= 27.7
+        prevPixel.x /= 17
+        prevPixel.y /= 28
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -143,23 +143,30 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
-        drawLine(from: lastPoint, to: currentPoint)
+        if tempImage.bounds.contains(lastPoint) {
         
-        // Add lastPoint to queue
-        queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
-        
-        lastPoint = currentPoint
-        
-//        prevPixel = lastPoint
-//        prevPixel.x /= 60
-//        prevPixel.y /= 27
-        
-        if ((Int(prevPixel.x) != Int(currentPoint.x / 60)) || (Int(prevPixel.y) != Int(currentPoint.y / 27))) {
-            let string = coordinateString(point: prevPixel)
-            let dataToSend = string.group(of: 20)
-            print("yesyes")
-            for data in dataToSend {
-                writeValue(data: data)
+            drawLine(from: lastPoint, to: currentPoint)
+            
+            // Add lastPoint to queue
+            queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+            
+            lastPoint = currentPoint
+            
+            if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+                
+                var currPixel = currentPoint
+                currPixel.x /= 17
+                currPixel.y /= 28
+                
+                let string = coordinateString(point: prevPixel)
+                let dataToSend = string.group(of: 20)
+                print(string)
+                
+                for data in dataToSend {
+                    writeValue(data: data)
+                }
+                
+                prevPixel = currPixel
             }
         }
     }
