@@ -4,7 +4,7 @@
 #endif
 
 // Parameter 1 = number of pixels in strip
-// Parameter 2 = Arduino pin number 
+// Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
 //   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
@@ -15,6 +15,11 @@
 // on a live circuit...if you must, connect GND first.
 
 void LEDController::setup(void) {
+  // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
+#if defined (__AVR_ATtiny85__)
+  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
+#endif
+  // End of trinket special code
 
   // Initialize all of the LED strips
   for (int i = 0; i < 18; i++) {
@@ -46,7 +51,7 @@ void LEDController::pixelTest(void) {
       led_strips[strip].setPixelColor(i, Wheel(((i * 256 / 60) + j) & 255, strip));
       led_strips[strip].show();
     }
-    delay(50);
+    delay(25);
   }
   //  }
 }
@@ -250,7 +255,7 @@ void LEDController::toggleBouncingBall(bool turnOn) {
     current_position_y += directionY;
     drawBall(current_position_x, current_position_y, directionX, directionY, red, green, blue);
 
-    delay(50);
+    delay(100);
   }
 
 }
