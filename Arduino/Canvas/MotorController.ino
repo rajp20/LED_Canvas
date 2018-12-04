@@ -7,18 +7,6 @@ void MotorController::setup(void) {
   setupMotors();
   //  setupActuator();
   calibrate();
-
-  delay(1000);
-
-//  setDirection(X_MOTOR, RIGHT);
-//  setDirection(Y_MOTOR, DOWN);
-//  for (int i = 0; i < X_MAX; i++) {
-//    step(X_MOTOR);
-//    if (i < Y_MAX) {
-//      step(Y_MOTOR);
-//    }
-//  }
-
 }
 
 /**
