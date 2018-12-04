@@ -30,6 +30,9 @@ void LEDController::setup(void) {
   }
 
   waitingDotsState = 0;
+  red = 74;
+  green = 255;
+  blue = 181;
 
   pixelTest();
 }
@@ -196,8 +199,18 @@ void LEDController::waitingDots(void) {
   led_strips[16].show();
 }
 
-void LEDController::setLED(int red, int green, int blue) {
-  colorWipe(led_strips[0].Color(red, green, blue), 0); // Red
+void LEDController::drawPixel(int x, int y) {
+  led_strips[y].setPixelColor(x, red, green, blue);
+  led_strips[y].show();
+}
+
+/**
+  Sets the current RGB color. 
+*/
+void LEDController::setRGB(int red, int green, int blue) {
+  red = red;
+  green = green;
+  blue = blue;
 }
 
 
