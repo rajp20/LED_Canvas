@@ -26,6 +26,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     private var pixelTimer   : Timer!
     private var timeInterval : TimeInterval = 0.08
     private var firstLoad    : Bool!
+    private var prevPixel    : CGPoint!
     
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
@@ -38,6 +39,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         lastPoint = CGPoint.zero
+        prevPixel = CGPoint.zero
         swiped    = false
         firstLoad = false
         
@@ -52,6 +54,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             firstLoad = true
             print("***CONNECTED***")
             writeValue(data: "connected")
+            writeValue(data: colorString())
         }
     }
     
@@ -127,6 +130,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         }
         swiped = false
         lastPoint = touch.location(in: tempImage)
+        prevPixel = lastPoint
+        prevPixel.x /= 60
+        prevPixel.y /= 27.7
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -143,14 +149,19 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
         
         lastPoint = currentPoint
-        let string = coordinateString(point: lastPoint, color: color)
         
-        writeValue(data: "start")
-        let dataToSend = string.group(of: 20)
-        for data in dataToSend {
-            writeValue(data: data)
+//        prevPixel = lastPoint
+//        prevPixel.x /= 60
+//        prevPixel.y /= 27
+        
+        if ((Int(prevPixel.x) != Int(currentPoint.x / 60)) || (Int(prevPixel.y) != Int(currentPoint.y / 27))) {
+            let string = coordinateString(point: prevPixel)
+            let dataToSend = string.group(of: 20)
+            print("yesyes")
+            for data in dataToSend {
+                writeValue(data: data)
+            }
         }
-        writeValue(data: "end")
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
@@ -176,16 +187,16 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         UIGraphicsEndImageContext()
     }
     
-    func coordinateString(point: CGPoint, color: UIColor) -> String {
+    func coordinateString(point: CGPoint) -> String {
 //        let rgb = color.getRGB()
 //        let coordinateString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
-        let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1"
+        let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1,"
         return coordinateString
     }
     
     func colorString() -> String{
         let rgb = color.getRGB()
-        let colorString = "rgb,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0))"
+        let colorString = "rgb,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0)),"
         return colorString
     }
     
