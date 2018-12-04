@@ -9,7 +9,7 @@ class LEDController {
     
     void colorWipe(uint32_t, uint8_t);
     void undrawBall(int x, int y);
-    void drawBall(int x, int y, int directionX, int directionY);
+    void drawBall(int x, int y, int directionX, int directionY, int red, int blue, int green);
 
     uint32_t Wheel(byte WheelPos, int strip);
   public:

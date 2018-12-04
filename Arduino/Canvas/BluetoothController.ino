@@ -65,12 +65,8 @@ void error(const __FlashStringHelper*err) {
 /**************************************************************************/
 void BluetoothController::setup(void)
 {
-  //  while (!Serial);  // required for Flora & Micro
-  //  delay(500);
-
-  //  Serial.begin(115200);
-  Serial.println(F("Adafruit Bluefruit Command Mode Example"));
-  Serial.println(F("---------------------------------------"));
+  Serial.println(F("Adafruit Bluefruit Callbacks Example"));
+  Serial.println(F("-------------------------------------"));
 
   /* Initialise the module */
   Serial.print(F("Initialising the Bluefruit LE module: "));
@@ -93,6 +89,18 @@ void BluetoothController::setup(void)
     }
   }
 
+  if ( !ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION) )
+  {
+    error( F("Callback requires at least 0.8.0") );
+  }
+
+  Serial.println( F("Adding Service 0x1234 with 2 chars 0x2345 & 0x6789") );
+  ble.sendCommandCheckOK( F("AT+GATTADDSERVICE=uuid=0x1234") );
+  ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x2345,PROPERTIES=0x08,MIN_LEN=1,MAX_LEN=6,DATATYPE=string,DESCRIPTION=string,VALUE=abc"), &charid_string);
+  ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x6789,PROPERTIES=0x08,MIN_LEN=4,MAX_LEN=4,DATATYPE=INTEGER,DESCRIPTION=number,VALUE=0"), &charid_number);
+
+  ble.reset();
+
   /* Disable command echo from Bluefruit */
   ble.echo(false);
 
@@ -100,29 +108,15 @@ void BluetoothController::setup(void)
   /* Print Bluefruit information */
   ble.info();
 
-  Serial.println(F("Please use Adafruit Bluefruit LE app to connect in UART mode"));
-  Serial.println(F("Then Enter characters to send to Bluefruit"));
-  Serial.println();
-
-  ble.verbose(false);  // debug info is a little annoying after this point!
-
-  //  /* Wait for connection */
-  //  while (! ble.isConnected()) {
-  //    delay(500);
-  //  }
-
-  // LED Activity command is only supported from 0.6.6
-  if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION) )
-  {
-    // Change Mode LED Activity
-    Serial.println(F("******************************"));
-    Serial.println(F("Change LED activity to " MODE_LED_BEHAVIOUR));
-    ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR);
-    Serial.println(F("******************************"));
-  }
-
+  /* Set callbacks */
   ble.setConnectCallback(BLEConnected);
   ble.setDisconnectCallback(BLEDisconnected);
+  ble.setBleUartRxCallback(BLEHandleData);
+
+  /* Only one BLE GATT function should be set, it is possible to set it
+    multiple times for multiple Chars ID  */
+  ble.setBleGattRxCallback(charid_string, BleGattRX);
+  ble.setBleGattRxCallback(charid_number, BleGattRX);
 }
 
 /*
