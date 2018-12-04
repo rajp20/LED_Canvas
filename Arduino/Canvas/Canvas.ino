@@ -50,30 +50,71 @@ void BLEDisconnected() {
 }
 
 void BLEHandleData(char* data, uint16_t len) {
-
+  
+  // xyz,123,123,123
+  // rgb,123,123,123
+  Serial.println("In:");
   Serial.write(data, len);
+  Serial.println(data[0]);
 
-  //  char* msgField[5];
+  
+  if (data[0] != 'r' && data[0] != 'x'){
+    return;
+  }
 
-  //  byte sentencePos = 0;
-  //  int commaCount = 0;
-  //  msgField[commaCount] = "";
-  //  while (sentencePos < len)
-  //  {
-  //    if (data[sentencePos] == ',')
-  //    {
-  //      commaCount++;
-  //      msgField[commaCount] = "";
-  //      sentencePos++;
-  //    }
-  //    else
-  //    {
-  //      msgField[commaCount] += data[sentencePos];
-  //      sentencePos++;
-  //    }
-  //  }
-  //
-  //  Serial.println(msgField[0]);
+  char values[][2] = {{'0','0'}, {'0','0'}, {'0','0'}};
+
+  // Type 1 is RBG, type 0 is XYZ
+  bool type;
+
+  // Count for commas
+  int commaCount = -1;
+
+  int characterCount = 0;
+
+  for (int i = 0; i < len; i++){
+    if (i == 0){
+      if (data[i] == 'x'){
+        type = true;
+      }
+      else {
+        type = false;
+      }
+    }
+
+    if (data[i] == ','){
+
+      // First comma
+      if (commaCount == -1){
+        commaCount++;
+        continue;
+      }
+
+      if(characterCount == 1){
+        values[commaCount][1] = data[i-1];
+      }
+      else if (characterCount == 2){
+        values[commaCount][1] = data[i-1];
+        values[commaCount][0] = data[i-2];
+      }
+
+      characterCount = 0;
+      commaCount++;
+      continue;
+    }
+
+    if (commaCount < 0){
+      continue;
+    }
+
+    characterCount++;
+  }
+  Serial.println("Out:");
+  for (int i = 0; i < 3; i++){
+    Serial.write(values[i], 2);
+    Serial.println();
+  }
+  Serial.println();
 }
 
 void BleGattRX(int32_t chars_id, uint8_t data[], uint16_t len)
