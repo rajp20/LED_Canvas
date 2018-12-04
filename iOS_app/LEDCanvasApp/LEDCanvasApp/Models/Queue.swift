@@ -25,6 +25,15 @@ public struct Queue<T> : LineProtocol{
         q.append(element)
     }
     
+    public mutating func dequeue() -> CGPoint {
+        size -= 1
+        guard !q.isEmpty, let element = q.first as? CGPoint else { return CGPoint(x:-1.0, y:-1.0)}
+        
+        q.removeFirst()
+        
+        return element
+    }
+    
     public mutating func dequeue<T>() -> T? where T : Line{
         size -= 1
         guard !q.isEmpty, let element = q.first else { return nil }
@@ -41,6 +50,10 @@ public struct Queue<T> : LineProtocol{
     
     public func isEmpty() -> Bool {
         return q.isEmpty
+    }
+    
+    public func peek() -> CGPoint {
+        return q.first as! CGPoint 
     }
     
     public func peek<T>() -> T where T : Line{

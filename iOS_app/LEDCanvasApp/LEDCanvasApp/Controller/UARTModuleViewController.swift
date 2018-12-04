@@ -23,7 +23,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
     
     private var queue        : Queue<Line>!
+    private var dataQueue    : Queue<CGPoint>!
     private var pixelTimer   : Timer!
+    private var dataTimer    : Timer!
     private var timeInterval : TimeInterval = 0.08
     private var firstLoad    : Bool!
     private var prevPixel    : CGPoint!
@@ -43,17 +45,18 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped    = false
         firstLoad = false
         
-        queue = Queue<Line>()
+        queue      = Queue<Line>()
+        dataQueue  = Queue<CGPoint>()
         pixelTimer = Timer()
-        startTimer()
+        dataTimer  = Timer()
+        startPixelTimer()
+        startDataTimer()
         setupMenuBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if(!firstLoad) {
             firstLoad = true
-            print("***CONNECTED***")
-            writeValue(data: "connected")
             writeValue(data: colorString())
         }
     }
@@ -74,16 +77,37 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         menuBar.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
     
-    private func startTimer() {
+    private func startPixelTimer() {
         guard pixelTimer == nil else { return }
-        
         pixelTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(updatePixels), userInfo: nil, repeats: true)
     }
     
-    private func stopTimer() {
+    private func startDataTimer() {
+        guard dataTimer == nil else { return }
+        dataTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(sendDataFromQueue), userInfo: nil, repeats: true)
+    }
+    
+    private func stopPixelTimer() {
         guard pixelTimer != nil else { return }
         pixelTimer?.invalidate()
         pixelTimer = nil
+    }
+    
+    private func stopDataTimer() {
+        guard dataTimer != nil else { return }
+        dataTimer?.invalidate()
+        dataTimer = nil
+    }
+    
+    @objc func sendDataFromQueue() {
+        if (!dataQueue.isEmpty()) {
+            
+            let point = dataQueue.peek()
+            if point.x != -1 && point.y != -1 {
+                let coordinate = coordinateString(point: dataQueue.dequeue())
+                writeValue(data: coordinate)
+            }
+        }
     }
     
     @objc private func updatePixels() {
@@ -158,13 +182,12 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
                 currPixel.x /= 17
                 currPixel.y /= 28
                 
-                let string = coordinateString(point: prevPixel)
-                let dataToSend = string.group(of: 20)
-                print(string)
-                
-                for data in dataToSend {
-                    writeValue(data: data)
-                }
+//                let string = coordinateString(point: prevPixel)
+                dataQueue.enqueue(prevPixel)
+//                let dataToSend = string.group(of: 20)
+//                for data in dataToSend {
+//                    writeValue(data: data)
+//                }
                 
                 prevPixel = currPixel
             }
@@ -197,13 +220,13 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     func coordinateString(point: CGPoint) -> String {
 //        let rgb = color.getRGB()
 //        let coordinateString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
-        let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1,"
+        let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1;"
         return coordinateString
     }
     
     func colorString() -> String{
         let rgb = color.getRGB()
-        let colorString = "rgb,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0)),"
+        let colorString = "rgb,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0));"
         return colorString
     }
     

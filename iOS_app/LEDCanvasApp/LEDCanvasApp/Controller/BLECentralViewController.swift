@@ -403,6 +403,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
             print("Error discovering services: error")
             return
         }
+
     }
     
     /****************************************************************
