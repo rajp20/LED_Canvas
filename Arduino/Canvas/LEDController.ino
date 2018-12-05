@@ -36,6 +36,10 @@ void LEDController::setup(void) {
   bouncingBallState_x_direction = 1;
   bouncingBallState_y_direction = 1;
 
+  byte rippleRadius = 1;
+  byte rippleOrigin_x = random(0, 18);
+  byte rippleOrigin_y = random(0, 60);
+
   current_RGB = ((uint32_t)74 << 16) | ((uint32_t)255 <<  8) | 181;
 }
 
@@ -232,12 +236,6 @@ void LEDController::bouncingBall() {
   update();
 }
 
-
-/**
-   PRIVATE
-   HELPER FUNCTIONS
-*/
-
 void LEDController::undrawBall(int x, int y) {
 
   // Turn off the upper row of the ball
@@ -258,4 +256,81 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
   // Turn on the lower row of the ball
   canvas[y + 1][x] = current_RGB;
   canvas[y + 1][x + 1] = current_RGB;
+}
+
+void LEDController::ripple() {
+  if (rippleRadius > 1) {
+    circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius - 1, true);
+  }
+  circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius, false);
+  rippleRadius++;
+//  setColor(random(50, 255), random(50, 255), random(50, 255));
+  update();
+}
+
+void LEDController::circleBres(int xo, int yo, int r, bool erase) {
+  int x = 0, y = r;
+  int d = 3 - 2 * r;
+  drawCircle(xo, yo, x, y, erase ? 0 : current_RGB);
+  while (y >= x)
+  {
+    // for each pixel we will
+    // draw all eight pixels
+
+    x++;
+
+    // check for decision parameter
+    // and correspondingly
+    // update d, x, y
+    if (d > 0)
+    {
+      y--;
+      d = d + 4 * (x - y) + 10;
+    }
+    else {
+      d = d + 4 * x + 6;
+    }
+    drawCircle(xo, yo, x, y, erase ? 0 : current_RGB);
+  }
+}
+
+void LEDController::drawCircle(int xo, int yo, int x, int y, uint32_t color) {
+  byte inbound = 0;
+  if ((xo + x < 60) && (yo + y < 18)) {
+    canvas[yo + y][xo + x] = color;
+    inbound++;
+  }
+  if ((xo - x >= 0) && (yo + y < 18)) {
+    canvas[yo + y][xo - x] = color;
+    inbound++;
+  }
+  if ((xo + x < 60) && (yo - y >= 0)) {
+    canvas[yo - y][xo + x] = color;
+    inbound++;
+  }
+  if ((xo - x >= 0) && (yo - y >= 0)) {
+    canvas[yo - y][xo - x] = color;
+    inbound++;
+  }
+  if ((xo + y < 60) && (yo + x < 18)) {
+    canvas[yo + x][xo + y] = color;
+    inbound++;
+  }
+  if ((xo - y >= 0) && (yo + x < 18)) {
+    canvas[yo + x][xo - y] = color;
+    inbound++;
+  }
+  if ((xo + y < 60) && (yo - x >= 0)) {
+    canvas[yo - x][xo + y] = color;
+    inbound++;
+  }
+  if ((xo - y >= 0) && (yo - x >= 0)) {
+    canvas[yo - x][xo - y] = color;
+    inbound++;
+  }
+  if (inbound == 0) {
+    byte rippleRadius = 0;
+    byte rippleOrigin_x = random(0, 18);
+    byte rippleOrigin_y = random(0, 60);
+  }
 }
