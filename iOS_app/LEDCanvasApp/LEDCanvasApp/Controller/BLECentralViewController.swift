@@ -395,13 +395,15 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                     delegate?.shouldReset = false
                 }
                 else{
-                    if !((delegate?.dataQueue!.isEmpty())!) {
-                        delegate?.idleState = false
-                        let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
-                        delegate?.writeValue(data: coordinate!)
-                    }
-                    else {
-                        delegate!.idleState = true
+                    if !(delegate?.patterns!.ballPatternInProgress)! {
+                        if !((delegate?.dataQueue!.isEmpty())!) {
+                            delegate?.idleState = false
+                            let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
+                            delegate?.writeValue(data: coordinate!)
+                        }
+                        else {
+                            delegate!.idleState = true
+                        }
                     }
                 }
             }

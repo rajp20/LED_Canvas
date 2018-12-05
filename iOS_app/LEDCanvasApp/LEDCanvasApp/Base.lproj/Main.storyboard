@@ -140,17 +140,29 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnW-Rm-PEW" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
                                 <rect key="frame" x="258" y="147" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Ripple"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Ball"/>
+                                <connections>
+                                    <action selector="BallPatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="d8u-zl-HHi"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iy7-3I-O5u" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
                                 <rect key="frame" x="619" y="147" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Ripple"/>
+                                <connections>
+                                    <action selector="RipplePatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="fS6-st-j6W"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Wm4-fi-QUj"/>
                     </view>
+                    <connections>
+                        <outlet property="ballPatternButton" destination="qnW-Rm-PEW" id="8zE-In-LJ7"/>
+                        <outlet property="ripplePatternButton" destination="iy7-3I-O5u" id="Fzr-Tx-ifC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hY-U2-8RK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

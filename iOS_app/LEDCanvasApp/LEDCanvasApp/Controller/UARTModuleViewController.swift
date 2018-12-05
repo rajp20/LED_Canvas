@@ -37,6 +37,13 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
 //    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
     
+    public struct Patterns {
+        var ballPatternInProgress   = false
+        var ripplePatternInProgress = false
+    }
+    
+    var patterns : Patterns!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,9 +61,8 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         queue      = Queue<Line>()
         dataQueue  = Queue<CGPoint>()
         pixelTimer = Timer()
-//        dataTimer  = Timer()
+        patterns   = Patterns()
         startPixelTimer()
-//        startDataTimer()
         setupMenuBar()
     }
     
@@ -157,45 +163,47 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
-        if tempImage.bounds.contains(lastPoint) {
-        
-            drawLine(from: lastPoint, to: currentPoint)
+        if !patterns.ballPatternInProgress {
             
-            // Add lastPoint to queue
-            queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
-            
-            lastPoint = currentPoint
-            
-            if idleState {
-                idleState = false
+            if tempImage.bounds.contains(lastPoint) {
                 
-                var currPixel = currentPoint
-                currPixel.x /= 17
-                currPixel.y /= 28
+                drawLine(from: lastPoint, to: currentPoint)
                 
-                let coordinate = coordinateString(point: currPixel)
-            
-                // Check to see if a reset needs to be sent, as it has priority over everything
-                if (shouldReset == true){
-                    writeValue(data: "rst")
-                    shouldReset = false
-                }
-                else {
-                    writeValue(data: coordinate)
-                    prevPixel = currPixel
-                }
-
-            }
+                // Add lastPoint to queue
+                queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
                 
-            else {
-                if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+                lastPoint = currentPoint
+                
+                if idleState {
+                    idleState = false
                     
                     var currPixel = currentPoint
                     currPixel.x /= 17
                     currPixel.y /= 28
                     
-                    dataQueue.enqueue(prevPixel)
-                    prevPixel = currPixel
+                    let coordinate = coordinateString(point: currPixel)
+                    
+                    // Check to see if a reset needs to be sent, as it has priority over everything
+                    if (shouldReset == true){
+                        writeValue(data: "rst")
+                        shouldReset = false
+                    }
+                    else {
+                        writeValue(data: coordinate)
+                        prevPixel = currPixel
+                    }
+                }
+                    
+                else {
+                    if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+                        
+                        var currPixel = currentPoint
+                        currPixel.x /= 17
+                        currPixel.y /= 28
+                        
+                        dataQueue.enqueue(prevPixel)
+                        prevPixel = currPixel
+                    }
                 }
             }
         }
