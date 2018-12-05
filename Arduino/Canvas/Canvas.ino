@@ -1,5 +1,4 @@
 #include <QueueArray.h>
-#include <string.h>
 #include <Arduino.h>
 
 #include "TimerOne.h"
@@ -12,7 +11,7 @@ BluetoothController bluetooth;
 LEDController leds;
 MotorController motors;
 
-QueueArray<char*> queue;
+//QueueArray<char*> queue;
 
 String buff = "";
 bool data_in = false;
@@ -22,7 +21,7 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-  //  Timer1.initialize();
+  //  Timer1.initialize(100000);
   Timer3.initialize();
   bluetooth.setup();
   leds.setup();
@@ -40,6 +39,10 @@ void WaitingForBLEConnection() {
   leds.waitingDots();
 }
 
+void BouncingBall() {
+  leds.bouncingBall();
+}
+
 // BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
   Serial.println("Connected");
@@ -52,6 +55,7 @@ void BLEDisconnected() {
   Serial.println("Disconnected");
   leds.welcomeScreen();
   Timer3.attachInterrupt(WaitingForBLEConnection);
+  Timer3.setPeriod(1000000);
 }
 
 /**
@@ -64,12 +68,16 @@ void BLEDisconnected() {
 void BLEDataReceived(char* data, uint16_t len) {
   // xyz,123,123,123
   // rgb,123,123,123
+  //  Serial.println(data);
   if (strcmp(data, "rst") == 0) {
-    //    motors.calibrate();
-    leds.resetCanvas();
-    delay(1000);
-  } else if (strcmp(data, "tbb") == 0) {
-    Timer3.attachInterrupt(leds.toggleBouncingBall());
+    leds.clearCanvas();
+  } else if (strcmp(data, "tbbon") == 0) {
+    leds.clearCanvas();
+    Timer3.setPeriod(100000);
+    Timer3.attachInterrupt(BouncingBall);
+  } else if (strcmp(data, "tbboff") == 0) {
+    Timer3.detachInterrupt();
+    leds.clearCanvas();
   } else {
     char command;
     int parsedData[3];

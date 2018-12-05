@@ -5,7 +5,13 @@ class LEDController {
   private:
     // Variables
     Adafruit_NeoPixel led_strips[18];
-    int waitingDotsState;
+
+    // Pattern states
+    byte waitingDotsState;
+    byte bouncingBallState_x;
+    byte bouncingBallState_y;
+    byte bouncingBallState_x_direction;
+    byte bouncingBallState_y_direction;
 
     uint32_t current_RGB;
   
@@ -27,14 +33,13 @@ class LEDController {
     // Clearing and reseting
     void clearCanvas(void);
     void clearCanvasRow(int row);
-    void resetCanvas(void);
         
     void drawPixel(int, int);
 
     void setColor(int, int, int);
 
     // Patterns
-    void toggleBouncingBall(bool turnOn);
+    void bouncingBall();
 
     // Bluetooth connection waiting
     void waitingDots(void);

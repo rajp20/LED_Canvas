@@ -30,6 +30,12 @@ void LEDController::setup(void) {
   }
 
   waitingDotsState = 0;
+
+  bouncingBallState_x = 0;
+  bouncingBallState_y = 0;
+  bouncingBallState_x_direction = 1;
+  bouncingBallState_y_direction = 1;
+
   current_RGB = ((uint32_t)74 << 16) | ((uint32_t)255 <<  8) | 181;
 }
 
@@ -86,7 +92,7 @@ uint32_t LEDController::Wheel(byte WheelPos, int strip) {
    Says "Magic Drawing"
 */
 void LEDController::welcomeScreen(void) {
-  int magic_drawing[5][52] =
+  boolean magic_drawing[5][52] =
   { {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
     {1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
     {1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
@@ -94,7 +100,7 @@ void LEDController::welcomeScreen(void) {
     {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1}
   };
 
-  int connecting[5][41] =
+  boolean connecting[5][41] =
   { {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
     {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
     {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
@@ -117,33 +123,6 @@ void LEDController::welcomeScreen(void) {
     for (int x = 0; x < 41; x++) {
       if (connecting[y][x]) {
         canvas[y + 9][x + 8] = current_RGB;
-      }
-    }
-  }
-
-  update();
-}
-
-/**
-   Clear screen for when resetting the motors.
-   Says "Clearing"
-*/
-void LEDController::resetCanvas(void) {
-  int resetting[5][35] =
-  { {1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0},
-    {1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1},
-    {1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1},
-  };
-
-  clearCanvas();
-  setColor(74, 255, 181);
-
-  for (int y = 0; y < 5; y++) {
-    for (int x = 0; x < 35; x++) {
-      if (resetting[y][x]) {
-        canvas[y + 6][x + 12] = current_RGB;
       }
     }
   }
@@ -219,55 +198,38 @@ void LEDController::setColor(int red, int green, int blue) {
 
 
 // Make sure to reset the LEDs if you exit out of this method
-void LEDController::toggleBouncingBall(bool turnOn) {
-
-  clearCanvas();
-
+void LEDController::bouncingBall() {
   int lowerBound = 1;
   int upperBound = 255;
 
-  int current_position_x = 0;
-  int current_position_y = 0;
+  undrawBall(bouncingBallState_x, bouncingBallState_y);
+  // Check the boundaries
 
-  int directionX = 1;
-  int directionY = 1;
-
-  int red = 0;
-  int green = 0;
-  int blue = 255;
-
-  while (true) {
-    undrawBall(current_position_x, current_position_y);
-    // Check the boundaries
-
-    // X boundary
-    if (current_position_x == led_strips[0].numPixels() - 2 && directionX == 1) {
-      directionX = -1;
-      setColor(random(lowerBound, upperBound), random(lowerBound, upperBound), random(lowerBound, upperBound));
-    }
-    if (current_position_x == 0 && directionX == -1) {
-      directionX = 1;
-      setColor(random(lowerBound, upperBound), random(lowerBound, upperBound), random(lowerBound, upperBound));
-    }
-
-    // Y boundary
-    if (current_position_y == 16 && directionY == 1) {
-      directionY = -1;
-      setColor(random(lowerBound, upperBound), random(lowerBound, upperBound), random(lowerBound, upperBound));
-    }
-    if (current_position_y == 0 && directionY == -1) {
-      directionY = 1;
-      setColor(random(50, 255), random(50, 255), random(50, 255));
-    }
-
-    current_position_x += directionX;
-    current_position_y += directionY;
-    drawBall(current_position_x, current_position_y, directionX, directionY);
-
-    delay(25);
-    update();
+  // X boundary
+  if (bouncingBallState_x == led_strips[0].numPixels() - 2 && bouncingBallState_x_direction == 1) {
+    bouncingBallState_x_direction = -1;
+    setColor(random(lowerBound, upperBound), random(lowerBound, upperBound), random(lowerBound, upperBound));
+  }
+  if (bouncingBallState_x == 0 && bouncingBallState_x_direction == -1) {
+    bouncingBallState_x_direction = 1;
+    setColor(random(lowerBound, upperBound), random(lowerBound, upperBound), random(lowerBound, upperBound));
   }
 
+  // Y boundary
+  if (bouncingBallState_y == 16 && bouncingBallState_y_direction == 1) {
+    bouncingBallState_y_direction = -1;
+    setColor(random(lowerBound, upperBound), random(lowerBound, upperBound), random(lowerBound, upperBound));
+  }
+  if (bouncingBallState_y == 0 && bouncingBallState_y_direction == -1) {
+    bouncingBallState_y_direction = 1;
+    setColor(random(50, 255), random(50, 255), random(50, 255));
+  }
+
+  bouncingBallState_x += bouncingBallState_x_direction;
+  bouncingBallState_y += bouncingBallState_y_direction;
+  drawBall(bouncingBallState_x, bouncingBallState_y, bouncingBallState_x_direction, bouncingBallState_y_direction);
+
+  update();
 }
 
 
