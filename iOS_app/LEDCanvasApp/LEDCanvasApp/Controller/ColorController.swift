@@ -84,6 +84,7 @@ class ColorController : UIViewController {
     
     @IBAction func ApplyColorToBrush(_ sender: UIButton) {
         uartVC!.color = colorSelected.backgroundColor!
+        uartVC!.writeValue(data: uartVC!.colorString())
         self.navigationController?.popViewController(animated: true)
     }
     

@@ -158,7 +158,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             
             if idleState {
                 idleState = false
-//                if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
                 
                     var currPixel = currentPoint
                     currPixel.x /= 17
@@ -168,7 +167,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
                     writeValue(data: coordinate)
                     
                     prevPixel = currPixel
-//                }
             }
                 
             else {
