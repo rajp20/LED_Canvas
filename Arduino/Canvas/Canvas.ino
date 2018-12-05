@@ -28,7 +28,6 @@ void setup() {
   leds.setup();
   leds.pixelTest();
   //  motors.setup();
-
   //  leds.toggleBouncingBall(true);
   BLEDisconnected();
 }
@@ -69,6 +68,8 @@ void BLEDataReceived(char* data, uint16_t len) {
     //    motors.calibrate();
     leds.resetCanvas();
     delay(1000);
+  } else if (strcmp(data, "tbb") == 0) {
+    Timer3.attachInterrupt(leds.toggleBouncingBall());
   } else {
     char command;
     int parsedData[3];
