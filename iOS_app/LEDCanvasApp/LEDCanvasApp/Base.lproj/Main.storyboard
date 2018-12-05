@@ -123,7 +123,6 @@
                         <outlet property="tempImage" destination="ulg-FJ-1O3" id="wFN-dv-GR2"/>
                         <segue destination="CMj-30-Rih" kind="presentation" identifier="colorSelection" id="uBk-Tm-YLX"/>
                         <segue destination="Xfx-Fv-f3h" kind="show" identifier="patternSelection" id="4B3-Sf-RXL"/>
-                        <segue destination="SCL-jN-W0O" kind="show" identifier="filterSelection" id="AdD-jY-UnE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -248,21 +247,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W7z-c8-CiK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1581.4453125" y="13.28125"/>
-        </scene>
-        <!--Filter Controller-->
-        <scene sceneID="9cc-QI-vZ8">
-            <objects>
-                <viewController storyboardIdentifier="FilterController" id="SCL-jN-W0O" customClass="FilterController" customModule="LEDCanvasApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="68Z-8m-1wd">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="7yj-y7-yXd"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="j44-vI-vCf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1582" y="823"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hdx-F3-tqi">

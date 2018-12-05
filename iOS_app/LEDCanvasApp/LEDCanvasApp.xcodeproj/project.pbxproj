@@ -12,7 +12,6 @@
 		675E14E021A0B65500CF4193 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DF21A0B65500CF4193 /* Queue.swift */; };
 		675E14E221A20BDB00CF4193 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14E121A20BDB00CF4193 /* Line.swift */; };
 		67780B3421ABBA980023768C /* PatternController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3321ABBA980023768C /* PatternController.swift */; };
-		67780B3621ABBC0C0023768C /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3521ABBC0C0023768C /* FilterController.swift */; };
 		67780B3821ACA5E20023768C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67780B3721ACA5E20023768C /* CustomButton.swift */; };
 		679A71FA218E3C48000F78F6 /* UIColorToRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */; };
 		67BE63C42150560A0020739F /* PeripheralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE63C32150560A0020739F /* PeripheralCell.swift */; };
@@ -32,8 +31,10 @@
 		675E14DA219F4FF300CF4193 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		675E14DF21A0B65500CF4193 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		675E14E121A20BDB00CF4193 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		67671A2A21B688FF006B0D59 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		67671A2C21B6890F006B0D59 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		67671A2E21B6892F006B0D59 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		67780B3321ABBA980023768C /* PatternController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternController.swift; sourceTree = "<group>"; };
-		67780B3521ABBC0C0023768C /* FilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
 		67780B3721ACA5E20023768C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		679A71F9218E3C48000F78F6 /* UIColorToRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorToRGB.swift; sourceTree = "<group>"; };
 		67BE63C32150560A0020739F /* PeripheralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralCell.swift; sourceTree = "<group>"; };
@@ -70,6 +71,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		67671A2921B688FF006B0D59 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				67671A2E21B6892F006B0D59 /* Foundation.framework */,
+				67671A2C21B6890F006B0D59 /* UIKit.framework */,
+				67671A2A21B688FF006B0D59 /* CoreBluetooth.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		679A71F8218E3C07000F78F6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,7 +108,6 @@
 				67CFD76A214C07F300C9569B /* BLECentralViewController.swift */,
 				67C07D1921AB202D004E00E6 /* ColorController.swift */,
 				67780B3321ABBA980023768C /* PatternController.swift */,
-				67780B3521ABBC0C0023768C /* FilterController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -107,6 +117,7 @@
 			children = (
 				67F986E0214AE9E70058497D /* LEDCanvasApp */,
 				67F986DF214AE9E70058497D /* Products */,
+				67671A2921B688FF006B0D59 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,7 +230,6 @@
 				675E14DB219F4FF300CF4193 /* MenuCell.swift in Sources */,
 				67C07D1621A5EED5004E00E6 /* MenuBar.swift in Sources */,
 				67CFD76F214C3E2700C9569B /* UARTModuleViewController.swift in Sources */,
-				67780B3621ABBC0C0023768C /* FilterController.swift in Sources */,
 				67780B3821ACA5E20023768C /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,6 +373,7 @@
 		67F986F1214AE9E80058497D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XUXQT2MRMQ;
@@ -381,6 +392,7 @@
 		67F986F2214AE9E80058497D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XUXQT2MRMQ;
