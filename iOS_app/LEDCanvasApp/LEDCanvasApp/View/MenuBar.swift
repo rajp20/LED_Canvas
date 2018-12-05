@@ -22,6 +22,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     weak var delegate: UARTModuleViewController?
     
     let titles = ["Color", "Pattern", "Reset"]
+    let icons  = ["ColorSelect", "PatternSelect", "ResetSelect"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,6 +58,12 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         label.textColor = UIColor(red: 0.29, green: 1.0, blue: 0.71, alpha: 1.0)
         label.font = UIFont(name: "Avenir", size: 24)
         
+        
+        let image = UIImage(named: icons[indexPath.item])
+        let icon = UIImageView(frame: CGRect(x: cell.frame.width / 2 - image!.size.width / 3, y: cell.center.y * 0.15 , width: 60.0, height: 60.0))
+        icon.image = UIImage(cgImage: (image?.cgImage)!)
+        
+        cell.addSubview(icon)
         cell.addSubview(label)
         return cell
     }
@@ -84,6 +91,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
             delegate?.navigationController?.pushViewController(patternVC, animated: true)
         case 2:
             delegate?.clearContents()
+            delegate!.writeValue(data: "rst")
         default:
             return
         }
