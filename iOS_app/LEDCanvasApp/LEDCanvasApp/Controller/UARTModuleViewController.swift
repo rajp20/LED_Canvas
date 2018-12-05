@@ -16,6 +16,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var peripheral: CBPeripheral!
     var idleState : Bool!
     
+    // Variable used to know if we should send a reset to arduino
+    var shouldReset : Bool!
+    
     // Drawing variables
     var lastPoint  : CGPoint!
     var swiped     : Bool!
@@ -46,6 +49,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped    = false
         firstLoad = false
         idleState = true
+        shouldReset = false
         
         queue      = Queue<Line>()
         dataQueue  = Queue<CGPoint>()
@@ -125,6 +129,12 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     public func clearContents() {
         tempImage.image = nil
         queue.clearQueue()
+        dataQueue.clearQueue()
+        if (idleState == true){
+            writeValue(data: "rst")
+            return
+        }
+        shouldReset = true
     }
     
     //Detect touch events to begin drawing
@@ -159,14 +169,22 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             if idleState {
                 idleState = false
                 
-                    var currPixel = currentPoint
-                    currPixel.x /= 17
-                    currPixel.y /= 28
-                    
-                    let coordinate = coordinateString(point: currPixel)
+                var currPixel = currentPoint
+                currPixel.x /= 17
+                currPixel.y /= 28
+                
+                let coordinate = coordinateString(point: currPixel)
+            
+                // Check to see if a reset needs to be sent, as it has priority over everything
+                if (shouldReset == true){
+                    writeValue(data: "rst")
+                    shouldReset = false
+                }
+                else {
                     writeValue(data: coordinate)
-                    
                     prevPixel = currPixel
+                }
+
             }
                 
             else {
@@ -226,6 +244,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     // Write functions
     func writeValue(data: String){
+        
+        print("Sending: " + data)
+        
         let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
         //change the "data" to valueString
         if let blePeripheral = blePeripheral {
