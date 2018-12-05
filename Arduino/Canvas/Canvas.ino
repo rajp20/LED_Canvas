@@ -3,6 +3,7 @@
 #include <Arduino.h>
 
 #include "TimerOne.h"
+#include "TimerThree.h"
 #include "BluetoothController.h"
 #include "LEDController.h"
 #include "MotorController.h"
@@ -21,12 +22,14 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-  Timer1.initialize(100000);
-  leds.setup();
-  //  leds.toggleBouncingBall(true);
-  motors.setup();
+  //  Timer1.initialize();
+  Timer3.initialize();
   bluetooth.setup();
-  delay(2000);
+  leds.setup();
+  leds.pixelTest();
+  //  motors.setup();
+
+  //  leds.toggleBouncingBall(true);
   BLEDisconnected();
 }
 
@@ -38,9 +41,10 @@ void WaitingForBLEConnection() {
   leds.waitingDots();
 }
 
+// BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
   Serial.println("Connected");
-  Timer1.detachInterrupt();
+  Timer3.detachInterrupt();
   leds.clearCanvas();
   bluetooth.writePacket("Thx");
 }
@@ -48,33 +52,46 @@ void BLEConnected() {
 void BLEDisconnected() {
   Serial.println("Disconnected");
   leds.welcomeScreen();
-  Timer1.attachInterrupt(WaitingForBLEConnection);
+  Timer3.attachInterrupt(WaitingForBLEConnection);
 }
 
+/**
+  Once the data is recieved, parse it and call appropiate functions.
+  Supported Commands:
+  xyz,123,123,123   -> Moves the motors and turns on the pixels on led strips
+  rgb,123,123,123   -> Sets the RGB color
+  rst               -> Reset the canvas
+*/
 void BLEDataReceived(char* data, uint16_t len) {
   // xyz,123,123,123
   // rgb,123,123,123
-  char command;
-  int parsedData[3];
-  int index = 0;
-  char *str = strtok(data, ",");
-  while (str != NULL) { // delimiter is the semicolon
-    if (index == 0) {
-      //      Serial.println(str);
-      command = str[0];
-    } else {
-      parsedData[index - 1] = atoi(str);
+  if (strcmp(data, "rst") == 0) {
+    //    motors.calibrate();
+    leds.resetCanvas();
+    delay(1000);
+  } else {
+    char command;
+    int parsedData[3];
+    int index = 0;
+    char *str = strtok(data, ",");
+    while (str != NULL) { // delimiter is the semicolon
+      if (index == 0) {
+        //      Serial.println(str);
+        command = str[0];
+      } else {
+        parsedData[index - 1] = atoi(str);
+      }
+      index++;
+      str = strtok(NULL, ",");
     }
-    index++;
-    str = strtok(NULL, ",");
-  }
 
-  //  Serial.println(command);
-  if (command == 'r') {
-    leds.setRGB(parsedData[0], parsedData[1], parsedData[2]);
-  } else if (command == 'x') {
-    // Call motors and leds
-    leds.drawPixel(parsedData[0], parsedData[1]);
+    //  Serial.println(command);
+    if (command == 'r') {
+      leds.setColor(parsedData[0], parsedData[1], parsedData[2]);
+    } else if (command == 'x') {
+      // Call motors and leds
+      leds.drawPixel(parsedData[0], parsedData[1]);
+    }
   }
   bluetooth.writePacket("1");
   //  Serial.println();
