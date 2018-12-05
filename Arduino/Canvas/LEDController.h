@@ -9,7 +9,7 @@ class LEDController {
     int red;
     int green;
     int blue;
-
+  
     int canvas[18][60];
     
     void colorWipe(uint32_t, uint8_t);
