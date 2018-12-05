@@ -21,20 +21,17 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-  Timer1.initialize();
+  Timer1.initialize(100000);
   leds.setup();
   //  leds.toggleBouncingBall(true);
-  BLEDisconnected();
-  //   motors.setup();
+  motors.setup();
   bluetooth.setup();
+  delay(2000);
+  BLEDisconnected();
 }
 
 void loop() {
-  bluetooth.updateBLE(50);
-  if (!queue.isEmpty()) {
-    BLEHandleData(queue.dequeue());
-  }
-  //  motors.move(8, 8);
+  bluetooth.updateBLE(100);
 }
 
 void WaitingForBLEConnection() {
@@ -45,37 +42,25 @@ void BLEConnected() {
   Serial.println("Connected");
   Timer1.detachInterrupt();
   leds.clearCanvas();
+  bluetooth.writePacket("Thx");
 }
 
 void BLEDisconnected() {
   Serial.println("Disconnected");
   leds.welcomeScreen();
   Timer1.attachInterrupt(WaitingForBLEConnection);
-  // NEED TO CLEAR QUEUE
 }
 
 void BLEDataReceived(char* data, uint16_t len) {
-  Serial.write(data);
-  Serial.println();
-  char *str = strtok(data, ";");
-  while (str != NULL) { // delimiter is the semicolon
-    queue.enqueue(str);
-    str = strtok(NULL, ";");
-  }
-}
-
-void BLEHandleData(char* data) {
   // xyz,123,123,123
   // rgb,123,123,123
-
-
   char command;
   int parsedData[3];
   int index = 0;
   char *str = strtok(data, ",");
   while (str != NULL) { // delimiter is the semicolon
     if (index == 0) {
-//      Serial.println(str);
+      //      Serial.println(str);
       command = str[0];
     } else {
       parsedData[index - 1] = atoi(str);
@@ -83,16 +68,16 @@ void BLEHandleData(char* data) {
     index++;
     str = strtok(NULL, ",");
   }
-  
-  Serial.println(command);
+
+  //  Serial.println(command);
   if (command == 'r') {
     leds.setRGB(parsedData[0], parsedData[1], parsedData[2]);
   } else if (command == 'x') {
     // Call motors and leds
     leds.drawPixel(parsedData[0], parsedData[1]);
   }
-
-  Serial.println();
+  bluetooth.writePacket("1");
+  //  Serial.println();
 }
 
 void BleGattRX(int32_t chars_id, uint8_t data[], uint16_t len)
