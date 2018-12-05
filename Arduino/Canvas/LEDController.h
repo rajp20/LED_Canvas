@@ -14,16 +14,16 @@ class LEDController {
 
     byte bouncingBallState_x;
     byte bouncingBallState_y;
-    byte bouncingBallState_x_direction;
-    byte bouncingBallState_y_direction;
+    int bouncingBallState_x_direction;
+    int bouncingBallState_y_direction;
     void undrawBall(int x, int y);
     void drawBall(int x, int y, int directionX, int directionY);
 
     byte rippleRadius;
     byte rippleOrigin_x;
     byte rippleOrigin_y;
-    void circleBres(int xo, int yo, int r, bool erase);
-    void drawCircle(int xo, int yo, int x, int y, uint32_t color);
+    void circleBres(int xo, int yo, int r);
+    void drawCircle(int xo, int yo, int x, int y);
 
     uint32_t Wheel(byte WheelPos, int strip);
   public:

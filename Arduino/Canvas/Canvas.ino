@@ -22,6 +22,7 @@ int32_t charid_number;
 void setup() {
   Serial.begin(115200);
   //  Timer1.initialize(100000);
+  Timer3.initialize();
   bluetooth.setup();
   leds.setup();
   leds.pixelTest();
@@ -55,6 +56,7 @@ void BLEConnected() {
 
 void BLEDisconnected() {
   Serial.println("Disconnected");
+  Timer3.detachInterrupt();
   leds.welcomeScreen();
   Timer3.setPeriod(1000000);
   Timer3.attachInterrupt(WaitingForBLEConnection);
@@ -63,39 +65,81 @@ void BLEDisconnected() {
 /**
   Once the data is recieved, parse it and call appropiate functions.
   Supported Commands:
-  xyz,123,123,123   -> Moves the motors and turns on the pixels on led strips
-  rgb,123,123,123   -> Sets the RGB color
-  rst               -> Reset the canvas
+  0       - Clear
+  p       - Patterns
+    1       - Ball Pattern
+      1       - On
+      0       - Off
+    1       - Ripple Effect
+      1       - On
+      0       - Off
+    2       - Ripple Acid Effect
+      1       - On
+      0       - Off
+
+  c,123,123,123       - Set the RGB color
+  x,123,123           - XY for motors and LEDs
 */
 void BLEDataReceived(char* data, uint16_t len) {
   // xyz,123,123,123
   // rgb,123,123,123
   //  Serial.println(data);
-  if (strcmp(data, "rst") == 0) {
-    leds.clearCanvas();
-  } else if (strcmp(data, "tbb1") == 0) {
-    leds.clearCanvas();
-    Timer3.setPeriod(100000);
-    Timer3.attachInterrupt(BouncingBall);
-  } else if (strcmp(data, "tbb0") == 0) {
+  if (data[0] == '0') {
     Timer3.detachInterrupt();
     leds.clearCanvas();
-  } else if (strcmp(data, "rip1") == 0) {
-    leds.clearCanvas();
-    Timer3.setPeriod(100000);
-    Timer3.attachInterrupt(RippleEffect);
-  } else if (strcmp(data, "rip0") == 0) {
-    Timer3.detachInterrupt();
-    leds.clearCanvas();
-  } else if (strcmp(data, "acid1") == 0) {
-    leds.acid = true;
-    leds.clearCanvas();
-    Timer3.setPeriod(100000);
-    Timer3.attachInterrupt(RippleEffect);
-  } else if (strcmp(data, "acid0") == 0) {
-    leds.acid = false;
-    Timer3.detachInterrupt();
-    leds.clearCanvas();
+  } else if (data[0] == 'p') { // Patters
+    // Ball Patern
+    if (data[1] == '1') {
+      // Toggle on
+      if (data[2] == '1') {
+        Timer3.detachInterrupt();
+        leds.clearCanvas();
+        Timer3.setPeriod(100000);
+        Timer3.attachInterrupt(BouncingBall);
+      }
+      // Toggle off
+      else {
+        Timer3.detachInterrupt();
+        leds.clearCanvas();
+      }
+    }
+    // Ripple
+    else if (data[1] == '2') {
+      // Toggle on
+      if (data[2] == '1') {
+        Timer3.detachInterrupt();
+        Serial.println("Ripple On");
+        leds.clearCanvas();
+        Timer3.setPeriod(100000);
+        Timer3.attachInterrupt(RippleEffect);
+      }
+      // Toggle off
+      else {
+        Serial.println("Ripple Off");
+        Timer3.detachInterrupt();
+        leds.clearCanvas();
+      }
+
+    }
+    // Ripple Acid
+    else if (data[1] == '3') {
+      // Toggle on
+      if (data[2] == '1') {
+        Timer3.detachInterrupt();
+        Serial.println("Acid On");
+        leds.acid = true;
+        leds.clearCanvas();
+        Timer3.setPeriod(100000);
+        Timer3.attachInterrupt(RippleEffect);
+      }
+      // Toggle off
+      else {
+        Serial.println("Acid Off");
+        leds.acid = false;
+        Timer3.detachInterrupt();
+        leds.clearCanvas();
+      }
+    }
   } else {
     char command;
     int parsedData[3];
@@ -113,7 +157,7 @@ void BLEDataReceived(char* data, uint16_t len) {
     }
 
     //  Serial.println(command);
-    if (command == 'r') {
+    if (command == 'c') {
       leds.setColor(parsedData[0], parsedData[1], parsedData[2]);
     } else if (command == 'x') {
       // Call motors and leds

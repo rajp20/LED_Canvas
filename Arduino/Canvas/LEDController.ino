@@ -262,19 +262,18 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
 
 void LEDController::ripple() {
   if (!acid) {
-    //    circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius - 1, true);
     clearCanvas();
   }
-  circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius, false);
+  circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius);
   rippleRadius++;
   setColor(random(25, 255), random(25, 255), random(25, 255));
   update();
 }
 
-void LEDController::circleBres(int xo, int yo, int r, bool erase) {
+void LEDController::circleBres(int xo, int yo, int r) {
   int x = 0, y = r;
   int d = 3 - 2 * r;
-  drawCircle(xo, yo, x, y, erase ? 0 : current_RGB);
+  drawCircle(xo, yo, x, y);
   while (y >= x)
   {
     // for each pixel we will
@@ -293,42 +292,42 @@ void LEDController::circleBres(int xo, int yo, int r, bool erase) {
     else {
       d = d + 4 * x + 6;
     }
-    drawCircle(xo, yo, x, y, erase ? 0 : current_RGB);
+    drawCircle(xo, yo, x, y);
   }
 }
 
-void LEDController::drawCircle(int xo, int yo, int x, int y, uint32_t color) {
+void LEDController::drawCircle(int xo, int yo, int x, int y) {
   byte inbound = 0;
   if ((xo + x < 60) && (yo + y < 18)) {
-    canvas[yo + y][xo + x] = color;
+    canvas[yo + y][xo + x] = current_RGB;
     inbound++;
   }
   if ((xo - x >= 0) && (yo + y < 18)) {
-    canvas[yo + y][xo - x] = color;
+    canvas[yo + y][xo - x] = current_RGB;
     inbound++;
   }
   if ((xo + x < 60) && (yo - y >= 0)) {
-    canvas[yo - y][xo + x] = color;
+    canvas[yo - y][xo + x] = current_RGB;
     inbound++;
   }
   if ((xo - x >= 0) && (yo - y >= 0)) {
-    canvas[yo - y][xo - x] = color;
+    canvas[yo - y][xo - x] = current_RGB;
     inbound++;
   }
   if ((xo + y < 60) && (yo + x < 18)) {
-    canvas[yo + x][xo + y] = color;
+    canvas[yo + x][xo + y] = current_RGB;
     inbound++;
   }
   if ((xo - y >= 0) && (yo + x < 18)) {
-    canvas[yo + x][xo - y] = color;
+    canvas[yo + x][xo - y] = current_RGB;
     inbound++;
   }
   if ((xo + y < 60) && (yo - x >= 0)) {
-    canvas[yo - x][xo + y] = color;
+    canvas[yo - x][xo + y] = current_RGB;
     inbound++;
   }
   if ((xo - y >= 0) && (yo - x >= 0)) {
-    canvas[yo - x][xo - y] = color;
+    canvas[yo - x][xo - y] = current_RGB;
     inbound++;
   }
   if (inbound == 0) {
