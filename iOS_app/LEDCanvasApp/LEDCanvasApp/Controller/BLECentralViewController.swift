@@ -392,6 +392,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                 if !((delegate?.dataQueue!.isEmpty())!) {
                     delegate?.idleState = false
                     let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
+                    print(coordinate?.description)
                     delegate?.writeValue(data: coordinate!)
                 }
                 else {
