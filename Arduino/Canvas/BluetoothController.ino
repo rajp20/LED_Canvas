@@ -39,7 +39,7 @@
                               "DISABLE" or "MODE" or "BLEUART" or
                               "HWUART"  or "SPI"  or "MANUAL"
     -----------------------------------------------------------------------*/
-#define FACTORYRESET_ENABLE         1
+#define FACTORYRESET_ENABLE         0
 #define MINIMUM_FIRMWARE_VERSION    "0.8.0"
 #define MODE_LED_BEHAVIOUR          "MODE"
 /*=========================================================================*/

@@ -6,15 +6,13 @@ class LEDController {
     // Variables
     Adafruit_NeoPixel led_strips[18];
     int waitingDotsState;
-    int red;
-    int green;
-    int blue;
+
+    uint32_t current_RGB;
   
-    int canvas[18][60];
-    
-    void colorWipe(uint32_t, uint8_t);
+    uint32_t canvas[18][60];
+ 
     void undrawBall(int x, int y);
-    void drawBall(int x, int y, int directionX, int directionY, int red, int blue, int green);
+    void drawBall(int x, int y, int directionX, int directionY);
 
     uint32_t Wheel(byte WheelPos, int strip);
   public:
@@ -22,13 +20,18 @@ class LEDController {
     void setup(void);
     void pixelTest(void);
     void welcomeScreen(void);
-    
-    void clearCanvas(void);
-    void resetScreen(void);
 
+    // Update, being called by inturrupts
+    void update(void);
+
+    // Clearing and reseting
+    void clearCanvas(void);
+    void clearCanvasRow(int row);
+    void resetCanvas(void);
+        
     void drawPixel(int, int);
 
-    void setRGB(int, int, int);
+    void setColor(int, int, int);
 
     // Patterns
     void toggleBouncingBall(bool turnOn);
