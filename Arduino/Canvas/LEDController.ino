@@ -34,7 +34,7 @@ void LEDController::setup(void) {
   green = 255;
   blue = 181;
 
-  pixelTest();
+//  pixelTest();
 }
 
 /**
@@ -200,6 +200,7 @@ void LEDController::waitingDots(void) {
 }
 
 void LEDController::drawPixel(int x, int y) {
+  clearCanvas();
   for (int i = 0; i < 60; i++) {
     if (led_strips[y].getPixelColor(i) == 0) {
       led_strips[y].setPixelColor(i, 0, 0, 0);
