@@ -26,6 +26,8 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
     var timer = Timer()
     var characteristics = [String : CBCharacteristic]()
     
+    weak var delegate : UARTModuleViewController?
+    
     //Consider making a custom class for the peripheral table
     @IBOutlet weak var peripheralsTable : UITableView!
     
@@ -201,7 +203,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let uartViewController = storyboard.instantiateViewController(withIdentifier: "UARTModuleViewController") as! UARTModuleViewController
-        
+        delegate = uartViewController
         uartViewController.peripheral = peripheral
         
         navigationController?.pushViewController(uartViewController, animated: true)
@@ -386,6 +388,15 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                 characteristicASCIIValue = ASCIIstring
                 print("Value Recieved: \((characteristicASCIIValue as String))")
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "Notify"), object: nil)
+                
+                if !((delegate?.dataQueue!.isEmpty())!) {
+                    delegate?.idleState = false
+                    let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
+                    delegate?.writeValue(data: coordinate!)
+                }
+                else {
+                    delegate!.idleState = true
+                }
             }
         }
     }
@@ -403,7 +414,6 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
             print("Error discovering services: error")
             return
         }
-
     }
     
     /****************************************************************
@@ -420,7 +430,6 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         let peripheral = self.peripherals[indexPath.row]
         let RSSI = self.RSSIs[indexPath.row]
         
-//        print("&&&&in tableview delegate: \(String(describing: peripheral.name))")
         if peripheral.name == nil {
             cell.peripheralLabel.text = "nil"
         } else {

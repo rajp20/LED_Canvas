@@ -14,6 +14,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     var peripheralManager: CBPeripheralManager?
     var peripheral: CBPeripheral!
+    var idleState : Bool!
     
     // Drawing variables
     var lastPoint  : CGPoint!
@@ -23,9 +24,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
     
     private var queue        : Queue<Line>!
-    private var dataQueue    : Queue<CGPoint>!
+    var dataQueue            : Queue<CGPoint>!
     private var pixelTimer   : Timer!
-    private var dataTimer    : Timer!
+//    private var dataTimer    : Timer!
     private var timeInterval : TimeInterval = 0.08
     private var firstLoad    : Bool!
     private var prevPixel    : CGPoint!
@@ -44,13 +45,14 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         prevPixel = CGPoint.zero
         swiped    = false
         firstLoad = false
+        idleState = true
         
         queue      = Queue<Line>()
         dataQueue  = Queue<CGPoint>()
         pixelTimer = Timer()
-        dataTimer  = Timer()
+//        dataTimer  = Timer()
         startPixelTimer()
-        startDataTimer()
+//        startDataTimer()
         setupMenuBar()
     }
     
@@ -73,8 +75,8 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         menuBar.translatesAutoresizingMaskIntoConstraints = false // this will make your constraint working
         menuBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true // every constraint must be enabled.
         menuBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        menuBar.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+        menuBar.heightAnchor.constraint(equalToConstant: 120).isActive = true
     }
     
     private func startPixelTimer() {
@@ -82,32 +84,10 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         pixelTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(updatePixels), userInfo: nil, repeats: true)
     }
     
-    private func startDataTimer() {
-        guard dataTimer == nil else { return }
-        dataTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(sendDataFromQueue), userInfo: nil, repeats: true)
-    }
-    
     private func stopPixelTimer() {
         guard pixelTimer != nil else { return }
         pixelTimer?.invalidate()
         pixelTimer = nil
-    }
-    
-    private func stopDataTimer() {
-        guard dataTimer != nil else { return }
-        dataTimer?.invalidate()
-        dataTimer = nil
-    }
-    
-    @objc func sendDataFromQueue() {
-        if (!dataQueue.isEmpty()) {
-            
-            let point = dataQueue.peek()
-            if point.x != -1 && point.y != -1 {
-                let coordinate = coordinateString(point: dataQueue.dequeue())
-                writeValue(data: coordinate)
-            }
-        }
     }
     
     @objc private func updatePixels() {
@@ -176,20 +156,31 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
             
             lastPoint = currentPoint
             
-            if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+            if idleState {
+                idleState = false
+//                if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
                 
-                var currPixel = currentPoint
-                currPixel.x /= 17
-                currPixel.y /= 28
-                
-//                let string = coordinateString(point: prevPixel)
-                dataQueue.enqueue(prevPixel)
-//                let dataToSend = string.group(of: 20)
-//                for data in dataToSend {
-//                    writeValue(data: data)
+                    var currPixel = currentPoint
+                    currPixel.x /= 17
+                    currPixel.y /= 28
+                    
+                    let coordinate = coordinateString(point: currPixel)
+                    writeValue(data: coordinate)
+                    
+                    prevPixel = currPixel
 //                }
+            }
                 
-                prevPixel = currPixel
+            else {
+                if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+                    
+                    var currPixel = currentPoint
+                    currPixel.x /= 17
+                    currPixel.y /= 28
+                    
+                    dataQueue.enqueue(prevPixel)
+                    prevPixel = currPixel
+                }
             }
         }
     }
@@ -218,8 +209,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     
     func coordinateString(point: CGPoint) -> String {
-//        let rgb = color.getRGB()
-//        let coordinateString = "{\"x\":\(Int(point.x)),\"y\":\(Int(point.y)),\"r\":\(Int(rgb?["red"] ?? 0)),\"g\":\(Int(rgb?["green"] ?? 0)),\"b\":\(Int(rgb?["blue"] ?? 0))}"
         let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1;"
         return coordinateString
     }
