@@ -27,6 +27,9 @@ class LEDController {
 
     uint32_t Wheel(byte WheelPos, int strip);
   public:
+    // Public Variables
+    bool acid;
+  
     // Setup
     void setup(void);
     void pixelTest(void);
