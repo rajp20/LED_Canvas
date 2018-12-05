@@ -11,7 +11,6 @@
 
 /*=========================================================================
     APPLICATION SETTINGS
-
       FACTORYRESET_ENABLE       Perform a factory reset when running this sketch
      
                                 Enabling this will put your Bluefruit LE module
@@ -40,7 +39,7 @@
                               "DISABLE" or "MODE" or "BLEUART" or
                               "HWUART"  or "SPI"  or "MANUAL"
     -----------------------------------------------------------------------*/
-#define FACTORYRESET_ENABLE         0
+#define FACTORYRESET_ENABLE         1
 #define MINIMUM_FIRMWARE_VERSION    "0.8.0"
 #define MODE_LED_BEHAVIOUR          "MODE"
 /*=========================================================================*/
@@ -108,10 +107,12 @@ void BluetoothController::setup(void)
   /* Print Bluefruit information */
   ble.info();
 
+  ble.println("AT+UARTFLOW=on");
+
   /* Set callbacks */
   ble.setConnectCallback(BLEConnected);
   ble.setDisconnectCallback(BLEDisconnected);
-  ble.setBleUartRxCallback(BLEHandleData);
+  ble.setBleUartRxCallback(BLEDataReceived);
 
   /* Only one BLE GATT function should be set, it is possible to set it
     multiple times for multiple Chars ID  */
@@ -123,15 +124,16 @@ void BluetoothController::setup(void)
    Get Data from the iOS app.
 */
 char* BluetoothController::readPacket(void) {
+  char* toReturn = "OK";
   // Check for incoming characters from Bluefruit
   ble.println("AT+BLEUARTRX");
   ble.readline();
   if (strcmp(ble.buffer, "OK") == 0) {
     // no data
-    return "";
+    return toReturn;
   }
   // Some data was found, its in the buffer
-  char* toReturn = ble.buffer;
+  toReturn = ble.buffer;
   ble.waitForOK();
   return toReturn;
 }
