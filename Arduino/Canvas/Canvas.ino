@@ -22,12 +22,10 @@ int32_t charid_number;
 void setup() {
   Serial.begin(115200);
   //  Timer1.initialize(100000);
-  Timer3.initialize();
   bluetooth.setup();
   leds.setup();
   leds.pixelTest();
   //  motors.setup();
-  //  leds.toggleBouncingBall(true);
   BLEDisconnected();
 }
 
@@ -43,6 +41,10 @@ void BouncingBall() {
   leds.bouncingBall();
 }
 
+void RippleEffect() {
+  leds.ripple();
+}
+
 // BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
   Serial.println("Connected");
@@ -54,8 +56,8 @@ void BLEConnected() {
 void BLEDisconnected() {
   Serial.println("Disconnected");
   leds.welcomeScreen();
-  Timer3.attachInterrupt(WaitingForBLEConnection);
   Timer3.setPeriod(1000000);
+  Timer3.attachInterrupt(WaitingForBLEConnection);
 }
 
 /**
@@ -71,11 +73,27 @@ void BLEDataReceived(char* data, uint16_t len) {
   //  Serial.println(data);
   if (strcmp(data, "rst") == 0) {
     leds.clearCanvas();
-  } else if (strcmp(data, "tbbon") == 0) {
+  } else if (strcmp(data, "tbb1") == 0) {
     leds.clearCanvas();
     Timer3.setPeriod(100000);
     Timer3.attachInterrupt(BouncingBall);
-  } else if (strcmp(data, "tbboff") == 0) {
+  } else if (strcmp(data, "tbb0") == 0) {
+    Timer3.detachInterrupt();
+    leds.clearCanvas();
+  } else if (strcmp(data, "rip1") == 0) {
+    leds.clearCanvas();
+    Timer3.setPeriod(100000);
+    Timer3.attachInterrupt(RippleEffect);
+  } else if (strcmp(data, "rip0") == 0) {
+    Timer3.detachInterrupt();
+    leds.clearCanvas();
+  } else if (strcmp(data, "acid1") == 0) {
+    leds.acid = true;
+    leds.clearCanvas();
+    Timer3.setPeriod(100000);
+    Timer3.attachInterrupt(RippleEffect);
+  } else if (strcmp(data, "acid0") == 0) {
+    leds.acid = false;
     Timer3.detachInterrupt();
     leds.clearCanvas();
   } else {

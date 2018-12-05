@@ -36,9 +36,11 @@ void LEDController::setup(void) {
   bouncingBallState_x_direction = 1;
   bouncingBallState_y_direction = 1;
 
+  acid = false;
+
   byte rippleRadius = 1;
-  byte rippleOrigin_x = random(0, 18);
-  byte rippleOrigin_y = random(0, 60);
+  byte rippleOrigin_x = random(1, 59);
+  byte rippleOrigin_y = random(1, 17);
 
   current_RGB = ((uint32_t)74 << 16) | ((uint32_t)255 <<  8) | 181;
 }
@@ -259,12 +261,13 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
 }
 
 void LEDController::ripple() {
-  if (rippleRadius > 1) {
-    circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius - 1, true);
+  if (!acid) {
+    //    circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius - 1, true);
+    clearCanvas();
   }
   circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius, false);
   rippleRadius++;
-//  setColor(random(50, 255), random(50, 255), random(50, 255));
+  setColor(random(25, 255), random(25, 255), random(25, 255));
   update();
 }
 
@@ -329,8 +332,8 @@ void LEDController::drawCircle(int xo, int yo, int x, int y, uint32_t color) {
     inbound++;
   }
   if (inbound == 0) {
-    byte rippleRadius = 0;
-    byte rippleOrigin_x = random(0, 18);
-    byte rippleOrigin_y = random(0, 60);
+    rippleRadius = 0;
+    rippleOrigin_x = random(1, 59);
+    rippleOrigin_y = random(1, 17);
   }
 }
