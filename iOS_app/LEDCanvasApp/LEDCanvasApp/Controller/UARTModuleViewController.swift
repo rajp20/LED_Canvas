@@ -40,6 +40,13 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     public struct Patterns {
         var ballPatternInProgress   = false
         var ripplePatternInProgress = false
+        var acidPatternInProgress   = false
+        
+        mutating func resetPatterns() {
+            ballPatternInProgress   = false
+            ripplePatternInProgress = false
+            acidPatternInProgress   = false
+        }
     }
     
     var patterns : Patterns!
@@ -137,7 +144,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         queue.clearQueue()
         dataQueue.clearQueue()
         if (idleState == true){
-            writeValue(data: "rst")
+            writeValue(data: "0")
             return
         }
         shouldReset = true
@@ -163,7 +170,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
-        if !patterns.ballPatternInProgress {
+        if !patterns.ballPatternInProgress || !patterns.ripplePatternInProgress || !patterns.acidPatternInProgress {
             
             if tempImage.bounds.contains(lastPoint) {
                 
@@ -185,7 +192,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
                     
                     // Check to see if a reset needs to be sent, as it has priority over everything
                     if (shouldReset == true){
-                        writeValue(data: "rst")
+                        writeValue(data: "0")
                         shouldReset = false
                     }
                     else {
@@ -233,13 +240,13 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     
     func coordinateString(point: CGPoint) -> String {
-        let coordinateString = "xyz,\(Int(point.x)),\(Int(point.y)),1;"
+        let coordinateString = "x,\(Int(point.x)),\(Int(point.y));"
         return coordinateString
     }
     
     func colorString() -> String{
         let rgb = color.getRGB()
-        let colorString = "rgb,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0));"
+        let colorString = "c,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0));"
         return colorString
     }
     

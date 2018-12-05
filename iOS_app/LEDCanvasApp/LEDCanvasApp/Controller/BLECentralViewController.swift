@@ -391,11 +391,11 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                 
                 // Check to see if a reset needs to be sent, as it has priority over everything
                 if (delegate?.shouldReset == true){
-                    delegate?.writeValue(data: "rst")
+                    delegate?.writeValue(data: "0")
                     delegate?.shouldReset = false
                 }
                 else{
-                    if !(delegate?.patterns!.ballPatternInProgress)! {
+                    if !(delegate?.patterns!.ballPatternInProgress)! || (delegate?.patterns!.ripplePatternInProgress)! || (delegate?.patterns!.acidPatternInProgress)! {
                         if !((delegate?.dataQueue!.isEmpty())!) {
                             delegate?.idleState = false
                             let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())

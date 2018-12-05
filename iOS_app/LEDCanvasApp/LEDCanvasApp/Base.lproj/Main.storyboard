@@ -155,11 +155,21 @@
                                     <action selector="RipplePatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="fS6-st-j6W"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jo5-eC-Wsc" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
+                                <rect key="frame" x="258" y="311" width="129" height="84"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Acid"/>
+                                <connections>
+                                    <action selector="AcidPatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="NSK-yj-FkX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Wm4-fi-QUj"/>
                     </view>
                     <connections>
+                        <outlet property="acidPatternButton" destination="jo5-eC-Wsc" id="PPP-IH-TI3"/>
                         <outlet property="ballPatternButton" destination="qnW-Rm-PEW" id="8zE-In-LJ7"/>
                         <outlet property="ripplePatternButton" destination="iy7-3I-O5u" id="Fzr-Tx-ifC"/>
                     </connections>

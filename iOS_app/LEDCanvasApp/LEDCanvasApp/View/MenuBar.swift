@@ -19,7 +19,8 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         return cv
     }()
     
-    weak var delegate: UARTModuleViewController?
+    weak var delegate        : UARTModuleViewController?
+    weak var patternVC : PatternController?
     
     let titles = ["Color", "Pattern", "Reset"]
     let icons  = ["ColorSelect", "PatternSelect", "ResetSelect"]
@@ -86,11 +87,21 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
             colorVC.uartVC = delegate
             delegate?.navigationController?.pushViewController(colorVC, animated: true)
         case 1:
-            let patternVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PatternController") as! PatternController
-            patternVC.uartVC = delegate
-            delegate?.navigationController?.pushViewController(patternVC, animated: true)
+            patternVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PatternController") as? PatternController
+            patternVC!.uartVC = delegate
+            print(patternVC?.description)
+            delegate?.navigationController?.pushViewController(patternVC!, animated: true)
         case 2:
             delegate?.clearContents()
+            print(patternVC?.description)
+            
+            guard let pVC = patternVC else { return }
+            for button in pVC.buttons {
+                button.isUserInteractionEnabled = true
+            }
+            print("made it")
+            delegate?.patterns.resetPatterns()
+            
         default:
             return
         }
