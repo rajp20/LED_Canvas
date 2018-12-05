@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		673527ED21B7A88300F4AB5B /* MagicDrawingIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 673527EC21B7A88300F4AB5B /* MagicDrawingIcon.png */; };
 		675E14CD2196468900CF4193 /* GroupString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14CC2196468900CF4193 /* GroupString.swift */; };
 		675E14DB219F4FF300CF4193 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DA219F4FF300CF4193 /* MenuCell.swift */; };
 		675E14E021A0B65500CF4193 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E14DF21A0B65500CF4193 /* Queue.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		673527EC21B7A88300F4AB5B /* MagicDrawingIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MagicDrawingIcon.png; path = "../../../../../Downloads/Telegram Desktop/MagicDrawingIcon.png"; sourceTree = "<group>"; };
 		675E14CC2196468900CF4193 /* GroupString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupString.swift; sourceTree = "<group>"; };
 		675E14DA219F4FF300CF4193 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		675E14DF21A0B65500CF4193 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				67F986E1214AE9E70058497D /* AppDelegate.swift */,
 				67F986E5214AE9E70058497D /* Main.storyboard */,
 				67F986E8214AE9E80058497D /* Assets.xcassets */,
+				673527EC21B7A88300F4AB5B /* MagicDrawingIcon.png */,
 				67F986EA214AE9E80058497D /* LaunchScreen.storyboard */,
 				67F986ED214AE9E80058497D /* Info.plist */,
 				67CFD76C214C10FD00C9569B /* UUIDKey.swift */,
@@ -205,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67F986EC214AE9E80058497D /* LaunchScreen.storyboard in Resources */,
+				673527ED21B7A88300F4AB5B /* MagicDrawingIcon.png in Resources */,
 				67F986E9214AE9E80058497D /* Assets.xcassets in Resources */,
 				67F986E7214AE9E70058497D /* Main.storyboard in Resources */,
 			);
