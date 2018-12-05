@@ -91,7 +91,6 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
             delegate?.navigationController?.pushViewController(patternVC, animated: true)
         case 2:
             delegate?.clearContents()
-            delegate!.writeValue(data: "rst")
         default:
             return
         }

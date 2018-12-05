@@ -389,14 +389,22 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                 print("Value Recieved: \((characteristicASCIIValue as String))")
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "Notify"), object: nil)
                 
-                if !((delegate?.dataQueue!.isEmpty())!) {
-                    delegate?.idleState = false
-                    let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
-                    print(coordinate?.description)
-                    delegate?.writeValue(data: coordinate!)
+                // Check to see if a reset needs to be sent, as it has priority over everything
+                if (delegate?.shouldReset == true){
+                    delegate?.writeValue(data: "rst")
+                    delegate?.shouldReset = false
                 }
-                else {
-                    delegate!.idleState = true
+                else{
+                    if !(delegate?.patterns!.ballPatternInProgress)! {
+                        if !((delegate?.dataQueue!.isEmpty())!) {
+                            delegate?.idleState = false
+                            let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
+                            delegate?.writeValue(data: coordinate!)
+                        }
+                        else {
+                            delegate!.idleState = true
+                        }
+                    }
                 }
             }
         }
