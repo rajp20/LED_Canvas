@@ -21,13 +21,15 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-  //  Timer1.initialize(100000);
-  Timer3.initialize();
+  Timer1.initialize(100000);
+  Timer3.initialize(100000);
   bluetooth.setup();
   leds.setup();
   leds.pixelTest();
-  //  motors.setup();
-  BLEDisconnected();
+    //motors.setup();
+//   BLEDisconnected();
+  leds.conwayLifeInitial();
+  Timer3.attachInterrupt(ConwayLife);
 }
 
 void loop() {
@@ -46,10 +48,14 @@ void RippleEffect() {
   leds.ripple();
 }
 
+void ConwayLife() {
+  leds.conwayLife();
+}
+
 // BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
   // If it is already connected, getting bad data and just return
-  if (bluetooth.getConnection()){
+  if (bluetooth.getConnection()) {
     Serial.println("Bad connect");
     return;
   }

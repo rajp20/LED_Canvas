@@ -12,6 +12,8 @@ class LEDController {
 
     uint32_t canvas[18][60];
 
+    int state;
+
     byte bouncingBallState_x;
     byte bouncingBallState_y;
     int bouncingBallState_x_direction;
@@ -35,6 +37,12 @@ class LEDController {
     void pixelTest(void);
     void welcomeScreen(void);
 
+    // Helper for convways life
+    bool isAlive(int x, int y);
+    int getNumberOfNeighbors(int x, int y);
+    void drawExplosionConway(int x, int y);
+    
+
     // Update, being called by inturrupts
     void update(void);
 
@@ -49,6 +57,8 @@ class LEDController {
     // Patterns
     void bouncingBall();
     void ripple();
+    void conwayLife();
+    void conwayLifeInitial();
 
     // Bluetooth connection waiting
     void waitingDots(void);

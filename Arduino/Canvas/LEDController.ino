@@ -29,6 +29,8 @@ void LEDController::setup(void) {
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
 
+  state = 0;
+
   waitingDotsState = 0;
 
   bouncingBallState_x = 0;
@@ -260,14 +262,167 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
   canvas[y + 1][x + 1] = current_RGB;
 }
 
+bool LEDController::isAlive(int x, int y){
+  bool alive = (canvas[x][y] >> 16) & (0x1);
+  return alive;
+}
+
+int LEDController::getNumberOfNeighbors(int x, int y){
+  int numberOfNeighbors = 0;
+
+  int xLeftIndex = x - 1;
+  int xRightIndex = x + 1;
+  int yUpIndex = y - 1;
+  int yDownIndex = y + 1;
+
+  // Check x bounds
+  if (x == 0){
+    xLeftIndex = 17;
+  }
+
+  if (x == 17){
+    xRightIndex = 0;
+  }
+
+  // Check y bounds
+  if (y == 0){
+    yUpIndex = 59;
+  }
+
+  if (y == 59){
+    yDownIndex = 0;
+  }
+
+  // Add up all 8 neighbors
+  // Top Row
+  numberOfNeighbors += isAlive(xLeftIndex, yUpIndex);
+  numberOfNeighbors += isAlive(x, yUpIndex);
+  numberOfNeighbors += isAlive(xRightIndex, yUpIndex);
+
+  // Middle Row
+  numberOfNeighbors += isAlive(xLeftIndex, y);
+  numberOfNeighbors += isAlive(xRightIndex, y);
+
+  // Bottom Row
+  numberOfNeighbors += isAlive(xLeftIndex, yDownIndex);
+  numberOfNeighbors += isAlive(x, yDownIndex);
+  numberOfNeighbors += isAlive(xRightIndex, yDownIndex);
+  
+
+  return numberOfNeighbors;
+}
+
+void LEDController::conwayLife(){
+
+  bool changed = false;
+
+  int numNeighbors;
+  for (int x = 0; x < 18; x++){
+    for (int y = 0; y < 60; y++){
+
+      
+      numNeighbors = getNumberOfNeighbors(x, y);
+      
+      // Dies
+      if (isAlive(x,y) && numNeighbors < 2){
+        changed = true;
+        continue;
+      }
+      // Dies
+      if (isAlive(x,y) && numNeighbors > 3){
+        changed = true;
+        continue;
+      }
+
+      // Born
+      if (!isAlive(x,y) && numNeighbors == 3){
+        changed = true;
+        // Set upper bits to high
+        canvas[x][y] = 0;
+        canvas[x][y] |= 0xFF000000;
+        continue;
+      }
+
+      // Cell remains in its same state
+      if (isAlive(x,y) && (numNeighbors == 3 || numNeighbors == 2)) {
+        // Shift the current bits to future state
+        canvas[x][y] &= 0x00FF0000;
+        canvas[x][y] |= (canvas[x][y] << 8);
+        continue;
+      }
+    }
+  }
+
+  // If nothing changed this state, reintialize    
+  if (changed == false){
+    conwayLifeInitial();
+    update();
+    return;
+  }
+
+  // Update to future state
+  for (int x = 0; x < 18; x++){
+    for (int y = 0; y < 60; y++){
+        // Clear the current state bits
+        canvas[x][y] &= 0xFF00FFFF;
+        // Shift future state to current state
+        canvas[x][y] >>= 8;
+    }
+  }
+
+  update();
+}
+
+void LEDController::conwayLifeInitial(){
+  clearCanvas();
+  setColor(255,0,0);
+//  for (int i = 0; i < 18; i++){
+//    for(int j = 0; j < 60; j++){
+//      int shouldSetColor = random(0,2);
+//      if (shouldSetColor){
+//        canvas[i][j] = current_RGB;
+//      }
+//    }
+//  }
+
+  int x = random(2,15);
+  int y = random(3, 57);
+
+  drawExplosionConway(x, y);
+
+  update();
+}
+
 void LEDController::ripple() {
   if (!acid) {
     clearCanvas();
   }
+  
   circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius);
   rippleRadius++;
-  setColor(random(25, 255), random(25, 255), random(25, 255));
+  
+  setColor(random(0, 255), random(0, 255), random(0, 255));
   update();
+}
+
+void LEDController::drawExplosionConway(int x, int y){
+   // Small explosion intialization 
+  canvas[x][y] = current_RGB;
+  canvas[x+1][y-1] = current_RGB;
+  canvas[x+1][y] = current_RGB;
+  canvas[x+1][y+1] = current_RGB;
+  canvas[x+2][y-1] = current_RGB;
+  canvas[x+2][y+1] = current_RGB;
+  canvas[x+3][y] = current_RGB;
+
+//  canvas[8][30] = current_RGB;
+//  canvas[9][29] = current_RGB;
+//  canvas[9][30] = current_RGB;
+//  canvas[9][31] = current_RGB;
+//  canvas[10][29] = current_RGB;
+//  canvas[10][31] = current_RGB;
+//  canvas[11][30] = current_RGB;
+  
 }
 
 void LEDController::circleBres(int xo, int yo, int r) {
