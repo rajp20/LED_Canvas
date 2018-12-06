@@ -48,13 +48,20 @@ void RippleEffect() {
 
 // BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
+  // If it is already connected, getting bad data and just return
+  if (bluetooth.getConnection()){
+    Serial.println("Bad connect");
+    return;
+  }
   Serial.println("Connected");
   Timer3.detachInterrupt();
   leds.clearCanvas();
+  bluetooth.isConnected();
   bluetooth.writePacket("Thx");
 }
 
 void BLEDisconnected() {
+  bluetooth.disconnect();
   Serial.println("Disconnected");
   Timer3.detachInterrupt();
   leds.welcomeScreen();

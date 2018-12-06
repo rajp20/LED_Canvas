@@ -63,6 +63,8 @@ void error(const __FlashStringHelper*err) {
 /**************************************************************************/
 void BluetoothController::setup(void)
 {
+
+  connected = false;
   Serial.println(F("Adafruit Bluefruit Callbacks Example"));
   Serial.println(F("-------------------------------------"));
 
@@ -117,6 +119,18 @@ void BluetoothController::setup(void)
     multiple times for multiple Chars ID  */
   ble.setBleGattRxCallback(charid_string, BleGattRX);
   ble.setBleGattRxCallback(charid_number, BleGattRX);
+}
+
+void BluetoothController::isConnected(void){
+  connected = true;
+}
+
+bool BluetoothController::getConnection(void){
+  return connected;
+}
+
+void BluetoothController::disconnect(void){
+  connected = false;
 }
 
 /*
