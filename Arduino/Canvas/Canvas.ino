@@ -21,7 +21,7 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-//    Timer1.initialize(100000);
+  //    Timer1.initialize(100000);
   Timer3.initialize();
   bluetooth.setup();
   leds.setup();
@@ -50,6 +50,10 @@ void ConwayLife() {
   leds.conwayLife();
 }
 
+void FadeOutCanvas() {
+  leds.fadeOutCanvas(2);
+}
+
 // BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
   // If it is already connected, getting bad data and just return
@@ -62,6 +66,8 @@ void BLEConnected() {
   leds.clearCanvas();
   bluetooth.isConnected();
   bluetooth.writePacket("Thx");
+  Timer3.setPeriod(1000000);
+  Timer3.attachInterrupt(FadeOutCanvas);
 }
 
 void BLEDisconnected() {
@@ -188,7 +194,7 @@ void BLEDataReceived(char* data, uint16_t len) {
     } else if (command == 'x') {
       // Call motors and leds
       motors.move(parsedData[0], parsedData[1]);
-      leds.drawPixel(parsedData[0], parsedData[1]);
+      leds.drawBox(parsedData[0], parsedData[1]);
     }
   }
   bluetooth.writePacket("1");

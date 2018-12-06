@@ -170,6 +170,24 @@ void LEDController::fadeOutCanvas(int fade_out) {
 }
 
 /**
+  Draws a 2x2 pixel onto the canvas
+ */
+void LEDController::drawBox(int x, int y) {
+  fadeOutCanvas(2);
+  canvas[y][x] = current_RGB;
+  if (y + 1 < 18) {
+    canvas[y + 1][x] = current_RGB;
+    if (x + 1 < 60) {
+      canvas[y + 1][x + 1] = current_RGB;
+    }
+  }
+  if (x + 1 < 60) {
+    canvas[y][x + 1] = current_RGB;
+  }
+  update();
+}
+
+/**
   Sets the pixel at (x, y) with the current RGB color.
 */
 void LEDController::drawPixel(int x, int y) {
@@ -247,7 +265,7 @@ void LEDController::bouncingBall() {
   int lowerBound = 1;
   int upperBound = 255;
 
-  undrawBall(bouncingBallState_x, bouncingBallState_y);
+  drawBall(bouncingBallState_x, bouncingBallState_y, 0);
   // Check the boundaries
 
   // X boundary
@@ -272,31 +290,20 @@ void LEDController::bouncingBall() {
 
   bouncingBallState_x += bouncingBallState_x_direction;
   bouncingBallState_y += bouncingBallState_y_direction;
-  drawBall(bouncingBallState_x, bouncingBallState_y, bouncingBallState_x_direction, bouncingBallState_y_direction);
+  drawBall(bouncingBallState_x, bouncingBallState_y, current_RGB);
 
   update();
 }
 
-void LEDController::undrawBall(int x, int y) {
-
-  // Turn off the upper row of the ball
-  canvas[y][x] = 0;
-  canvas[y][x + 1] = 0;
-
-  // Turn off the lower row of the ball
-  canvas[y + 1][x] = 0;
-  canvas[y + 1][x + 1] = 0;
-}
-
-void LEDController::drawBall(int x, int y, int directionX, int directionY) {
+void LEDController::drawBall(int x, int y, uint32_t color) {
 
   // Turn on the upper row of the ball
-  canvas[y][x] = current_RGB;
-  canvas[y][x + 1] = current_RGB;
+  canvas[y][x] = color;
+  canvas[y][x + 1] = color;
 
   // Turn on the lower row of the ball
-  canvas[y + 1][x] = current_RGB;
-  canvas[y + 1][x + 1] = current_RGB;
+  canvas[y + 1][x] = color;
+  canvas[y + 1][x + 1] = color;
 }
 
 bool LEDController::isAlive(int x, int y) {
