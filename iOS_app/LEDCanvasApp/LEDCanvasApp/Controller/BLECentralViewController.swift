@@ -395,7 +395,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                     delegate?.shouldReset = false
                 }
                 else{
-                    if !(delegate?.patterns!.ballPatternInProgress)! || (delegate?.patterns!.ripplePatternInProgress)! || (delegate?.patterns!.acidPatternInProgress)! {
+                    if !(delegate?.patterns!.ballPatternInProgress)! || (delegate?.patterns!.ripplePatternInProgress)! || (delegate?.patterns!.acidPatternInProgress)! || (delegate?.patterns!.lifePatternInProgress)! {
                         if !((delegate?.dataQueue!.isEmpty())!) {
                             delegate?.idleState = false
                             let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())

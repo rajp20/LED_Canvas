@@ -14,6 +14,7 @@ class PatternController : UIViewController {
     @IBOutlet weak var ballPatternButton: CustomButton!
     @IBOutlet weak var ripplePatternButton: CustomButton!
     @IBOutlet weak var acidPatternButton: CustomButton!
+    @IBOutlet weak var lifePatternButton: CustomButton!
     
     var buttons : [CustomButton]!
     
@@ -21,6 +22,7 @@ class PatternController : UIViewController {
         self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
         buttons = [ballPatternButton, ripplePatternButton]
     }
+
     @IBAction func BallPatternClicked(_ sender: Any) {
         
         if !uartVC!.patterns.ballPatternInProgress {
@@ -103,5 +105,33 @@ class PatternController : UIViewController {
         }
         
         uartVC!.patterns.acidPatternInProgress = !uartVC!.patterns.acidPatternInProgress
+    }
+    
+    @IBAction func LifePatternClicked(_ sender: Any) {
+        
+        if !uartVC!.patterns.lifePatternInProgress {
+            uartVC!.dataQueue.clearQueue()
+            
+            for button in buttons {
+                if button == sender as? CustomButton {
+                    continue
+                }
+                button.isUserInteractionEnabled = false
+            }
+            var count = 0
+            while count < 1000 {
+                count += 1
+            }
+            uartVC!.writeValue(data: "p41")
+        }
+        else {
+            uartVC!.writeValue(data: "p40")
+            
+            for button in buttons {
+                button.isUserInteractionEnabled = true
+            }
+        }
+        
+        uartVC!.patterns.lifePatternInProgress = !uartVC!.patterns.lifePatternInProgress
     }
 }

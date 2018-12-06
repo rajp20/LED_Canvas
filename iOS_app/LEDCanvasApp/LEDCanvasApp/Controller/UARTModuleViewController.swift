@@ -41,11 +41,13 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         var ballPatternInProgress   = false
         var ripplePatternInProgress = false
         var acidPatternInProgress   = false
+        var lifePatternInProgress   = false
         
         mutating func resetPatterns() {
             ballPatternInProgress   = false
             ripplePatternInProgress = false
             acidPatternInProgress   = false
+            lifePatternInProgress   = false
         }
     }
     
@@ -170,7 +172,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
-        if !patterns.ballPatternInProgress || !patterns.ripplePatternInProgress || !patterns.acidPatternInProgress {
+        if !patterns.ballPatternInProgress || !patterns.ripplePatternInProgress || !patterns.acidPatternInProgress || !patterns.lifePatternInProgress {
             
             if tempImage.bounds.contains(lastPoint) {
                 

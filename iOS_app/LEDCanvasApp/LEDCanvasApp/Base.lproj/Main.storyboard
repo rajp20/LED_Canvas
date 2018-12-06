@@ -164,6 +164,15 @@
                                     <action selector="AcidPatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="NSK-yj-FkX"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cvb-9t-m01" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
+                                <rect key="frame" x="619" y="311" width="129" height="84"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Life"/>
+                                <connections>
+                                    <action selector="LifePatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="oa1-Lg-ue8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Wm4-fi-QUj"/>
@@ -171,6 +180,7 @@
                     <connections>
                         <outlet property="acidPatternButton" destination="jo5-eC-Wsc" id="PPP-IH-TI3"/>
                         <outlet property="ballPatternButton" destination="qnW-Rm-PEW" id="8zE-In-LJ7"/>
+                        <outlet property="lifePatternButton" destination="Cvb-9t-m01" id="XeJ-5h-x4U"/>
                         <outlet property="ripplePatternButton" destination="iy7-3I-O5u" id="Fzr-Tx-ifC"/>
                     </connections>
                 </viewController>
