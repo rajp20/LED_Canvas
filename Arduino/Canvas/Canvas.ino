@@ -11,7 +11,12 @@ BluetoothController bluetooth;
 LEDController leds;
 MotorController motors;
 
-//QueueArray<char*> queue;
+typedef struct {
+   int x;
+   int y;
+} XYData;
+
+QueueArray<XYData> queue;
 
 String buff = "";
 bool data_in = false;
@@ -21,7 +26,7 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-//    Timer1.initialize(100000);
+  //    Timer1.initialize(100000);
   Timer3.initialize();
   bluetooth.setup();
   leds.setup();
@@ -32,6 +37,11 @@ void setup() {
 
 void loop() {
   bluetooth.updateBLE(100);
+  if (!queue.isEmpty()) {
+    XYData xy = queue.dequeue();
+    motors.move(xy.x, xy.y);
+    leds.drawPixel(xy.x, xy.y);
+  }
 }
 
 void WaitingForBLEConnection() {
@@ -186,9 +196,15 @@ void BLEDataReceived(char* data, uint16_t len) {
     if (command == 'c') {
       leds.setColor(parsedData[0], parsedData[1], parsedData[2]);
     } else if (command == 'x') {
+
+      XYData data = {
+        parsedData[0],
+        parsedData[1]
+      };
+      queue.enqueue(data);
       // Call motors and leds
-      motors.move(parsedData[0], parsedData[1]);
-      leds.drawPixel(parsedData[0], parsedData[1]);
+      //      motors.move(parsedData[0], parsedData[1]);
+      //      leds.drawPixel(parsedData[0], parsedData[1]);
     }
   }
   bluetooth.writePacket("1");

@@ -67,7 +67,7 @@ void MotorController::calibrate(void) {
   bool x_done = digitalRead(X_LIMIT_SWITCH) == LOW;
   bool y_done = digitalRead(Y_LIMIT_SWITCH) == LOW;
 
-//  actuatorUp();
+  //  actuatorUp();
   while (true) {
     if (!x_done) {
       step(X_MOTOR);
@@ -81,7 +81,24 @@ void MotorController::calibrate(void) {
       break;
     }
   }
-//  actuatorDown();
+
+  // Center on Pixel
+  setDirection(X_MOTOR, RIGHT);
+  setDirection(Y_MOTOR, DOWN);
+  
+  int move_x = STEP_X / 2;
+  int move_y = STEP_Y / 2;
+  while (move_x > 0 && move_y > 0) {
+    if (move_x > 0) {
+      step(X_MOTOR);
+      move_x--;
+    }
+    if (move_y > 0) {
+      step(Y_MOTOR);
+      move_y--;
+    }
+  }
+  //  actuatorDown();
 }
 
 /**
@@ -111,7 +128,7 @@ void MotorController::step(bool motor)
   // you decrease the delay, the stepper motor will go fast, but
   // there is a limit to how fast it can go before it starts
   // missing steps.
-  delayMicroseconds(1500);
+  delayMicroseconds(2000);
 }
 
 /**
@@ -155,23 +172,23 @@ void MotorController::actuatorDown(void) {
 }
 
 /*
-* Move the motor to the new position
+  Move the motor to the new position
 */
-void MotorController::move(int x, int y){
+void MotorController::move(int x, int y) {
 
   // Bound the x-axis
-  if (x < 0){
+  if (x < 0) {
     x = 0;
   }
-  if (x > 57){
+  if (x > 57) {
     x = 57;
   }
 
   // Bound the y-axis
-  if (y < 0){
+  if (y < 0) {
     y = 0;
   }
-  if (y > 17){
+  if (y > 17) {
     y = 17;
   }
 
@@ -183,7 +200,7 @@ void MotorController::move(int x, int y){
   bool yDirection;
 
   // Determine what direction the motors need to go
-  if (numberOfXSteps < 0){
+  if (numberOfXSteps < 0) {
     xDirection = LEFT;
 
     // Make it positive for next calculations
@@ -193,7 +210,7 @@ void MotorController::move(int x, int y){
     xDirection = RIGHT;
   }
 
-  if (numberOfYSteps < 0){
+  if (numberOfYSteps < 0) {
     yDirection = UP;
 
     // Make it positive for next calculations
@@ -211,15 +228,15 @@ void MotorController::move(int x, int y){
   numberOfYSteps *= STEP_Y;
 
 
-  while (numberOfXSteps > 0 ||  numberOfYSteps > 0){
-      if (numberOfXSteps > 0){
-        step(X_MOTOR);
-        numberOfXSteps--;
-      }
-      if (numberOfYSteps > 0){
-        step(Y_MOTOR);
-        numberOfYSteps--;
-      }
+  while (numberOfXSteps > 0 ||  numberOfYSteps > 0) {
+    if (numberOfXSteps > 0) {
+      step(X_MOTOR);
+      numberOfXSteps--;
+    }
+    if (numberOfYSteps > 0) {
+      step(Y_MOTOR);
+      numberOfYSteps--;
+    }
   }
 
   curY = y;
