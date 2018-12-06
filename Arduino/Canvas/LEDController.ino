@@ -44,7 +44,8 @@ void LEDController::setup(void) {
   byte rippleOrigin_x = random(1, 59);
   byte rippleOrigin_y = random(1, 17);
 
-  current_RGB = ((uint32_t)74 << 16) | ((uint32_t)255 <<  8) | 181;
+  current_RGB = encodeColor(74, 255, 181);
+  //  current_RGB = ((uint32_t)74 << 16) | ((uint32_t)255 <<  8) | 181;
 }
 
 /**
@@ -151,6 +152,55 @@ void LEDController::clearCanvas(void) {
 }
 
 /**
+  Fades out the canvas by subtracting the given number from the RGB
+  values.
+*/
+void LEDController::fadeOutCanvas(int fade_out) {
+  for (int y = 0; y < 18; y++) {
+    for (int x = 0; x < 60; x++) {
+      if (canvas[y][x] != 0) {
+        uint8_t red = canvas[y][x] >> 16;
+        uint8_t green = canvas[y][x] >> 8;
+        uint8_t blue = canvas[y][x];
+        canvas[y][x] = encodeColor(red / fade_out, green / fade_out, blue / fade_out);
+      }
+    }
+  }
+  update();
+}
+
+/**
+  Sets the pixel at (x, y) with the current RGB color.
+*/
+void LEDController::drawPixel(int x, int y) {
+  canvas[y][x] = current_RGB;
+  update();
+}
+
+/**
+  Sets the current RGB color.
+*/
+void LEDController::setColor(int red, int green, int blue) {
+  current_RGB = ((uint32_t)red << 16) | ((uint32_t)green <<  8) | blue;
+}
+
+uint32_t LEDController::encodeColor(uint8_t red, uint8_t green, uint8_t blue) {
+  if (red < 0) {
+    red = 0;
+  }
+  if (green < 0) {
+    green = 0;
+  }
+  if (blue < 0) {
+    blue = 0;
+  }
+  if (red == 0 && green == 0 && blue == 0) {
+    return 0;
+  }
+  return ((uint32_t)red << 16) | ((uint32_t)green <<  8) | blue;
+}
+
+/**
   Clears the specified row.
 */
 void LEDController::clearCanvasRow(int row) {
@@ -191,19 +241,6 @@ void LEDController::waitingDots(void) {
   }
   update();
 }
-
-void LEDController::drawPixel(int x, int y) {
-  canvas[y][x] = current_RGB;
-  update();
-}
-
-/**
-  Sets the current RGB color.
-*/
-void LEDController::setColor(int red, int green, int blue) {
-  current_RGB = ((uint32_t)red << 16) | ((uint32_t)green <<  8) | blue;
-}
-
 
 // Make sure to reset the LEDs if you exit out of this method
 void LEDController::bouncingBall() {
@@ -262,12 +299,12 @@ void LEDController::drawBall(int x, int y, int directionX, int directionY) {
   canvas[y + 1][x + 1] = current_RGB;
 }
 
-bool LEDController::isAlive(int x, int y){
+bool LEDController::isAlive(int x, int y) {
   bool alive = (canvas[x][y] >> 16) & (0x1);
   return alive;
 }
 
-int LEDController::getNumberOfNeighbors(int x, int y){
+int LEDController::getNumberOfNeighbors(int x, int y) {
   int numberOfNeighbors = 0;
 
   int xLeftIndex = x - 1;
@@ -276,20 +313,20 @@ int LEDController::getNumberOfNeighbors(int x, int y){
   int yDownIndex = y + 1;
 
   // Check x bounds
-  if (x == 0){
+  if (x == 0) {
     xLeftIndex = 17;
   }
 
-  if (x == 17){
+  if (x == 17) {
     xRightIndex = 0;
   }
 
   // Check y bounds
-  if (y == 0){
+  if (y == 0) {
     yUpIndex = 59;
   }
 
-  if (y == 59){
+  if (y == 59) {
     yDownIndex = 0;
   }
 
@@ -307,44 +344,45 @@ int LEDController::getNumberOfNeighbors(int x, int y){
   numberOfNeighbors += isAlive(xLeftIndex, yDownIndex);
   numberOfNeighbors += isAlive(x, yDownIndex);
   numberOfNeighbors += isAlive(xRightIndex, yDownIndex);
-  
+
 
   return numberOfNeighbors;
 }
 
-void LEDController::conwayLife(){
+void LEDController::conwayLife() {
 
   bool changed = false;
 
   int numNeighbors;
-  for (int x = 0; x < 18; x++){
-    for (int y = 0; y < 60; y++){
+  for (int x = 0; x < 18; x++) {
+    for (int y = 0; y < 60; y++) {
 
-      
+
       numNeighbors = getNumberOfNeighbors(x, y);
-      
+
       // Dies
-      if (isAlive(x,y) && numNeighbors < 2){
+      if (isAlive(x, y) && numNeighbors < 2) {
         changed = true;
         continue;
       }
       // Dies
-      if (isAlive(x,y) && numNeighbors > 3){
+      if (isAlive(x, y) && numNeighbors > 3) {
         changed = true;
         continue;
       }
 
       // Born
-      if (!isAlive(x,y) && numNeighbors == 3){
+      if (!isAlive(x, y) && numNeighbors == 3) {
         changed = true;
         // Set upper bits to high
+        //        canvas[x][y] = encodeColor(0, 0, 255);
         canvas[x][y] = 0;
         canvas[x][y] |= 0xFF000000;
         continue;
       }
 
       // Cell remains in its same state
-      if (isAlive(x,y) && (numNeighbors == 3 || numNeighbors == 2)) {
+      if (isAlive(x, y) && (numNeighbors == 3 || numNeighbors == 2)) {
         // Shift the current bits to future state
         canvas[x][y] &= 0x00FF0000;
         canvas[x][y] |= (canvas[x][y] << 8);
@@ -353,76 +391,80 @@ void LEDController::conwayLife(){
     }
   }
 
-  // If nothing changed this state, reintialize    
-  if (changed == false){
-    conwayLifeInitial();
-    update();
-    return;
-  }
+  // If nothing changed this state, reintialize
+  //  if (changed == false) {
+  //    conwayLifeInitial();
+  //    update();
+  //    return;
+  //  }
 
   // Update to future state
-  for (int x = 0; x < 18; x++){
-    for (int y = 0; y < 60; y++){
-        // Clear the current state bits
-        canvas[x][y] &= 0xFF00FFFF;
-        // Shift future state to current state
-        canvas[x][y] >>= 8;
+  for (int x = 0; x < 18; x++) {
+    for (int y = 0; y < 60; y++) {
+      // Clear the current state bits
+      canvas[x][y] &= 0xFF000000 | canvas[x][y];
+      // Shift future state to current state
+      canvas[x][y] >>= 8;
     }
   }
 
   update();
 }
 
-void LEDController::conwayLifeInitial(){
+void LEDController::conwayLifeInitial() {
   clearCanvas();
-  setColor(255,0,0);
-//  for (int i = 0; i < 18; i++){
-//    for(int j = 0; j < 60; j++){
-//      int shouldSetColor = random(0,2);
-//      if (shouldSetColor){
-//        canvas[i][j] = current_RGB;
-//      }
-//    }
-//  }
+  setColor(255, 0, 0);
+  for (int i = 0; i < 18; i++) {
+    for (int j = 0; j < 60; j++) {
+      int shouldSetColor = random(0, 100);
+      if (shouldSetColor > 50) {
+        canvas[i][j] = current_RGB;
+      }
+    }
+  }
 
-  int x = random(2,15);
-  int y = random(3, 57);
-
-  drawExplosionConway(x, y);
+  //  int x = random(2, 15);
+  //  int y = random(3, 57);
+  //
+  //  drawExplosionConway(x, y);
 
   update();
 }
 
+void LEDController::drawExplosionConway(int x, int y) {
+  // Small explosion intialization
+  canvas[x][y] = current_RGB;
+  canvas[x + 1][y - 1] = current_RGB;
+  canvas[x + 1][y] = current_RGB;
+  canvas[x + 1][y + 1] = current_RGB;
+  canvas[x + 2][y - 1] = current_RGB;
+  canvas[x + 2][y + 1] = current_RGB;
+  canvas[x + 3][y] = current_RGB;
+
+  //  canvas[8][30] = current_RGB;
+  //  canvas[9][29] = current_RGB;
+  //  canvas[9][30] = current_RGB;
+  //  canvas[9][31] = current_RGB;
+  //  canvas[10][29] = current_RGB;
+  //  canvas[10][31] = current_RGB;
+  //  canvas[11][30] = current_RGB;
+
+}
+
+/**
+  Creates a ripple effect on canvas.
+*/
 void LEDController::ripple() {
   if (!acid) {
-    clearCanvas();
+    //    clearCanvas();
+    fadeOutCanvas(2);
   }
-  
+
   circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius);
   rippleRadius++;
-  
+
   setColor(random(0, 255), random(0, 255), random(0, 255));
   update();
-}
-
-void LEDController::drawExplosionConway(int x, int y){
-   // Small explosion intialization 
-  canvas[x][y] = current_RGB;
-  canvas[x+1][y-1] = current_RGB;
-  canvas[x+1][y] = current_RGB;
-  canvas[x+1][y+1] = current_RGB;
-  canvas[x+2][y-1] = current_RGB;
-  canvas[x+2][y+1] = current_RGB;
-  canvas[x+3][y] = current_RGB;
-
-//  canvas[8][30] = current_RGB;
-//  canvas[9][29] = current_RGB;
-//  canvas[9][30] = current_RGB;
-//  canvas[9][31] = current_RGB;
-//  canvas[10][29] = current_RGB;
-//  canvas[10][31] = current_RGB;
-//  canvas[11][30] = current_RGB;
-  
 }
 
 void LEDController::circleBres(int xo, int yo, int r) {

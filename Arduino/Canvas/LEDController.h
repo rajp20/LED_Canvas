@@ -27,6 +27,9 @@ class LEDController {
     void circleBres(int xo, int yo, int r);
     void drawCircle(int xo, int yo, int x, int y);
 
+    void fadeOutCanvas(int fade_out);
+    uint32_t encodeColor(uint8_t red, uint8_t green, uint8_t blue);
+
     uint32_t Wheel(byte WheelPos, int strip);
   public:
     // Public Variables

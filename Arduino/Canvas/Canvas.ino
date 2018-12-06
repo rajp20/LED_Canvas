@@ -21,15 +21,13 @@ int32_t charid_number;
 
 void setup() {
   Serial.begin(115200);
-  Timer1.initialize(100000);
-  Timer3.initialize(100000);
+//    Timer1.initialize(100000);
+  Timer3.initialize();
   bluetooth.setup();
   leds.setup();
   leds.pixelTest();
-    //motors.setup();
-//   BLEDisconnected();
-  leds.conwayLifeInitial();
-  Timer3.attachInterrupt(ConwayLife);
+  motors.setup();
+  BLEDisconnected();
 }
 
 void loop() {
@@ -123,7 +121,7 @@ void BLEDataReceived(char* data, uint16_t len) {
         Timer3.detachInterrupt();
         Serial.println("Ripple On");
         leds.clearCanvas();
-        Timer3.setPeriod(100000);
+        Timer3.setPeriod(200000);
         Timer3.attachInterrupt(RippleEffect);
       }
       // Toggle off
@@ -153,6 +151,21 @@ void BLEDataReceived(char* data, uint16_t len) {
         leds.clearCanvas();
       }
     }
+    // Conway Algo
+    else if (data[1] == '4') {
+      // Toggle on
+      if (data[2] == '1') {
+        Timer3.detachInterrupt();
+        leds.conwayLifeInitial();
+        Timer3.setPeriod(100000);
+        Timer3.attachInterrupt(ConwayLife);
+      }
+      // Toggle off
+      else {
+        Timer3.detachInterrupt();
+        leds.clearCanvas();
+      }
+    }
   } else {
     char command;
     int parsedData[3];
@@ -174,6 +187,7 @@ void BLEDataReceived(char* data, uint16_t len) {
       leds.setColor(parsedData[0], parsedData[1], parsedData[2]);
     } else if (command == 'x') {
       // Call motors and leds
+      motors.move(parsedData[0], parsedData[1]);
       leds.drawPixel(parsedData[0], parsedData[1]);
     }
   }
