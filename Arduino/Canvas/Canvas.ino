@@ -19,6 +19,9 @@ bool data_in = false;
 int32_t charid_string;
 int32_t charid_number;
 
+byte effect = 0;
+bool fade_out = false;
+
 void setup() {
   Serial.begin(115200);
   //    Timer1.initialize(100000);
@@ -26,16 +29,30 @@ void setup() {
   bluetooth.setup();
   leds.setup();
   leds.pixelTest();
-  motors.setup();
+  //  motors.setup();
   BLEDisconnected();
 }
 
 void loop() {
   bluetooth.updateBLE(100);
+  if (effect == 0) {
+    fade_out = true;
+  } else {
+    fade_out = false;
+    if (effect == 1) {
+      BouncingBall();
+    } else if (effect == 2 || effect == 3) {
+      RippleEffect();
+    } else if (effect == 4) {
+      ConwayLife();
+    } else if (effect == 255) {
+      WaitingForBLEConnection();
+    }
+  }
 }
 
 void WaitingForBLEConnection() {
-  leds.waitingDots();
+  leds.waiting();
 }
 
 void BouncingBall() {
@@ -62,21 +79,30 @@ void BLEConnected() {
     return;
   }
   Serial.println("Connected");
-  Timer3.detachInterrupt();
-  leds.clearCanvas();
+  effect = 0;
+  DetachInterruptClearCanvas();
   bluetooth.isConnected();
   bluetooth.writePacket("Thx");
-  Timer3.setPeriod(1000000);
-  Timer3.attachInterrupt(FadeOutCanvas);
 }
 
 void BLEDisconnected() {
   bluetooth.disconnect();
   Serial.println("Disconnected");
   Timer3.detachInterrupt();
+  effect = 255;
   leds.welcomeScreen();
-  Timer3.setPeriod(1000000);
-  Timer3.attachInterrupt(WaitingForBLEConnection);
+}
+
+void DetachInterruptClearCanvas() {
+  Timer3.detachInterrupt();
+  leds.clearCanvas();
+  //  Timer3.setPeriod(1000000);
+  //  Timer3.attachInterrupt(FadeOutCanvas);
+}
+
+void TurnOffEffect() {
+  leds.clearCanvas();
+  effect = 0;
 }
 
 /**
@@ -100,41 +126,33 @@ void BLEDisconnected() {
 void BLEDataReceived(char* data, uint16_t len) {
   // xyz,123,123,123
   // rgb,123,123,123
-  //  Serial.println(data);
+  Serial.println(data);
   if (data[0] == '0') {
-    Timer3.detachInterrupt();
-    leds.clearCanvas();
+    DetachInterruptClearCanvas();
+    effect = 0;
   } else if (data[0] == 'p') { // Patters
     // Ball Patern
     if (data[1] == '1') {
       // Toggle on
       if (data[2] == '1') {
-        Timer3.detachInterrupt();
-        leds.clearCanvas();
-        Timer3.setPeriod(100000);
-        Timer3.attachInterrupt(BouncingBall);
+        effect = 1;
+        DetachInterruptClearCanvas();
       }
       // Toggle off
       else {
-        Timer3.detachInterrupt();
-        leds.clearCanvas();
+        TurnOffEffect();
       }
     }
     // Ripple
     else if (data[1] == '2') {
       // Toggle on
       if (data[2] == '1') {
-        Timer3.detachInterrupt();
-        Serial.println("Ripple On");
-        leds.clearCanvas();
-        Timer3.setPeriod(200000);
-        Timer3.attachInterrupt(RippleEffect);
+        DetachInterruptClearCanvas();
+        effect = 2;
       }
       // Toggle off
       else {
-        Serial.println("Ripple Off");
-        Timer3.detachInterrupt();
-        leds.clearCanvas();
+        TurnOffEffect();
       }
 
     }
@@ -142,34 +160,27 @@ void BLEDataReceived(char* data, uint16_t len) {
     else if (data[1] == '3') {
       // Toggle on
       if (data[2] == '1') {
-        Timer3.detachInterrupt();
-        Serial.println("Acid On");
+        DetachInterruptClearCanvas();
         leds.acid = true;
-        leds.clearCanvas();
-        Timer3.setPeriod(100000);
-        Timer3.attachInterrupt(RippleEffect);
+        effect = 3;
       }
       // Toggle off
       else {
-        Serial.println("Acid Off");
         leds.acid = false;
-        Timer3.detachInterrupt();
-        leds.clearCanvas();
+        TurnOffEffect();
       }
     }
     // Conway Algo
     else if (data[1] == '4') {
       // Toggle on
       if (data[2] == '1') {
+        effect = 4;
         Timer3.detachInterrupt();
         leds.conwayLifeInitial();
-        Timer3.setPeriod(100000);
-        Timer3.attachInterrupt(ConwayLife);
       }
       // Toggle off
       else {
-        Timer3.detachInterrupt();
-        leds.clearCanvas();
+        TurnOffEffect();
       }
     }
   } else {
@@ -193,7 +204,7 @@ void BLEDataReceived(char* data, uint16_t len) {
       leds.setColor(parsedData[0], parsedData[1], parsedData[2]);
     } else if (command == 'x') {
       // Call motors and leds
-      motors.move(parsedData[0], parsedData[1]);
+      //      motors.move(parsedData[0], parsedData[1]);
       leds.drawBox(parsedData[0], parsedData[1]);
     }
   }

@@ -3,48 +3,55 @@
 
 class LEDController {
   private:
-    // Variables
+    // 18 LED Strips
     Adafruit_NeoPixel led_strips[18];
 
-    byte waitingDotsState;
-
-    uint32_t current_RGB;
-
+    // Main Canvas. This is basically the current 'frame' that is being displayed.
     uint32_t canvas[18][60];
 
-    int state;
+    // The current RGB color for the 'paint brush'.
+    uint32_t current_RGB;
 
+    // The state of the loading bar for welcome screen.
+    byte waiting_state;
+
+    // BOUNCING BALL EFFECT
+    // Bouncing Ball states for (x, y) and their direction.
     byte bouncingBallState_x;
     byte bouncingBallState_y;
     int bouncingBallState_x_direction;
     int bouncingBallState_y_direction;
-    void drawBall(int x, int y, uint32_t);
 
+    //RIPPLE EFFECT
+    // Ripple effect radius and (x, y) origin.
     byte rippleRadius;
     byte rippleOrigin_x;
     byte rippleOrigin_y;
+
+    void drawBall(int x, int y, uint32_t);
+
     void circleBres(int xo, int yo, int r);
     void drawCircle(int xo, int yo, int x, int y);
 
-    uint32_t encodeColor(uint8_t red, uint8_t green, uint8_t blue);
-
     uint32_t Wheel(byte WheelPos, int strip);
-  public:
-    // Public Variables
-    bool acid;
-  
-    // Setup
-    void setup(void);
-    void pixelTest(void);
-    void welcomeScreen(void);
+
+    uint32_t encodeColor(uint8_t red, uint8_t green, uint8_t blue);
 
     // Helper for convways life
     bool isAlive(int x, int y);
     int getNumberOfNeighbors(int x, int y);
     void drawExplosionConway(int x, int y);
-    
 
-    // Update, being called by inturrupts
+
+  public:
+    // Toggles acid on/off.
+    bool acid;
+
+    // Setup
+    void setup(void);
+    void pixelTest(void);
+    void welcomeScreen(void);
+
     void update(void);
 
     // Clearing and reseting
@@ -54,6 +61,7 @@ class LEDController {
     void drawPixel(int, int);
     void drawBox(int, int);
     void fadeOutCanvas(int fade_out);
+    void fadeOutRow(int fade_out, int row);
 
     void setColor(int, int, int);
 
@@ -64,5 +72,5 @@ class LEDController {
     void conwayLifeInitial();
 
     // Bluetooth connection waiting
-    void waitingDots(void);
+    void waiting(void);
 };

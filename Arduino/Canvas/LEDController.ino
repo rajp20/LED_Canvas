@@ -29,9 +29,7 @@ void LEDController::setup(void) {
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
 
-  state = 0;
-
-  waitingDotsState = 0;
+  waiting_state = 0;
 
   bouncingBallState_x = 0;
   bouncingBallState_y = 0;
@@ -162,18 +160,39 @@ void LEDController::fadeOutCanvas(int fade_out) {
         uint8_t red = canvas[y][x] >> 16;
         uint8_t green = canvas[y][x] >> 8;
         uint8_t blue = canvas[y][x];
-        canvas[y][x] = encodeColor(red / fade_out, green / fade_out, blue / fade_out);
+        uint32_t faded_color = encodeColor(red / fade_out, green / fade_out, blue / fade_out);
+        canvas[y][x] = faded_color;
       }
+      led_strips[y].setPixelColor(x, canvas[y][x]);
     }
+    led_strips[y].show();
   }
-  update();
+}
+
+/**
+  Fades out the canvas by subtracting the given number from the RGB
+  values.
+*/
+void LEDController::fadeOutRow(int fade_out, int row) {
+  for (int x = 0; x < 60; x++) {
+    if (canvas[row][x] != 0) {
+      uint8_t red = canvas[row][x] >> 16;
+      uint8_t green = canvas[row][x] >> 8;
+      uint8_t blue = canvas[row][x];
+      uint32_t faded_color = encodeColor(red / fade_out, green / fade_out, blue / fade_out);
+      canvas[row][x] = faded_color;
+    }
+    led_strips[row].setPixelColor(x, canvas[row][x]);
+  }
+  led_strips[row].show();
+
 }
 
 /**
   Draws a 2x2 pixel onto the canvas
- */
+*/
 void LEDController::drawBox(int x, int y) {
-  fadeOutCanvas(2);
+  //  fadeOutCanvas(2);
   canvas[y][x] = current_RGB;
   if (y + 1 < 18) {
     canvas[y + 1][x] = current_RGB;
@@ -231,32 +250,40 @@ void LEDController::clearCanvasRow(int row) {
 /**
    Toggles the waiting dots for bluetooth connection.
 */
-void LEDController::waitingDots(void) {
-  if (waitingDotsState == 0) {
-    clearCanvasRow(15);
-    clearCanvasRow(16);
-    canvas[15][24] = current_RGB;
-    canvas[15][25] = current_RGB;
-    canvas[16][24] = current_RGB;
-    canvas[16][25] = current_RGB;
-    waitingDotsState = 1;
-  } else if (waitingDotsState == 1) {
-    canvas[15][29] = current_RGB;
-    canvas[15][30] = current_RGB;
-    canvas[16][29] = current_RGB;
-    canvas[16][30] = current_RGB;
-    waitingDotsState = 2;
-  } else if (waitingDotsState == 2) {
-    canvas[15][34] = current_RGB;
-    canvas[15][35] = current_RGB;
-    canvas[16][34] = current_RGB;
-    canvas[16][35] = current_RGB;
-    waitingDotsState = 3;
-  } else {
-    clearCanvasRow(15);
-    clearCanvasRow(16);
-    waitingDotsState = 0;
+void LEDController::waiting(void) {
+  fadeOutRow(2, 15);
+  fadeOutRow(2, 16);
+  canvas[15][18 + waiting_state] = current_RGB;
+  canvas[16][18 + waiting_state] = current_RGB;
+  waiting_state++;
+  if (waiting_state > 26) {
+    waiting_state = 0;
   }
+  //  if (waitingDotsState == 0) {
+  //    clearCanvasRow(15);
+  //    clearCanvasRow(16);
+  //    canvas[15][24] = current_RGB;
+  //    canvas[15][25] = current_RGB;
+  //    canvas[16][24] = current_RGB;
+  //    canvas[16][25] = current_RGB;
+  //    waitingDotsState = 1;
+  //  } else if (waitingDotsState == 1) {
+  //    canvas[15][29] = current_RGB;
+  //    canvas[15][30] = current_RGB;
+  //    canvas[16][29] = current_RGB;
+  //    canvas[16][30] = current_RGB;
+  //    waitingDotsState = 2;
+  //  } else if (waitingDotsState == 2) {
+  //    canvas[15][34] = current_RGB;
+  //    canvas[15][35] = current_RGB;
+  //    canvas[16][34] = current_RGB;
+  //    canvas[16][35] = current_RGB;
+  //    waitingDotsState = 3;
+  //  } else {
+  //    clearCanvasRow(15);
+  //    clearCanvasRow(16);
+  //    waitingDotsState = 0;
+  //  }
   update();
 }
 
