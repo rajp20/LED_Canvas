@@ -137,8 +137,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click a button to toggle pattern on/off!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NF5-K4-nFB">
+                                <rect key="frame" x="279" y="65" width="466" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                                <color key="textColor" red="0.2901960784" green="1" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnW-Rm-PEW" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
-                                <rect key="frame" x="258" y="147" width="129" height="84"/>
+                                <rect key="frame" x="267" y="201" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Ball"/>
@@ -147,7 +153,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iy7-3I-O5u" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
-                                <rect key="frame" x="619" y="147" width="129" height="84"/>
+                                <rect key="frame" x="628" y="201" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Ripple"/>
@@ -156,7 +162,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jo5-eC-Wsc" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
-                                <rect key="frame" x="258" y="311" width="129" height="84"/>
+                                <rect key="frame" x="267" y="365" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Acid"/>
@@ -165,7 +171,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cvb-9t-m01" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
-                                <rect key="frame" x="619" y="311" width="129" height="84"/>
+                                <rect key="frame" x="628" y="365" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Life"/>
@@ -175,6 +181,11 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="NF5-K4-nFB" firstAttribute="leading" secondItem="Wm4-fi-QUj" secondAttribute="leading" constant="279" id="Csi-uD-cfl"/>
+                            <constraint firstItem="Wm4-fi-QUj" firstAttribute="trailing" secondItem="NF5-K4-nFB" secondAttribute="trailing" constant="279" id="eIP-FF-RBx"/>
+                            <constraint firstItem="NF5-K4-nFB" firstAttribute="top" secondItem="Wm4-fi-QUj" secondAttribute="top" constant="45" id="fj8-d1-Fva"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Wm4-fi-QUj"/>
                     </view>
                     <connections>

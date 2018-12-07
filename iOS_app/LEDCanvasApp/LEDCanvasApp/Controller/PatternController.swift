@@ -20,16 +20,18 @@ class PatternController : UIViewController {
     
     override func viewDidLoad() {
         self.view.backgroundColor = UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.0)
-        buttons = [ballPatternButton, ripplePatternButton]
+        buttons = [ballPatternButton, ripplePatternButton, acidPatternButton, lifePatternButton]
+        setButtons()
     }
 
     @IBAction func BallPatternClicked(_ sender: Any) {
-        
+
         if !uartVC!.patterns.ballPatternInProgress {
             uartVC!.dataQueue.clearQueue()
             
             for button in buttons {
                 if button == sender as? CustomButton {
+                    button.toggleButton()
                     continue
                 }
                 button.isUserInteractionEnabled = false
@@ -42,8 +44,10 @@ class PatternController : UIViewController {
         }
         else {
             uartVC!.writeValue(data: "p10")
-            
             for button in buttons {
+                if button == sender as? CustomButton {
+                    button.toggleButton()
+                }
                 button.isUserInteractionEnabled = true
             }
         }
@@ -52,12 +56,13 @@ class PatternController : UIViewController {
     }
     
     @IBAction func RipplePatternClicked(_ sender: Any) {
-        //rip1 on, rip0 off
+
         if !uartVC!.patterns.ripplePatternInProgress {
             uartVC!.dataQueue.clearQueue()
             
             for button in buttons {
                 if button == sender as? CustomButton {
+                    button.toggleButton()
                     continue
                 }
                 button.isUserInteractionEnabled = false
@@ -70,8 +75,10 @@ class PatternController : UIViewController {
         }
         else {
             uartVC!.writeValue(data: "p20")
-            
             for button in buttons {
+                if button == sender as? CustomButton {
+                    button.toggleButton()
+                }
                 button.isUserInteractionEnabled = true
             }
         }
@@ -86,6 +93,7 @@ class PatternController : UIViewController {
             
             for button in buttons {
                 if button == sender as? CustomButton {
+                    button.toggleButton()
                     continue
                 }
                 button.isUserInteractionEnabled = false
@@ -98,8 +106,10 @@ class PatternController : UIViewController {
         }
         else {
             uartVC!.writeValue(data: "p30")
-            
             for button in buttons {
+                if button == sender as? CustomButton {
+                    button.toggleButton()
+                }
                 button.isUserInteractionEnabled = true
             }
         }
@@ -114,6 +124,7 @@ class PatternController : UIViewController {
             
             for button in buttons {
                 if button == sender as? CustomButton {
+                    button.toggleButton()
                     continue
                 }
                 button.isUserInteractionEnabled = false
@@ -126,12 +137,57 @@ class PatternController : UIViewController {
         }
         else {
             uartVC!.writeValue(data: "p40")
-            
             for button in buttons {
+                if button == sender as? CustomButton {
+                    button.toggleButton()
+                }
                 button.isUserInteractionEnabled = true
             }
         }
         
         uartVC!.patterns.lifePatternInProgress = !uartVC!.patterns.lifePatternInProgress
+    }
+    
+    func setButtons() {
+        if uartVC!.resetButtons {
+            uartVC!.resetButtons = false
+            for button in buttons {
+                button.isUserInteractionEnabled = true
+            }
+            uartVC!.patterns.resetPatterns()
+        }
+        
+        if uartVC!.patterns.ballPatternInProgress {
+            ballPatternButton.backgroundColorOn()
+            for button in buttons {
+                if button != ballPatternButton {
+                    button.isUserInteractionEnabled = false
+                }
+            }
+        }
+        else if uartVC!.patterns.ripplePatternInProgress {
+            ripplePatternButton.backgroundColorOn()
+            for button in buttons {
+                if button != ripplePatternButton {
+                    button.isUserInteractionEnabled = false
+                }
+            }
+        }
+        else if uartVC!.patterns.acidPatternInProgress {
+            acidPatternButton.backgroundColorOn()
+            for button in buttons {
+                if button != acidPatternButton {
+                    button.isUserInteractionEnabled = false
+                }
+            }
+        }
+        else if uartVC!.patterns.lifePatternInProgress {
+            lifePatternButton.backgroundColorOn()
+            for button in buttons {
+                if button != lifePatternButton {
+                    button.isUserInteractionEnabled = false
+                }
+            }
+        }
     }
 }
