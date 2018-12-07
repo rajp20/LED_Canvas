@@ -393,6 +393,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                 if (delegate?.shouldReset == true){
                     delegate?.writeValue(data: "0")
                     delegate?.shouldReset = false
+                    delegate?.resetButtons = true
                 }
                 else{
                     if !(delegate?.patterns!.ballPatternInProgress)! || (delegate?.patterns!.ripplePatternInProgress)! || (delegate?.patterns!.acidPatternInProgress)! || (delegate?.patterns!.lifePatternInProgress)! {

@@ -66,6 +66,8 @@ class ColorController : UIViewController {
         greenSlider.value = green
         blueSlider.value  = blue
         
+        applyButton.backgroundColorOn()
+        
         UpdateSliderTints()
     }
     

@@ -18,6 +18,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     // Variable used to know if we should send a reset to arduino
     var shouldReset : Bool!
+    var resetButtons : Bool!
     
     // Drawing variables
     var lastPoint  : CGPoint!
@@ -66,6 +67,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         firstLoad = false
         idleState = true
         shouldReset = false
+        resetButtons = false
         
         queue      = Queue<Line>()
         dataQueue  = Queue<CGPoint>()
