@@ -10,8 +10,12 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
+/**
+ * View controller used for drawing and sending coordinate and color data to the microcontroller.
+ */
 class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
+    // Bluetooth variables
     var peripheralManager: CBPeripheralManager?
     var peripheral: CBPeripheral!
     var idleState : Bool!
@@ -27,17 +31,18 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     var opacity    : CGFloat = 1.0
     var color = UIColor(red: 50/255.0, green: 245/255.0, blue: 176/255.0, alpha: 1)
     
+    //Queues for drawing and data to be transmitted
     private var queue        : Queue<Line>!
     var dataQueue            : Queue<CGPoint>!
     private var pixelTimer   : Timer!
-//    private var dataTimer    : Timer!
     private var timeInterval : TimeInterval = 0.08
     private var firstLoad    : Bool!
     private var prevPixel    : CGPoint!
     
-//    @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempImage: UIImageView!
     
+    // Struct used to save the state of a running pattern from PatternController
+    // after the reference to the PatternController dissapears.
     public struct Patterns {
         var ballPatternInProgress   = false
         var ripplePatternInProgress = false
@@ -54,6 +59,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     
     var patterns : Patterns!
     
+    /**
+    * Initialize necessary subviews and data members once the view has loaded.
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,6 +85,10 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         setupMenuBar()
     }
     
+    /**
+    * Once the view has been loaded, this function is triggered by UIView protocol. This function sends
+    * the defualt rgb color of the brush to the microcontroller.
+    */
     override func viewDidAppear(_ animated: Bool) {
         if(!firstLoad) {
             firstLoad = true
@@ -84,12 +96,14 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         }
     }
     
+    // Custom menu bar used for selecting patterns, color, and resetting view.
     lazy var menuBar: MenuBar = {
         let mb = MenuBar()
         mb.delegate = self
         return mb
     }()
     
+    // Abstraction function used to setup the menuBar, this is called from the viewDidLoad function.
     private func setupMenuBar() {
         view.addSubview(menuBar)
         
@@ -100,17 +114,30 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         menuBar.heightAnchor.constraint(equalToConstant: 120).isActive = true
     }
     
+    /**
+    * This function is a timer that is used to fade out the pixel values on the view at a given interval.  The timer calls updatePixels() at
+    * each interval.
+    */
     private func startPixelTimer() {
         guard pixelTimer == nil else { return }
         pixelTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(updatePixels), userInfo: nil, repeats: true)
     }
     
+    /**
+    * This function is used to stop the pixelTimer if ever needed. (Currently not ever used.)
+    */
     private func stopPixelTimer() {
         guard pixelTimer != nil else { return }
         pixelTimer?.invalidate()
         pixelTimer = nil
     }
     
+    /**
+    * This function is called when the timer hits a given interval. The view used as the drawing canvas is cleared so that
+    * it can be drawn to cleanly.  After that, the function loops through the coordinates that have already been drawn and
+    * decreases the alpha value. Once the alpha value reaches zero or lower, the pixel is popped off the queue and removed
+    * from the canvas.
+    */
     @objc private func updatePixels() {
         tempImage.image = nil
         queue.updateQueue(weight: 0.1)
@@ -122,7 +149,6 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
                 return
             }
             
-            // change back to view.bounds
             tempImage.image?.draw(in: tempImage.bounds)
             
             context.move(to: line.line["from"]!)
@@ -143,6 +169,11 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         }
     }
     
+    /**
+    * clearContents() clears the UIImageView used to draw and it clears the dataQueue to prevent sending unnecessary data to the
+    * microcontroller.  A command is transmitted to the microntroller to notify it that everything has been cleared. The app then
+    * goes into "idle" state.
+    */
     public func clearContents() {
         tempImage.image = nil
         queue.clearQueue()
@@ -154,7 +185,9 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         shouldReset = true
     }
     
-    //Detect touch events to begin drawing
+    /**
+    * Detect touch events to begin drawing. This function detects only one given touch.
+    */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
@@ -166,6 +199,10 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         prevPixel.y /= 28
     }
     
+    /**
+    * Detects when a user is moving their finger acrossed the screen to draw.  The function ensures that ther is no pattern running and then begins
+    * to draw a on the UIView.
+    */
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
@@ -174,52 +211,58 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
+        if dataQueue.count() > 50 {
+            dataQueue.clearQueue()
+            writeValue(data: "p5")
+        }
+        
         if !patterns.ballPatternInProgress || !patterns.ripplePatternInProgress || !patterns.acidPatternInProgress || !patterns.lifePatternInProgress {
             
-            if tempImage.bounds.contains(lastPoint) {
-                
-                drawLine(from: lastPoint, to: currentPoint)
-                
-                // Add lastPoint to queue
-                queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
-                
-                lastPoint = currentPoint
-                
-                if idleState {
-                    idleState = false
+                if tempImage.bounds.contains(lastPoint) {
                     
-                    var currPixel = currentPoint
-                    currPixel.x /= 17
-                    currPixel.y /= 28
+                    drawLine(from: lastPoint, to: currentPoint)
+                    queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
                     
-                    let coordinate = coordinateString(point: currPixel)
+                    lastPoint = currentPoint
                     
-                    // Check to see if a reset needs to be sent, as it has priority over everything
-                    if (shouldReset == true){
-                        writeValue(data: "0")
-                        shouldReset = false
-                    }
-                    else {
-                        writeValue(data: coordinate)
-                        prevPixel = currPixel
-                    }
-                }
-                    
-                else {
-                    if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+                    if idleState {
+                        idleState = false
                         
                         var currPixel = currentPoint
                         currPixel.x /= 17
                         currPixel.y /= 28
                         
-                        dataQueue.enqueue(prevPixel)
-                        prevPixel = currPixel
+                        let coordinate = coordinateString(point: currPixel)
+                        
+                        // Check to see if a reset needs to be sent, as it has priority over everything
+                        if (shouldReset == true){
+                            writeValue(data: "0")
+                            shouldReset = false
+                        }
+                        else {
+                            writeValue(data: coordinate)
+                            prevPixel = currPixel
+                        }
                     }
-                }
+                        
+                    else {
+                        if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
+                            
+                            var currPixel = currentPoint
+                            currPixel.x /= 17
+                            currPixel.y /= 28
+                            
+                            dataQueue.enqueue(prevPixel)
+                            prevPixel = currPixel
+                        }
+                    }
             }
         }
     }
     
+    /**
+    * Function used to do the actual drawing to the UIImageView using Graphics contexts.
+    */
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
         
         UIGraphicsBeginImageContext(tempImage.frame.size)
@@ -243,11 +286,17 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         UIGraphicsEndImageContext()
     }
     
+    /**
+    * Formats a string with the current coordinate (point) that needs to be sent to the microcontroller.
+    */
     func coordinateString(point: CGPoint) -> String {
         let coordinateString = "x,\(Int(point.x)),\(Int(point.y));"
         return coordinateString
     }
     
+    /**
+     * Formats a string with the current color that needs to be sent to the microcontroller.
+     */
     func colorString() -> String{
         let rgb = color.getRGB()
         let colorString = "c,\(Int(rgb?["red"] ?? 0)),\(Int(rgb?["green"] ?? 0)),\(Int(rgb?["blue"] ?? 0));"
@@ -261,7 +310,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         print("Peripheral manager is running")
     }
     
-    // Write functions
+    // Write function used to send a string to the microcontroller.
     func writeValue(data: String){
         
         print("Sending: " + data)

@@ -396,7 +396,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                     delegate?.resetButtons = true
                 }
                 else{
-                    if !(delegate?.patterns!.ballPatternInProgress)! || (delegate?.patterns!.ripplePatternInProgress)! || (delegate?.patterns!.acidPatternInProgress)! || (delegate?.patterns!.lifePatternInProgress)! {
+                    if !(delegate?.patterns!.ballPatternInProgress)! || !(delegate?.patterns!.ripplePatternInProgress)! || !(delegate?.patterns!.acidPatternInProgress)! || !(delegate?.patterns!.lifePatternInProgress)! {
                         if !((delegate?.dataQueue!.isEmpty())!) {
                             delegate?.idleState = false
                             let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
