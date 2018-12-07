@@ -111,7 +111,7 @@ void MotorController::step(bool motor)
   // you decrease the delay, the stepper motor will go fast, but
   // there is a limit to how fast it can go before it starts
   // missing steps.
-  delayMicroseconds(2000);
+  delayMicroseconds(1500);
 }
 
 /**
@@ -158,9 +158,6 @@ void MotorController::actuatorDown(void) {
 * Move the motor to the new position
 */
 void MotorController::move(int x, int y){
-
-  x -= 3;
-  y -= 1;
 
   // Bound the x-axis
   if (x < 0){
