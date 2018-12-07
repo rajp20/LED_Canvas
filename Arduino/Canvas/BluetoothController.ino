@@ -113,7 +113,7 @@ void BluetoothController::setup(void)
   /* Set callbacks */
   ble.setConnectCallback(BLEConnected);
   ble.setDisconnectCallback(BLEDisconnected);
-  ble.setBleUartRxCallback(BLEDataReceived);
+//  ble.setBleUartRxCallback(BLEDataReceived);
 
   /* Only one BLE GATT function should be set, it is possible to set it
     multiple times for multiple Chars ID  */
@@ -137,7 +137,7 @@ void BluetoothController::disconnect(void){
    Get Data from the iOS app.
 */
 char* BluetoothController::readPacket(void) {
-  char* toReturn = "OK";
+  char* toReturn = "";
   // Check for incoming characters from Bluefruit
   ble.println("AT+BLEUARTRX");
   ble.readline();

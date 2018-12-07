@@ -160,13 +160,11 @@ void LEDController::fadeOutCanvas(int fade_out) {
         uint8_t red = canvas[y][x] >> 16;
         uint8_t green = canvas[y][x] >> 8;
         uint8_t blue = canvas[y][x];
-        uint32_t faded_color = encodeColor(red / fade_out, green / fade_out, blue / fade_out);
-        canvas[y][x] = faded_color;
+        canvas[y][x] = encodeColor(red / fade_out, green / fade_out, blue / fade_out);
       }
-      led_strips[y].setPixelColor(x, canvas[y][x]);
     }
-    led_strips[y].show();
   }
+  update();
 }
 
 /**
@@ -191,7 +189,7 @@ void LEDController::fadeOutRow(int fade_out, int row) {
 /**
   Draws a 2x2 pixel onto the canvas
 */
-void LEDController::drawBox(int x, int y) {
+void LEDController::drawBox(uint8_t x, uint8_t y) {
   //  fadeOutCanvas(2);
   canvas[y][x] = current_RGB;
   if (y + 1 < 18) {
@@ -497,8 +495,26 @@ void LEDController::ripple() {
   circleBres(rippleOrigin_x, rippleOrigin_y, rippleRadius);
   rippleRadius++;
 
-  setColor(random(0, 255), random(0, 255), random(0, 255));
+  setColor(random(50, 255), random(50, 255), random(50, 255));
   update();
+}
+
+///**
+//  Creates a single ripple effect when the iOS app detects too much
+//  user data.
+// */
+void LEDController::overflow() {
+  clearCanvas();
+  rippleRadius = 1;
+  while (true) {
+    circleBres(29, 8, rippleRadius);
+    rippleRadius++;
+    setColor(random(0, 255), random(0, 255), random(0, 255));
+    update();
+    if (rippleRadius == 1) {
+      break;
+    }
+  }
 }
 
 void LEDController::circleBres(int xo, int yo, int r) {
