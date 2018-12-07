@@ -8,17 +8,23 @@
 
 import UIKit
 
+/**
+ * ColorController allows the user to change the color of the brush used in the UARTModuleViewController for drawing.
+ */
 class ColorController : UIViewController {
     
+    // Sliders
     @IBOutlet weak var redSlider:   UISlider!
     @IBOutlet weak var greenSlider: UISlider!
     @IBOutlet weak var blueSlider:  UISlider!
     
+    // Labels
     @IBOutlet weak var redLabel:      UILabel!
     @IBOutlet weak var greenLabel:    UILabel!
     @IBOutlet weak var blueLabel:     UILabel!
     @IBOutlet weak var colorSelected: UILabel!
     
+    // Apply button used to apply color to brush
     @IBOutlet weak var applyButton: CustomButton!
     
     private var red:   Float!
