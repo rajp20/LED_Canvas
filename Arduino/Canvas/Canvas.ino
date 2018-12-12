@@ -57,9 +57,7 @@ void loop() {
   if (effect == 0) {
     fade_out = true;
   } else {
-    end = 0;
-    front = 0;
-    size = 0;
+    EmptyQueue();
     fade_out = false;
     if (effect == 1) {
       BouncingBall();
@@ -101,14 +99,19 @@ void SecondaryArduinoInterrupt() {
     Wire.write((byte)current_x);
     Wire.write((byte)current_y);
     Wire.endTransmission();    // stop transmitting
-    actuator_up = true;
+    if (size == 0) {
+      actuator_up = false;
+      Wire.beginTransmission(8); // transmit to device #8
+      Wire.write('d');
+      Wire.endTransmission();    // stop transmitting
+    }
   } else {
-//    if (actuator_up) {
-//      actuator_up = false;
-//      Wire.beginTransmission(8); // transmit to device #8
-//      Wire.write('d');
-//      Wire.endTransmission();    // stop transmitting
-//    }
+    //    if (actuator_up) {
+    //      actuator_up = false;
+    //      Wire.beginTransmission(8); // transmit to device #8
+    //      Wire.write('d');
+    //      Wire.endTransmission();    // stop transmitting
+    //    }
     queue_initialized = false;
   }
 }
@@ -131,6 +134,12 @@ void ConwayLife() {
 
 void FadeOutCanvas() {
   leds.fadeOutCanvas(2);
+}
+
+void EmptyQueue() {
+  front = 0;
+  end = 0;
+  size = 0;
 }
 
 // BLUETOOTH CALLBACK FUNCTIONS
@@ -183,6 +192,7 @@ void BLEDataReceived(char* data, uint16_t len) {
   if (data[0] == '0') {
     leds.clearCanvas();
     effect = 0;
+    EmptyQueue();
   } else if (data[0] == 'p') { // Patters
     // Ball Patern
     if (data[1] == '1') {
@@ -236,6 +246,9 @@ void BLEDataReceived(char* data, uint16_t len) {
     }
     // Overflow
     else if (data[1] == '5') {
+      front = 0;
+      end = 0;
+      size = 0;
       leds.clearCanvas();
       effect = 5;
     }
@@ -268,7 +281,6 @@ void BLEDataReceived(char* data, uint16_t len) {
         Wire.write((byte)parsedData[0]);
         Wire.write((byte)parsedData[1]);
         Wire.endTransmission();    // stop transmitting
-        actuator_up = true;
       } else {
         //        Serial.println(parsedData[1]);
         queue[end] = (((uint16_t)parsedData[0] << 8) | parsedData[1]);

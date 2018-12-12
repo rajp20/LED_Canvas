@@ -24,7 +24,7 @@ void LEDController::setup(void) {
   // Initialize all of the LED strips
   for (int i = 0; i < 18; i++) {
     led_strips[i] = Adafruit_NeoPixel(60, STARTING_LED_STRIP_PIN + i, NEO_GRB + NEO_KHZ800);
-    led_strips[i].setBrightness(75);
+    led_strips[i].setBrightness(200);
     led_strips[i].begin();
     led_strips[i].show(); // Initialize all pixels to 'off'
   }
