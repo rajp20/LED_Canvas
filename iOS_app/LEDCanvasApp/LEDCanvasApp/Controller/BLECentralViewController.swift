@@ -26,18 +26,10 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
     var timer = Timer()
     var characteristics = [String : CBCharacteristic]()
     
+    weak var delegate : UARTModuleViewController?
+    
     //Consider making a custom class for the peripheral table
     @IBOutlet weak var peripheralsTable : UITableView!
-    
-    // This is a temporary button used to skip BT connection for testing drawing view
-    @IBOutlet weak var skipButton: UIButton!
-    
-    //This is called when the skip button is pressed and it sends the view to the UARTModuleViewController
-    @IBAction func skipButtonPressed(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let uartViewController = storyboard.instantiateViewController(withIdentifier: "UARTModuleViewController") as! UARTModuleViewController
-        navigationController?.pushViewController(uartViewController, animated: true)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -201,7 +193,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let uartViewController = storyboard.instantiateViewController(withIdentifier: "UARTModuleViewController") as! UARTModuleViewController
-        
+        delegate = uartViewController
         uartViewController.peripheral = peripheral
         
         navigationController?.pushViewController(uartViewController, animated: true)
@@ -386,6 +378,25 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
                 characteristicASCIIValue = ASCIIstring
                 print("Value Recieved: \((characteristicASCIIValue as String))")
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "Notify"), object: nil)
+                
+                // Check to see if a reset needs to be sent, as it has priority over everything
+                if (delegate?.shouldReset == true){
+                    delegate?.writeValue(data: "0")
+                    delegate?.shouldReset = false
+                    delegate?.resetButtons = true
+                }
+                else{
+                    if !(delegate?.patterns!.ballPatternInProgress)! || !(delegate?.patterns!.ripplePatternInProgress)! || !(delegate?.patterns!.acidPatternInProgress)! || (delegate?.patterns!.lifePatternInProgress)! {
+                        if !((delegate?.dataQueue!.isEmpty())!) {
+                            delegate?.idleState = false
+                            let coordinate = delegate?.coordinateString(point: delegate!.dataQueue.dequeue())
+                            delegate?.writeValue(data: coordinate!)
+                        }
+                        else {
+                            delegate!.idleState = true
+                        }
+                    }
+                }
             }
         }
     }
@@ -419,7 +430,6 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         let peripheral = self.peripherals[indexPath.row]
         let RSSI = self.RSSIs[indexPath.row]
         
-//        print("&&&&in tableview delegate: \(String(describing: peripheral.name))")
         if peripheral.name == nil {
             cell.peripheralLabel.text = "nil"
         } else {

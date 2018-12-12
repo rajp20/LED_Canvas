@@ -32,4 +32,11 @@ class BluetoothController {
     void writePacket(char* packet);
 
     void updateBLE(int interval);
+    
+    void isConnected(void);
+    bool getConnection(void);
+    void disconnect(void);
+
+   private:
+     bool connected;
 };

@@ -69,33 +69,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hne-PK-CLw">
-                                <rect key="frame" x="940" y="14" width="46" height="30"/>
-                                <state key="normal" title="Skip-&gt;"/>
-                                <connections>
-                                    <action selector="skipButtonPressed:" destination="cv4-MO-EDF" eventType="touchUpInside" id="qiG-4T-amf"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="bottom" secondItem="9BH-jp-59D" secondAttribute="bottom" id="1LO-EI-Q19"/>
                             <constraint firstItem="9BH-jp-59D" firstAttribute="trailing" secondItem="MKW-1d-TgV" secondAttribute="trailing" constant="267" id="8lT-g1-sVP"/>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="trailing" secondItem="9BH-jp-59D" secondAttribute="trailing" id="Cd3-Aj-QD2"/>
-                            <constraint firstItem="vC5-mb-3DK" firstAttribute="top" secondItem="hne-PK-CLw" secondAttribute="bottom" constant="16" id="DHY-oz-J8u"/>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="top" secondItem="MKW-1d-TgV" secondAttribute="bottom" constant="16" id="Eby-nq-z4X"/>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="leading" secondItem="9BH-jp-59D" secondAttribute="leading" id="d2T-ld-QrY"/>
-                            <constraint firstItem="9BH-jp-59D" firstAttribute="trailing" secondItem="hne-PK-CLw" secondAttribute="trailing" constant="38" id="eD5-dB-wdW"/>
                             <constraint firstItem="MKW-1d-TgV" firstAttribute="leading" secondItem="9BH-jp-59D" secondAttribute="leading" constant="266" id="i1k-yx-hpe"/>
                             <constraint firstItem="MKW-1d-TgV" firstAttribute="top" secondItem="9BH-jp-59D" secondAttribute="top" constant="20" id="rJa-PN-n9K"/>
-                            <constraint firstItem="hne-PK-CLw" firstAttribute="top" secondItem="9BH-jp-59D" secondAttribute="top" constant="14" id="wWo-D6-4bq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9BH-jp-59D"/>
                     </view>
                     <navigationItem key="navigationItem" title="LED Canvas" id="VHm-EV-aRD"/>
                     <connections>
                         <outlet property="peripheralsTable" destination="vC5-mb-3DK" id="HhU-Ac-RkH"/>
-                        <outlet property="skipButton" destination="hne-PK-CLw" id="Wux-DA-MVk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2e3-y3-74V" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -114,16 +103,17 @@
                                 <rect key="frame" x="2" y="53" width="1020" height="504"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="tempImage" destination="ulg-FJ-1O3" id="wFN-dv-GR2"/>
                         <segue destination="CMj-30-Rih" kind="presentation" identifier="colorSelection" id="uBk-Tm-YLX"/>
                         <segue destination="Xfx-Fv-f3h" kind="show" identifier="patternSelection" id="4B3-Sf-RXL"/>
-                        <segue destination="SCL-jN-W0O" kind="show" identifier="filterSelection" id="AdD-jY-UnE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -138,20 +128,63 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click a button to toggle pattern on/off!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NF5-K4-nFB">
+                                <rect key="frame" x="279" y="65" width="466" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                                <color key="textColor" red="0.2901960784" green="1" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnW-Rm-PEW" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
-                                <rect key="frame" x="258" y="147" width="129" height="84"/>
+                                <rect key="frame" x="267" y="201" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Ripple"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Ball"/>
+                                <connections>
+                                    <action selector="BallPatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="d8u-zl-HHi"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iy7-3I-O5u" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
-                                <rect key="frame" x="619" y="147" width="129" height="84"/>
+                                <rect key="frame" x="628" y="201" width="129" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Ripple"/>
+                                <connections>
+                                    <action selector="RipplePatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="fS6-st-j6W"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jo5-eC-Wsc" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
+                                <rect key="frame" x="267" y="365" width="129" height="84"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Acid"/>
+                                <connections>
+                                    <action selector="AcidPatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="NSK-yj-FkX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cvb-9t-m01" customClass="CustomButton" customModule="LEDCanvasApp" customModuleProvider="target">
+                                <rect key="frame" x="628" y="365" width="129" height="84"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Life"/>
+                                <connections>
+                                    <action selector="LifePatternClicked:" destination="Xfx-Fv-f3h" eventType="touchUpInside" id="oa1-Lg-ue8"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="NF5-K4-nFB" firstAttribute="leading" secondItem="Wm4-fi-QUj" secondAttribute="leading" constant="279" id="Csi-uD-cfl"/>
+                            <constraint firstItem="Wm4-fi-QUj" firstAttribute="trailing" secondItem="NF5-K4-nFB" secondAttribute="trailing" constant="279" id="eIP-FF-RBx"/>
+                            <constraint firstItem="NF5-K4-nFB" firstAttribute="top" secondItem="Wm4-fi-QUj" secondAttribute="top" constant="45" id="fj8-d1-Fva"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Wm4-fi-QUj"/>
                     </view>
+                    <connections>
+                        <outlet property="acidPatternButton" destination="jo5-eC-Wsc" id="PPP-IH-TI3"/>
+                        <outlet property="ballPatternButton" destination="qnW-Rm-PEW" id="8zE-In-LJ7"/>
+                        <outlet property="lifePatternButton" destination="Cvb-9t-m01" id="XeJ-5h-x4U"/>
+                        <outlet property="ripplePatternButton" destination="iy7-3I-O5u" id="Fzr-Tx-ifC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hY-U2-8RK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -248,21 +281,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W7z-c8-CiK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1581.4453125" y="13.28125"/>
-        </scene>
-        <!--Filter Controller-->
-        <scene sceneID="9cc-QI-vZ8">
-            <objects>
-                <viewController storyboardIdentifier="FilterController" id="SCL-jN-W0O" customClass="FilterController" customModule="LEDCanvasApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="68Z-8m-1wd">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="7yj-y7-yXd"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="j44-vI-vCf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1582" y="823"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hdx-F3-tqi">
