@@ -1,17 +1,26 @@
+#define ARDUINO_2_INTER     19
+
 #include <QueueArray.h>
 #include <Arduino.h>
-
-#include "TimerOne.h"
-#include "TimerThree.h"
+//#include "TimerOne.h"
+//#include "TimerThree.h"
 #include "BluetoothController.h"
 #include "LEDController.h"
-#include "MotorController.h"
+//#include "MotorController.h"
+
+#include <Wire.h>
 
 BluetoothController bluetooth;
+//MotorController motors;
 LEDController leds;
-MotorController motors;
 
-//QueueArray<char*> queue;
+uint16_t queue[100];
+int front = 0;
+int end = 0;
+int size = 0;
+uint16_t previous_xy = 0;
+bool queue_initialized = false;
+bool actuator_up = false;
 
 String buff = "";
 bool data_in = false;
@@ -24,30 +33,86 @@ bool fade_out = false;
 
 void setup() {
   Serial.begin(115200);
-  //    Timer1.initialize(100000);
-  Timer3.initialize();
+  //  Wire.setClock(400000);
+  Wire.begin();
+  pinMode(ARDUINO_2_INTER, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ARDUINO_2_INTER), SecondaryArduinoInterrupt, HIGH);
   bluetooth.setup();
   leds.setup();
   leds.pixelTest();
-  //  motors.setup();
+  leds.overflow();
   BLEDisconnected();
 }
 
 void loop() {
   bluetooth.updateBLE(100);
+  if (bluetooth.getConnection()) {
+    bluetooth.writePacket("1");
+    char* data = bluetooth.readPacket();
+    if (strcmp(data, "") != 0) {
+      BLEDataReceived(data, 0);
+    }
+  }
+
   if (effect == 0) {
     fade_out = true;
   } else {
+    EmptyQueue();
     fade_out = false;
     if (effect == 1) {
       BouncingBall();
-    } else if (effect == 2 || effect == 3) {
+    } else if (effect == 2) {
       RippleEffect();
     } else if (effect == 4) {
       ConwayLife();
+    } else if (effect == 5) {
+      leds.overflow();
+      TurnOffEffect();
     } else if (effect == 255) {
       WaitingForBLEConnection();
     }
+  }
+  if (fade_out) {
+    FadeOutCanvas();
+  }
+}
+
+void SecondaryArduinoInterrupt() {
+  //  Serial.println("In");
+  if (size != 0) {
+    uint8_t previous_x = previous_xy >> 8;
+    uint8_t previous_y = previous_xy;
+    leds.drawBox(previous_x, previous_y);
+    uint16_t current = queue[front];
+    front++;
+    size--;
+    if (front > 100) {
+      front = 0;
+    }
+    previous_xy = current;
+    uint8_t current_x = current >> 8;
+    uint8_t current_y = current;
+    //    Serial.print("Sending: ");
+    //    Serial.println(current_x);
+    //    Serial.println(current_y);
+    Wire.beginTransmission(8); // transmit to device #8
+    Wire.write((byte)current_x);
+    Wire.write((byte)current_y);
+    Wire.endTransmission();    // stop transmitting
+    if (size == 0) {
+      actuator_up = false;
+      Wire.beginTransmission(8); // transmit to device #8
+      Wire.write('d');
+      Wire.endTransmission();    // stop transmitting
+    }
+  } else {
+    //    if (actuator_up) {
+    //      actuator_up = false;
+    //      Wire.beginTransmission(8); // transmit to device #8
+    //      Wire.write('d');
+    //      Wire.endTransmission();    // stop transmitting
+    //    }
+    queue_initialized = false;
   }
 }
 
@@ -71,6 +136,12 @@ void FadeOutCanvas() {
   leds.fadeOutCanvas(2);
 }
 
+void EmptyQueue() {
+  front = 0;
+  end = 0;
+  size = 0;
+}
+
 // BLUETOOTH CALLBACK FUNCTIONS
 void BLEConnected() {
   // If it is already connected, getting bad data and just return
@@ -79,8 +150,7 @@ void BLEConnected() {
     return;
   }
   Serial.println("Connected");
-  effect = 0;
-  DetachInterruptClearCanvas();
+  TurnOffEffect();
   bluetooth.isConnected();
   bluetooth.writePacket("Thx");
 }
@@ -88,16 +158,8 @@ void BLEConnected() {
 void BLEDisconnected() {
   bluetooth.disconnect();
   Serial.println("Disconnected");
-  Timer3.detachInterrupt();
   effect = 255;
   leds.welcomeScreen();
-}
-
-void DetachInterruptClearCanvas() {
-  Timer3.detachInterrupt();
-  leds.clearCanvas();
-  //  Timer3.setPeriod(1000000);
-  //  Timer3.attachInterrupt(FadeOutCanvas);
 }
 
 void TurnOffEffect() {
@@ -128,15 +190,16 @@ void BLEDataReceived(char* data, uint16_t len) {
   // rgb,123,123,123
   Serial.println(data);
   if (data[0] == '0') {
-    DetachInterruptClearCanvas();
+    leds.clearCanvas();
     effect = 0;
+    EmptyQueue();
   } else if (data[0] == 'p') { // Patters
     // Ball Patern
     if (data[1] == '1') {
       // Toggle on
       if (data[2] == '1') {
         effect = 1;
-        DetachInterruptClearCanvas();
+        leds.clearCanvas();
       }
       // Toggle off
       else {
@@ -147,22 +210,21 @@ void BLEDataReceived(char* data, uint16_t len) {
     else if (data[1] == '2') {
       // Toggle on
       if (data[2] == '1') {
-        DetachInterruptClearCanvas();
+        leds.clearCanvas();
         effect = 2;
       }
       // Toggle off
       else {
         TurnOffEffect();
       }
-
     }
     // Ripple Acid
     else if (data[1] == '3') {
       // Toggle on
       if (data[2] == '1') {
-        DetachInterruptClearCanvas();
+        leds.clearCanvas();
         leds.acid = true;
-        effect = 3;
+        effect = 2;
       }
       // Toggle off
       else {
@@ -175,13 +237,20 @@ void BLEDataReceived(char* data, uint16_t len) {
       // Toggle on
       if (data[2] == '1') {
         effect = 4;
-        Timer3.detachInterrupt();
         leds.conwayLifeInitial();
       }
       // Toggle off
       else {
         TurnOffEffect();
       }
+    }
+    // Overflow
+    else if (data[1] == '5') {
+      front = 0;
+      end = 0;
+      size = 0;
+      leds.clearCanvas();
+      effect = 5;
     }
   } else {
     char command;
@@ -205,10 +274,25 @@ void BLEDataReceived(char* data, uint16_t len) {
     } else if (command == 'x') {
       // Call motors and leds
       //      motors.move(parsedData[0], parsedData[1]);
-      leds.drawBox(parsedData[0], parsedData[1]);
+      if (size == 0 && !queue_initialized) {
+        queue_initialized = true;
+        previous_xy = ((uint16_t)parsedData[0] << 8) | parsedData[1];
+        Wire.beginTransmission(8); // transmit to device #8
+        Wire.write((byte)parsedData[0]);
+        Wire.write((byte)parsedData[1]);
+        Wire.endTransmission();    // stop transmitting
+      } else {
+        //        Serial.println(parsedData[1]);
+        queue[end] = (((uint16_t)parsedData[0] << 8) | parsedData[1]);
+        end++;
+        size++;
+        if (end > 100) {
+          end = 0;
+        }
+      }
     }
   }
-  bluetooth.writePacket("1");
+  //  bluetooth.writePacket("1");
   //  Serial.println();
 }
 

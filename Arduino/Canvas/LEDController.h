@@ -59,7 +59,7 @@ class LEDController {
     void clearCanvasRow(int row);
 
     void drawPixel(int, int);
-    void drawBox(int, int);
+    void drawBox(uint8_t, uint8_t);
     void fadeOutCanvas(int fade_out);
     void fadeOutRow(int fade_out, int row);
 
@@ -68,6 +68,7 @@ class LEDController {
     // Patterns
     void bouncingBall();
     void ripple();
+    void overflow();
     void conwayLife();
     void conwayLifeInitial();
 
