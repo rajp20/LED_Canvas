@@ -40,6 +40,7 @@ class PatternController : UIViewController {
             while count < 1000 {
                 count += 1
             }
+            uartVC!.patternInProgress = true
             uartVC!.writeValue(data: "p11")
         }
         else {
@@ -50,6 +51,7 @@ class PatternController : UIViewController {
                 }
                 button.isUserInteractionEnabled = true
             }
+            uartVC!.patternInProgress = false
         }
         
         uartVC!.patterns.ballPatternInProgress = !uartVC!.patterns.ballPatternInProgress
@@ -71,6 +73,7 @@ class PatternController : UIViewController {
             while count < 1000 {
                 count += 1
             }
+            uartVC!.patternInProgress = true
             uartVC!.writeValue(data: "p21")
         }
         else {
@@ -81,6 +84,7 @@ class PatternController : UIViewController {
                 }
                 button.isUserInteractionEnabled = true
             }
+            uartVC!.patternInProgress = false
         }
         
         uartVC!.patterns.ripplePatternInProgress = !uartVC!.patterns.ripplePatternInProgress
@@ -102,6 +106,7 @@ class PatternController : UIViewController {
             while count < 1000 {
                 count += 1
             }
+            uartVC!.patternInProgress = true
             uartVC!.writeValue(data: "p31")
         }
         else {
@@ -112,6 +117,7 @@ class PatternController : UIViewController {
                 }
                 button.isUserInteractionEnabled = true
             }
+            uartVC!.patternInProgress = false
         }
         
         uartVC!.patterns.acidPatternInProgress = !uartVC!.patterns.acidPatternInProgress
@@ -133,6 +139,7 @@ class PatternController : UIViewController {
             while count < 1000 {
                 count += 1
             }
+            uartVC!.patternInProgress = true
             uartVC!.writeValue(data: "p41")
         }
         else {
@@ -143,6 +150,7 @@ class PatternController : UIViewController {
                 }
                 button.isUserInteractionEnabled = true
             }
+            uartVC!.patternInProgress = false
         }
         
         uartVC!.patterns.lifePatternInProgress = !uartVC!.patterns.lifePatternInProgress

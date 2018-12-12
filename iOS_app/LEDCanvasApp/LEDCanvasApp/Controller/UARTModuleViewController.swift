@@ -23,6 +23,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
     // Variable used to know if we should send a reset to arduino
     var shouldReset : Bool!
     var resetButtons : Bool!
+    var patternInProgress : Bool!
     
     // Drawing variables
     var lastPoint  : CGPoint!
@@ -76,6 +77,7 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         idleState = true
         shouldReset = false
         resetButtons = false
+        patternInProgress = false
         
         queue      = Queue<Line>()
         dataQueue  = Queue<CGPoint>()
@@ -211,51 +213,53 @@ class UARTModuleViewController: UIViewController, CBPeripheralManagerDelegate {
         swiped = true
         let currentPoint = touch.location(in: tempImage)
         
-        if dataQueue.count() > 50 {
+        if dataQueue.count() > 20 {
             dataQueue.clearQueue()
             writeValue(data: "p5")
         }
         
-        if !patterns.ballPatternInProgress || !patterns.ripplePatternInProgress || !patterns.acidPatternInProgress || !patterns.lifePatternInProgress {
+        if !patternInProgress {
             
-                if tempImage.bounds.contains(lastPoint) {
+            if tempImage.bounds.contains(lastPoint) {
+                
+                drawLine(from: lastPoint, to: currentPoint)
+                queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+                
+                lastPoint = currentPoint
+                
+                if idleState {
+                    idleState = false
                     
-                    drawLine(from: lastPoint, to: currentPoint)
-                    queue.enqueue(Line(lineAt: ["from": lastPoint, "to": currentPoint], alphaValue: 1.0))
+                    var currPixel = currentPoint
+                    currPixel.x /= 17
+                    currPixel.y /= 28
                     
-                    lastPoint = currentPoint
+                    let coordinate = coordinateString(point: currPixel)
                     
-                    if idleState {
-                        idleState = false
+                    // Check to see if a reset needs to be sent, as it has priority over everything
+                    if (shouldReset == true){
+                        writeValue(data: "0")
+                        shouldReset = false
+                    }
+                    else {
+                        if Int(prevPixel.x) != Int(currentPoint.x / 17) || Int(prevPixel.y) != Int(currentPoint.y / 28) {
+                        writeValue(data: coordinate)
+                        }
+                        prevPixel = currPixel
+                    }
+                }
+                    
+                else {
+                    if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
                         
                         var currPixel = currentPoint
                         currPixel.x /= 17
                         currPixel.y /= 28
                         
-                        let coordinate = coordinateString(point: currPixel)
-                        
-                        // Check to see if a reset needs to be sent, as it has priority over everything
-                        if (shouldReset == true){
-                            writeValue(data: "0")
-                            shouldReset = false
-                        }
-                        else {
-                            writeValue(data: coordinate)
-                            prevPixel = currPixel
-                        }
+                        dataQueue.enqueue(prevPixel)
+                        prevPixel = currPixel
                     }
-                        
-                    else {
-                        if (Int(prevPixel.x) != Int(currentPoint.x / 17)) || (Int(prevPixel.y) != Int(currentPoint.y / 28)) {
-                            
-                            var currPixel = currentPoint
-                            currPixel.x /= 17
-                            currPixel.y /= 28
-                            
-                            dataQueue.enqueue(prevPixel)
-                            prevPixel = currPixel
-                        }
-                    }
+                }
             }
         }
     }

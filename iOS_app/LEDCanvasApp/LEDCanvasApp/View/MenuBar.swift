@@ -92,6 +92,7 @@ class MenuBar : UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
         case 2:
             delegate?.clearContents()
             delegate?.resetButtons = true
+            delegate?.patternInProgress = false
         default:
             return
         }

@@ -69,33 +69,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hne-PK-CLw">
-                                <rect key="frame" x="940" y="14" width="46" height="30"/>
-                                <state key="normal" title="Skip-&gt;"/>
-                                <connections>
-                                    <action selector="skipButtonPressed:" destination="cv4-MO-EDF" eventType="touchUpInside" id="qiG-4T-amf"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="bottom" secondItem="9BH-jp-59D" secondAttribute="bottom" id="1LO-EI-Q19"/>
                             <constraint firstItem="9BH-jp-59D" firstAttribute="trailing" secondItem="MKW-1d-TgV" secondAttribute="trailing" constant="267" id="8lT-g1-sVP"/>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="trailing" secondItem="9BH-jp-59D" secondAttribute="trailing" id="Cd3-Aj-QD2"/>
-                            <constraint firstItem="vC5-mb-3DK" firstAttribute="top" secondItem="hne-PK-CLw" secondAttribute="bottom" constant="16" id="DHY-oz-J8u"/>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="top" secondItem="MKW-1d-TgV" secondAttribute="bottom" constant="16" id="Eby-nq-z4X"/>
                             <constraint firstItem="vC5-mb-3DK" firstAttribute="leading" secondItem="9BH-jp-59D" secondAttribute="leading" id="d2T-ld-QrY"/>
-                            <constraint firstItem="9BH-jp-59D" firstAttribute="trailing" secondItem="hne-PK-CLw" secondAttribute="trailing" constant="38" id="eD5-dB-wdW"/>
                             <constraint firstItem="MKW-1d-TgV" firstAttribute="leading" secondItem="9BH-jp-59D" secondAttribute="leading" constant="266" id="i1k-yx-hpe"/>
                             <constraint firstItem="MKW-1d-TgV" firstAttribute="top" secondItem="9BH-jp-59D" secondAttribute="top" constant="20" id="rJa-PN-n9K"/>
-                            <constraint firstItem="hne-PK-CLw" firstAttribute="top" secondItem="9BH-jp-59D" secondAttribute="top" constant="14" id="wWo-D6-4bq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9BH-jp-59D"/>
                     </view>
                     <navigationItem key="navigationItem" title="LED Canvas" id="VHm-EV-aRD"/>
                     <connections>
                         <outlet property="peripheralsTable" destination="vC5-mb-3DK" id="HhU-Ac-RkH"/>
-                        <outlet property="skipButton" destination="hne-PK-CLw" id="Wux-DA-MVk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2e3-y3-74V" userLabel="First Responder" sceneMemberID="firstResponder"/>
