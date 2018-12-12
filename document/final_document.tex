@@ -136,6 +136,15 @@ Once the chip is selected for connection (i.e. the LED Canvas), the application 
 
 The drawing portion of the application uses the CoreGraphics framework powered by Quartz technology (drawing engine) to render 2D graphics to the view. This framework provides tools and an environment to draw in, making the implementation straight forward and precise.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\columnwidth]{ios_app_updated.jpg}
+  \caption{A screenshot of the app with finishing touches.}
+  \label{fig:iosappupdate}
+\end{figure}
+
+Last step of completing the app was to add finishing touches. We changed many components of the app. First, the white drawing portion of the app was re-seized to be porpotional to the physical canvas. Second, buttons on the bottom were changed and icons were added to represent what the buttons do (Fig. \ref{fig:iosappupdate}. Finally, another view was added to this app for toggling on/off various patterns.
+
 \subsection{Microcontroller Firmware}
 Another one of our main components for this art project is a way of controlling the LEDs, motors, and communicating with the mobile iOS app. Since there are many devices, we needed a microcontroller that had a large number of I/O pins. We purchased an Arduino Mega which has more than the needed number of I/O pins. The arduino will have all of the 18 LEDs, 2 motor drivers, and Bluetooth device connected to it.
 
