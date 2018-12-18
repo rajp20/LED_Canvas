@@ -27,6 +27,7 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
     var characteristics = [String : CBCharacteristic]()
     
     weak var delegate : UARTModuleViewController?
+    @IBOutlet weak var skipButton: UIButton!
     
     //Consider making a custom class for the peripheral table
     @IBOutlet weak var peripheralsTable : UITableView!
@@ -62,6 +63,13 @@ class BLECentralViewController : UIViewController, CBCentralManagerDelegate, CBP
         peripheralsTable.reloadData()
     }
     
+    @IBAction func skipButtonPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let uartViewController = storyboard.instantiateViewController(withIdentifier: "UARTModuleViewController") as! UARTModuleViewController
+        delegate = uartViewController
+        navigationController?.pushViewController(uartViewController, animated: true)
+    }
     /****************************************************************
      *                    SCANNING FOR PERIPHERALS                  *
      ****************************************************************/

@@ -69,6 +69,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oED-aQ-bmO">
+                                <rect key="frame" x="908" y="8" width="73" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Skip"/>
+                                <connections>
+                                    <action selector="skipButtonPressed:" destination="cv4-MO-EDF" eventType="touchUpInside" id="Njy-YA-7g4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -85,11 +93,12 @@
                     <navigationItem key="navigationItem" title="LED Canvas" id="VHm-EV-aRD"/>
                     <connections>
                         <outlet property="peripheralsTable" destination="vC5-mb-3DK" id="HhU-Ac-RkH"/>
+                        <outlet property="skipButton" destination="oED-aQ-bmO" id="rP6-uv-3Qg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2e3-y3-74V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-16.641679160419791" y="13.6"/>
+            <point key="canvasLocation" x="-16.9921875" y="13.28125"/>
         </scene>
         <!--Module View Controller-->
         <scene sceneID="tne-QT-ifu">
